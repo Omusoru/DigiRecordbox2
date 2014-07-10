@@ -45,10 +45,16 @@ public class LoginActivity extends Activity {
 	private class ButtonOnClickListener implements OnClickListener {
 
 		@Override
-		public void onClick(View v) {
-			String username = etEmail.getText().toString();
-			String password = etPassword.getText().toString();
-			login(username,password);			
+		public void onClick(View v) {			
+			new Thread(new Runnable() {
+			    public void run() {
+			    	String username = etEmail.getText().toString();
+					String password = etPassword.getText().toString();
+			    	login(username,password);	
+			    }
+			  }).start();
+
+					
 		}
 		
 	}
