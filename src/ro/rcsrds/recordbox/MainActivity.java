@@ -9,13 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ToggleButton;
 
 public class MainActivity extends ActionBarActivity {
 
-	private ToggleButton tglRecord;
+	private Button btnRecord;
 	private Button btnStop;
 	private Button btnCancel;
 	private AudioRecorder recorder;
@@ -40,8 +37,8 @@ public class MainActivity extends ActionBarActivity {
 			startActivity(login);			
 		}		
 		
-		tglRecord = (ToggleButton) findViewById(R.id.btn_recorder_start);
-		tglRecord.setOnCheckedChangeListener(new ButtonToggleListener());
+		btnRecord = (Button) findViewById(R.id.btn_recorder_start);
+		btnRecord.setOnClickListener(new ButtonClickListener());
 		btnStop = (Button) findViewById(R.id.btn_recorder_stop);
 		btnStop.setOnClickListener(new ButtonClickListener());
 		btnStop.setVisibility(View.INVISIBLE);
@@ -90,37 +87,22 @@ public class MainActivity extends ActionBarActivity {
 				recorder.stopRecording();
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);	
-	            tglRecord.setChecked(false);
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);
-	            tglRecord.setChecked(false);
+			} else if (v.getId()==R.id.btn_recorder_start) {
+				if(btnRecord.getText().toString().equalsIgnoreCase("Record")) {
+					btnRecord.setText("Pause");
+				} else if(btnRecord.getText().toString().equalsIgnoreCase("Pause")) {
+					btnRecord.setText("Record");
+				}
+				recorder.startRecording();
+				btnStop.setVisibility(View.VISIBLE);
+	            btnCancel.setVisibility(View.VISIBLE);	  
 			} 
 			
 		}		
-		
-	}
-	
-	private class ButtonToggleListener implements OnCheckedChangeListener {
-
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
-			// Initial state is 'not checked'
-			// Recording starts when button is checked
-			if (isChecked) { 
-	            recorder.startRecording();
-	            btnStop.setVisibility(View.VISIBLE);
-	            btnCancel.setVisibility(View.VISIBLE);	            
-	        // If it's unchecked, it means it's recording
-	        // Checking it again, will pause the recording
-	        } else {	        	
-	        	recorder.startRecording();
-	        }
-
-			
-		}
 		
 	}
 }

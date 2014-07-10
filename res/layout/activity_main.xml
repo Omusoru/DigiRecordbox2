@@ -8,15 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ro.rcsrds.recordbox.MainActivity" >
 
-    <ToggleButton
+    <Button
         android:id="@+id/btn_recorder_start"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="128dp"
-        android:textOff="@string/tgl_recorder_start"
-        android:textOn="@string/tgl_recorder_pause" />
+        android:text="@string/btn_recorder_start" />
 
     <Button
         android:id="@+id/btn_recorder_stop"
@@ -32,17 +31,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn_recorder_stop"
+        android:layout_alignParentRight="true"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/btn_recorder_start"
         android:text="@string/btn_recorder_cancel" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp"
-        android:text="TextView" />
 
 </RelativeLayout>
