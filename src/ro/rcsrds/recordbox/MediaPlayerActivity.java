@@ -12,7 +12,8 @@ public class MediaPlayerActivity extends Activity {
 	
 	Button btnPlay;
 	Button btnStop;
-	AudioRecorder recorder;
+	MediaPlayer player;
+	String filename;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +25,15 @@ public class MediaPlayerActivity extends Activity {
 		btnStop = (Button) findViewById(R.id.btn_player_stop);
 		btnStop.setOnClickListener(new ButtonOnClickListener());
 		
-		recorder = new AudioRecorder();
+		player = new MediaPlayer();
 		
 		//TODO start playing this file:
-		//String filename = getIntent().getExtras().getString("fileName");
+		filename = getIntent().getExtras().getString("fileName");
 		//Log.d("Mediaplayer",filename);		
 		
 		//Play incepe automat
-		//recorder.startPlaying();
-		//tglPlay.setChecked(true);
+		player.startPlaying(filename);
+		btnPlay.setText("Pause");
 		
 	}
 	
@@ -41,14 +42,14 @@ public class MediaPlayerActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_player_play) {
-				recorder.startPlaying();
+				player.startPlaying(filename);
 				if(btnPlay.getText().toString().equalsIgnoreCase("Play")) {
 					btnPlay.setText("Pause");
 				} else if(btnPlay.getText().toString().equalsIgnoreCase("Pause")) {
 					btnPlay.setText("Play");
 				}
 			} else if(v.getId()==R.id.btn_player_stop) {
-				recorder.stopPlaying();
+				player.stopPlaying();
 				finish();	
 			}
 					

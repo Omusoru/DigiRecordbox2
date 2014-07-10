@@ -2,6 +2,7 @@ package ro.rcsrds.recordbox;
 
 import java.io.IOException;
 
+import android.os.Environment;
 import android.util.Log;
 
 public class MediaPlayer {
@@ -16,7 +17,8 @@ public class MediaPlayer {
 	private boolean isPlaying = false;
 	private boolean canPlay = true;
 	
-	public void startPlaying(String filePath) {
+	public void startPlaying(String filename) {
+		String filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+filename;		
 		if(canPlay){
 	    	file=filePath;
 	        Player = new android.media.MediaPlayer();
