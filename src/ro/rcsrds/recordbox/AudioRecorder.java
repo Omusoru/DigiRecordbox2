@@ -217,11 +217,4 @@ public class AudioRecorder {
 		File file2 = new File(newName);
 		file.renameTo(file2);
 	}
-	
-	public void startPlaying(){
-		
-	}
-	public void stopPlaying(){
-		
-	}
 }
