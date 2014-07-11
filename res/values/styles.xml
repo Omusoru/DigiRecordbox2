@@ -16,5 +16,24 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="AppTheme.Login">
+        
+        <item name="android:windowBackground">@color/light</item>
+        <item name="android:windowNoTitle">true</item>
+        
+    </style>
+    
+     <style name="AppTheme.LoginButton">
+        
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/gray</item>
+        
+    </style>
+    
+    <style name="AppTheme.LoginTextView">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
 </resources>
