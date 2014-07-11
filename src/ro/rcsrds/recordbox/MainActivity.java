@@ -49,31 +49,7 @@ public class MainActivity extends ActionBarActivity {
 		btnCancel.setVisibility(View.INVISIBLE);
 
 		recorder = new AudioRecorder();
-		
-		//////////////////// DATABASE TEST
-		DatabaseHelper db = new DatabaseHelper(this);
-		
-		//Recording recording = new Recording(
-		//		"un_nume","descriere","azi","razvan","nume_fisier.ext",120);
-		
-		//db.insertRecording(recording);
-		
-		List<Recording> list = db.getAllRecordings();
-		
-		//Recording recording = list.get(0);
-		//recording.setFilename("nume_edited_fisier.txt");
-		//db.updateRecording(recording);
-		
-		//list = db.getAllRecordings();
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 		
 	}
 
