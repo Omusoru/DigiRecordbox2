@@ -43,6 +43,13 @@ public class MediaPlayer {
     		Player.start();    		
     		isPlaying=true;    	   
     	}
+		
+		/*while(Player.getDuration()-Player.getCurrentPosition()>0){
+			while(Player.getDuration()-Player.getCurrentPosition()<=0)
+			{
+				stopPlaying();
+			}
+		}*/
 	}
     
     public void stopPlaying() {    	
@@ -51,6 +58,11 @@ public class MediaPlayer {
         canPlay=true;
         isPlaying=false;
 
+    }
+    
+    public android.media.MediaPlayer getPlayerStatus()
+    {
+    	return Player;
     }
     
 }
