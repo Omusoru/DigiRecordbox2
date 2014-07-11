@@ -23,4 +23,31 @@
         android:layout_toRightOf="@+id/btn_player_play"
         android:text="@string/btn_player_stop" />
 
+    <SeekBar
+        android:id="@+id/sk_bar_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_player_play"
+        android:layout_marginTop="16dp"
+        android:layout_toLeftOf="@+id/totalTime"
+        android:layout_toRightOf="@+id/curentTime" />
+
+    <TextView
+        android:id="@+id/curentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/sk_bar_player"
+        android:text="00:00"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/totalTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/sk_bar_player"
+        android:text="00:00"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
 </RelativeLayout>
