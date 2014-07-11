@@ -90,7 +90,9 @@ public class MediaPlayerActivity extends Activity {
 	        public void onStopTrackingTouch(SeekBar seekBar) {	        	
 	        	if(player.getPlayerStatus() != null){
                 	player.getPlayerStatus().seekTo(SeekBar.getSecondaryProgress());
+                	player.setCurentPosition(SeekBar.getSecondaryProgress());
                 	curentTime.setText(getTimeFormat(SeekBar.getSecondaryProgress()));
+                	
                 }
 	        	mHandler.post(playing);
 	        	mHandler.post(timer);

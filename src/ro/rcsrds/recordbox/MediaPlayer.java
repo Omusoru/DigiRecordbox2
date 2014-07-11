@@ -65,4 +65,8 @@ public class MediaPlayer {
     	return Player;
     }
     
+    public void setCurentPosition(int timeorposition){
+    	playingPausedAt=timeorposition;
+    }
+    
 }
