@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
 		btnCancel.setVisibility(View.INVISIBLE);
 
 		recorder = new AudioRecorder();
-	
+		
 		
 	}
 
