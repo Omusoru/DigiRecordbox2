@@ -10,9 +10,11 @@ public class Recording {
 	private String filename;
 	private int duration;
 	
-	public Recording(int id, String name, String description, String date,
+	public Recording() {}
+	
+	public Recording(String name, String description, String date,
 			String owner, String filename, int duration) {
-		this.id = id;
+		this.id = 0;
 		this.name = name;
 		this.description = description;
 		this.date = date;
@@ -21,14 +23,22 @@ public class Recording {
 		this.duration = duration;
 	}
 	
+	
 	public int getId() { return this.id; }
 	public String getName() {return this.name;}
 	public String getDescription() {return this.description;}
 	public String getDate() { return this.date;}
 	public String getOwner() { return this.owner; }
-	public String getFilenane() { return this.filename; }
+	public String getFilename() { return this.filename; }
 	public int getDuration() { return this.duration; }
 	
+	public void setId(int id) { this.id = id; }
+	public void setName(String name) { this.name = name; }
+	public void setDescription(String description) { this.description = description; }
+	public void setDate(String date) { this.date = date; }
+	public void setOwner(String owner) { this.owner = owner; }
+	public void setFilename(String filename) { this.filename = filename; }
+	public void setDuration(int duration) { this.duration = duration; }
 	
 	
 	
