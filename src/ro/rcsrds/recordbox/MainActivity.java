@@ -1,7 +1,5 @@
 package ro.rcsrds.recordbox;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
