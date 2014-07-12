@@ -251,7 +251,7 @@ public class AudioRecorder {
 
 	}
 	
-	public String getFileName(){
+	public String getLastFilename(){
         String filename = currentFile;
         String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox";
         filename = filename.replace(path+"/", "");        
