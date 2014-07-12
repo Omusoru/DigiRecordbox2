@@ -59,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public void insertRecording(Recording recording) {
-		Log.d("Database", "Insert: "+recording.getFilename());
+		Log.d("Database", "Insert: "+recording.getName());
 		
 		// get reference to writable DB
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -110,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         recording.setFilename(cursor.getString(5));
         recording.setDuration(Integer.parseInt(cursor.getString(6)));
         
-        Log.d("Database","getRecording("+id+"): "+recording.getFilename());
+        Log.d("Database","getRecording("+id+"): "+recording.getName());
 	   
 		return recording;
 	}
@@ -145,7 +145,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
         // log
         for (Recording recordingx : recordings) {
-        	Log.d("Database","getAllRecordings: "+recordingx.getFilename());
+        	Log.d("Database","getAllRecordings: "+recordingx.getName());
         }
 		
 		
@@ -176,7 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // close 
         db.close();
         
-        Log.d("Database","updateDatabase: "+recording.getFilename());
+        Log.d("Database","updateDatabase: "+recording.getName());
         
         return i;
         
@@ -195,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // close
         db.close();
         
-        Log.d("Database","deleteRecording: "+recording.getFilename());
+        Log.d("Database","deleteRecording: "+recording.getName());
 		
 	}
 	

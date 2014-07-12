@@ -38,7 +38,7 @@ public class MediaPlayerActivity extends Activity {
 		tvTotalTime = (TextView) findViewById(R.id.totalTime);
 		
 		//TODO start playing this file:
-		filename = getIntent().getExtras().getString("fileName");
+		filename = getIntent().getExtras().getString("filename");
 		//Log.d("Mediaplayer",filename);		
 		player = new MediaPlayer();
 		//Play incepe automat

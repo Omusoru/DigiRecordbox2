@@ -79,8 +79,7 @@ public class MediaPlayer {
     	} catch (IOException ioe) {
     		Log.d(LOG_TAG,"IOException: "+ioe.getMessage());
     	}
-    	return ((int)(Player2.getDuration())/1000);
-    	
+    	return ((int)(Player2.getDuration())/1000);    	
     }
     
 }

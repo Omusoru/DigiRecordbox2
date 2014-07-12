@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -124,6 +123,12 @@ public class MainActivity extends ActionBarActivity {
 	            recorder.stopRecording();
 	            Checker.run();
 	            switchButtons();
+	            // Start EditRecording activity with filename parameter
+	            String filename = recorder.stopRecording();
+	            Intent intent = new Intent(MainActivity.this,EditRecordingActivity.class);
+	    		intent.putExtra("filename", filename);
+	    		startActivity(intent);
+	            
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
 				btnStop.setVisibility(View.INVISIBLE);
