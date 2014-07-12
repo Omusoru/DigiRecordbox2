@@ -33,9 +33,14 @@ public class AudioRecorder {
 
 	private boolean isRecording = false;
 	private boolean canRecord = true;
+	private boolean isMerging = false;
 	
 	ArrayList<String> tempAudio = new ArrayList<String>();
 	private int timesPaused = 0;
+	
+	private Runnable merger;
+	public Thread t = null;
+	
 	
 	public AudioRecorder(){
 		filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox";
@@ -120,17 +125,32 @@ public class AudioRecorder {
         	renameFile(tempAudio.get(0),currentFile);
         	tempAudio=new ArrayList<String>();
         	deleteDirectory(new File(filePath+"/Temp"));
+        	isMerging=false;
         }
         else{
-        	try {
-				mergeAudio(tempAudio);
-				deleteDirectory(new File(filePath+"/Temp"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+        	merger= new Runnable() {					
+					@Override
+					public void run() {						
+						try {
+							mergeAudio(tempAudio);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						isMerging=false;
+						deleteDirectory(new File(filePath+"/Temp"));
+			        	tempAudio=new ArrayList<String>();
+					}
+				};
+				
+			if((t!=null))
+			{
+				t.stop();
+				t=null;
 			}
-        	
-        	tempAudio=new ArrayList<String>();
+			
+			t = new Thread(merger);
+			t.start();
         }
         
         canRecord = true;
@@ -173,12 +193,29 @@ public class AudioRecorder {
     	}
     	
     	path.delete();
-    }
-    
-    public String mergeAudio(ArrayList<String> files) throws IOException
+    }    
+	
+	private void renameFile(String originalName,String newName)
+	{
+		File file = new File(originalName);
+		File file2 = new File(newName);
+		file.renameTo(file2);
+	}
+	
+	public boolean getMergeStatus()
+	{		
+		return isMerging;
+	}
+	
+	public void setMergeStatus(boolean status)
+	{
+		this.isMerging=status;
+	}
+	
+	public String mergeAudio(ArrayList<String> files) throws IOException
 	{
 		String fileDestination=currentFile;
-		
+
 
         Movie[] inMovies = new Movie[files.size()];
         
@@ -219,11 +256,5 @@ public class AudioRecorder {
 	return fileDestination;
 
 	}
-	
-	private void renameFile(String originalName,String newName)
-	{
-		File file = new File(originalName);
-		File file2 = new File(newName);
-		file.renameTo(file2);
-	}
+
 }
