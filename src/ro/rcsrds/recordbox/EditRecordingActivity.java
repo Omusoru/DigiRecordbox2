@@ -1,19 +1,17 @@
 package ro.rcsrds.recordbox;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.Environment;
 
 @SuppressLint("SimpleDateFormat")
 public class EditRecordingActivity extends ActionBarActivity {
@@ -54,7 +52,12 @@ public class EditRecordingActivity extends ActionBarActivity {
 				saveRecording();
 				finish();
 			} else if(v.getId()==R.id.btn_save_play) {
-				//TODO save and launch media player
+				saveRecording();
+				finish();
+				// Launch media player with filename parameter
+				Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
+				intent.putExtra("filename", filename);
+				startActivity(intent);
 			}
 			
 		}
@@ -88,7 +91,6 @@ public class EditRecordingActivity extends ActionBarActivity {
 	
 	private int getDuration() {
 		MediaPlayer player = new MediaPlayer();	
-		Log.d("Database",""+player.getDurationInSeconds(filename));
 		return player.getDurationInSeconds(filename);
 	}
 
