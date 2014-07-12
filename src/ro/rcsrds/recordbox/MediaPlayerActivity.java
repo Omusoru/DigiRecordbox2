@@ -122,11 +122,7 @@ public class MediaPlayerActivity extends Activity {
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_player_play) {
 				player.startPlaying(filename);
-				if(btnPlay.getText().toString().equalsIgnoreCase("Play")) {
-					btnPlay.setText("Pause");
-				} else if(btnPlay.getText().toString().equalsIgnoreCase("Pause")) {
-					btnPlay.setText("Play");
-				}
+				switchButtons();
 			} else if(v.getId()==R.id.btn_player_stop) {
 				player.stopPlaying();
 				mHandler.removeCallbacks(playing);
@@ -136,6 +132,14 @@ public class MediaPlayerActivity extends Activity {
 					
 		}
 		
+	}
+	
+	public void switchButtons() {
+		if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_play))) {
+			btnPlay.setText(this.getString(R.string.btn_player_pause));
+		} else if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_pause))) {
+			btnPlay.setText(this.getString(R.string.btn_player_play));
+		}
 	}
 	
 	public String getTimeFormat(int timeinms){

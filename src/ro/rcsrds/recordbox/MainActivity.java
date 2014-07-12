@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,9 +71,6 @@ public class MainActivity extends ActionBarActivity {
 			//Start login activity
 			Intent login = new Intent(MainActivity.this,LoginActivity.class);
 			startActivity(login);	
-		} else if(item.getItemId()==R.id.option_menu_mediaplayer) {
-			Intent mediaPlayer = new Intent(MainActivity.this,MediaPlayerActivity.class);
-			startActivity(mediaPlayer);
 		} else if(item.getItemId()==R.id.option_menu_list) {
 			Intent mediaPlayer = new Intent(MainActivity.this,RecordingListActivity.class);
 			startActivity(mediaPlayer);
@@ -86,25 +84,32 @@ public class MainActivity extends ActionBarActivity {
 		public void onClick(View v) {
 			
 			if (v.getId()==R.id.btn_recorder_stop) {
-				recorder.stopRecording();
+				Log.d("Mediaplayer",recorder.stopRecording());
 				btnStop.setVisibility(View.INVISIBLE);
-	            btnCancel.setVisibility(View.INVISIBLE);	
+	            btnCancel.setVisibility(View.INVISIBLE);
+	            switchButtons();
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);
 			} else if (v.getId()==R.id.btn_recorder_start) {
-				if(btnRecord.getText().toString().equalsIgnoreCase("Record")) {
-					btnRecord.setText("Pause");
-				} else if(btnRecord.getText().toString().equalsIgnoreCase("Pause")) {
-					btnRecord.setText("Record");
-				}
+				switchButtons();
 				recorder.startRecording();
 				btnStop.setVisibility(View.VISIBLE);
 	            btnCancel.setVisibility(View.VISIBLE);	  
 			} 
 			
 		}		
+		
+	}
+	
+	private void switchButtons() {
+		
+		if(btnRecord.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_recorder_start))) {
+			btnRecord.setText(this.getString(R.string.btn_recorder_pause));
+		} else if(btnRecord.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_recorder_pause))) {
+			btnRecord.setText(this.getString(R.string.btn_recorder_start));
+		}
 		
 	}
 }
