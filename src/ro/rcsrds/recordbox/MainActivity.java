@@ -123,8 +123,8 @@ public class MainActivity extends ActionBarActivity {
 	            recorder.stopRecording();
 	            Checker.run();
 	            switchButtons();
-	            // Start EditRecording activity with filename parameter
-	            String filename = recorder.stopRecording();
+	            // Start EditRecording activity with filename parameter	            
+	            String filename = recorder.getFileName();
 	            Intent intent = new Intent(MainActivity.this,EditRecordingActivity.class);
 	    		intent.putExtra("filename", filename);
 	    		startActivity(intent);
