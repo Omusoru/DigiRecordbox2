@@ -22,9 +22,6 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
-
-
-
 @SuppressLint("SimpleDateFormat")
 public class AudioRecorder {
 	private static final String LOG_TAG = "AudioRecordTest";
@@ -68,7 +65,11 @@ public class AudioRecorder {
 			tempAudio.add(filePath+"/Temp/temp"+"("+timesPaused+").mp4");
 			
 			Recorder.setOutputFile(tempAudio.get(0));
-			Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+			if(Integer.parseInt(android.os.Build.VERSION.SDK)<=10) {
+				Recorder.setOutputFormat(MediaRecorder.AudioEncoder.AMR_NB);
+			} else {
+				Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+			}
 			
 	        try {
 	            Recorder.prepare();
@@ -97,7 +98,12 @@ public class AudioRecorder {
 			tempAudio.add(filePath+"/Temp/temp"+"("+timesPaused+").mp4");
 			
 			Recorder.setOutputFile(tempAudio.get(timesPaused));
-			Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+			if(Integer.parseInt(android.os.Build.VERSION.SDK)<=10) {
+				Recorder.setOutputFormat(MediaRecorder.AudioEncoder.AMR_NB);
+			} else {
+				Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+			}
+
 			
 	        try {
 	            Recorder.prepare();
