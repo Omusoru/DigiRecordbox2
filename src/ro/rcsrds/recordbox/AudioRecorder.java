@@ -65,11 +65,8 @@ public class AudioRecorder {
 			tempAudio.add(filePath+"/Temp/temp"+"("+timesPaused+").mp4");
 			
 			Recorder.setOutputFile(tempAudio.get(0));
-			if(Integer.parseInt(android.os.Build.VERSION.SDK)<=10) {
-				Recorder.setOutputFormat(MediaRecorder.AudioEncoder.AMR_NB);
-			} else {
-				Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-			}
+			Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+			
 			
 	        try {
 	            Recorder.prepare();
@@ -98,11 +95,7 @@ public class AudioRecorder {
 			tempAudio.add(filePath+"/Temp/temp"+"("+timesPaused+").mp4");
 			
 			Recorder.setOutputFile(tempAudio.get(timesPaused));
-			if(Integer.parseInt(android.os.Build.VERSION.SDK)<=10) {
-				Recorder.setOutputFormat(MediaRecorder.AudioEncoder.AMR_NB);
-			} else {
-				Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-			}
+			Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
 			
 	        try {
