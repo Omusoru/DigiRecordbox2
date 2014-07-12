@@ -8,20 +8,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class MediaPlayerActivity extends Activity {
 	
-	Button btnPlay;
-	Button btnStop;
-	MediaPlayer player;
-	String filename;
-	SeekBar SeekBar;
+	private Button btnPlay;
+	private Button btnStop;
+	private MediaPlayer player;
+	private String filename;
+	private SeekBar sbarPlayer;
 	private Handler mHandler = new Handler();
-	Runnable playing;
-	Runnable timer;
-	TextView curentTime;
-	TextView totalTime;	
+	private Runnable playing;
+	private Runnable timer;
+	private TextView tvCurentTime;
+	private TextView tvTotalTime;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +33,9 @@ public class MediaPlayerActivity extends Activity {
 		btnPlay.setOnClickListener(new ButtonOnClickListener());
 		btnStop = (Button) findViewById(R.id.btn_player_stop);
 		btnStop.setOnClickListener(new ButtonOnClickListener());
-		SeekBar = (SeekBar) findViewById(R.id.sk_bar_player);
-		curentTime = (TextView) findViewById(R.id.curentTime);
-		totalTime = (TextView) findViewById(R.id.totalTime);
+		sbarPlayer = (SeekBar) findViewById(R.id.sk_bar_player);
+		tvCurentTime = (TextView) findViewById(R.id.curentTime);
+		tvTotalTime = (TextView) findViewById(R.id.totalTime);
 		
 		//TODO start playing this file:
 		filename = getIntent().getExtras().getString("fileName");
@@ -46,8 +47,8 @@ public class MediaPlayerActivity extends Activity {
 		
 		
 		player.startPlaying(filename);
-		SeekBar.setMax(player.getPlayerStatus().getDuration());	
-		totalTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()));
+		sbarPlayer.setMax(player.getPlayerStatus().getDuration());	
+		tvTotalTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()));
 		
 		playing = new Runnable() {
 			
@@ -55,7 +56,7 @@ public class MediaPlayerActivity extends Activity {
 			public void run() {
 				if(player.getPlayerStatus() != null){
 		            int mCurrentPosition = player.getPlayerStatus().getCurrentPosition();
-		            SeekBar.setProgress(mCurrentPosition);
+		            sbarPlayer.setProgress(mCurrentPosition);
 		        }
 		        mHandler.postDelayed(this, 100);
 		        Log.d("Mediaplayer",Integer.toString(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()));
@@ -73,7 +74,7 @@ public class MediaPlayerActivity extends Activity {
 			
 			@Override
 			public void run() {
-				curentTime.setText(getTimeFormat(SeekBar.getProgress()));
+				tvCurentTime.setText(getTimeFormat(sbarPlayer.getProgress()));
 				mHandler.postDelayed(this, 1000);
 			}
 			
@@ -84,14 +85,14 @@ public class MediaPlayerActivity extends Activity {
 		
 		btnPlay.setText("Pause");		
 		
-		SeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+		sbarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 	        @Override
-	        public void onStopTrackingTouch(SeekBar seekBar) {	        	
+	        public void onStopTrackingTouch(SeekBar sbarPlayer) {	        	
 	        	if(player.getPlayerStatus() != null){
-                	player.getPlayerStatus().seekTo(SeekBar.getSecondaryProgress());
-                	player.setCurentPosition(SeekBar.getSecondaryProgress());
-                	curentTime.setText(getTimeFormat(SeekBar.getSecondaryProgress()));
+                	player.getPlayerStatus().seekTo(sbarPlayer.getSecondaryProgress());
+                	player.setCurentPosition(sbarPlayer.getSecondaryProgress());
+                	tvCurentTime.setText(getTimeFormat(sbarPlayer.getSecondaryProgress()));
                 	
                 }
 	        	mHandler.post(playing);
@@ -99,16 +100,16 @@ public class MediaPlayerActivity extends Activity {
 	        }
 
 	        @Override
-	        public void onStartTrackingTouch(SeekBar seekBar) {
+	        public void onStartTrackingTouch(SeekBar sbarPlayer) {
 	        	mHandler.removeCallbacks(playing);
 	        	mHandler.removeCallbacks(timer);
 	        }
 
 	            @Override
-	        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {                
+	        public void onProgressChanged(SeekBar sbarPlayer, int progress, boolean fromUser) {                
 	            	if(player.getPlayerStatus() != null && fromUser){
-	                    SeekBar.setSecondaryProgress(progress);
-	                    curentTime.setText(getTimeFormat(progress));
+	            		sbarPlayer.setSecondaryProgress(progress);
+	                    tvCurentTime.setText(getTimeFormat(progress));
 	                }
 	        }
 	    });		
