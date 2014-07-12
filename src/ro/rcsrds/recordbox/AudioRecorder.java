@@ -114,7 +114,7 @@ public class AudioRecorder {
 		}
 	}
 
-	public String stopRecording(){
+	public void stopRecording(){
 		if(Recorder!=null){
 			Recorder.stop();
 	        Recorder.release();
@@ -126,9 +126,10 @@ public class AudioRecorder {
         	tempAudio=new ArrayList<String>();
         	deleteDirectory(new File(filePath+"/Temp"));
         	isMerging=false;
+        	//Log.d("Test Tibi","intra aici ?");
         }
         else{
-        	merger= new Runnable() {					
+        	merger= new Runnable() {
 					@Override
 					public void run() {						
 						try {
@@ -156,14 +157,7 @@ public class AudioRecorder {
         canRecord = true;
         isRecording = false;
         timesPaused = 0;
-        
-        // Remove path from filename;
-        String filename = currentFile;
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox";
-        filename = filename.replace(path+"/", "");        
-        
-        return filename;
-        
+                
 	}
 	
 	public void cancelRecording(){
@@ -255,6 +249,14 @@ public class AudioRecorder {
         
 	return fileDestination;
 
+	}
+	
+	public String getFileName(){
+        String filename = currentFile;
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox";
+        filename = filename.replace(path+"/", "");        
+        
+        return filename;
 	}
 
 }
