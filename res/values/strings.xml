@@ -11,7 +11,7 @@
     
     <string name="btn_player_play">Play</string>
     <string name="btn_player_pause">Pause</string>
-    <string name="btn_player_stop">Stop</string>    
+    <string name="btn_player_stop">Stop</string>
     
     <string name="option_menu_logout">Log out</string>
     <string name="option_menu_list">Recording list</string>
@@ -20,6 +20,12 @@
     <string name="btn_login">Log in</string>
     <string name="tv_email">E-mail:</string>
     <string name="tv_password">Password:</string>
+    
+    <string name="tv_name">Name:</string>
+    <string name="tv_description">Description:</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_save_play">Save and play</string>
+    <string name="et_untitled">Untitled</string>
     
     <string name="message_authentication_failed">Authentication failed</string>
 

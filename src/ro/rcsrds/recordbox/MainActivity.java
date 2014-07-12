@@ -84,10 +84,15 @@ public class MainActivity extends ActionBarActivity {
 		public void onClick(View v) {
 			
 			if (v.getId()==R.id.btn_recorder_stop) {
-				Log.d("Mediaplayer",recorder.stopRecording());
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);
 	            switchButtons();
+	            // Start EditRecording activity with filename parameter
+	            String filename = recorder.stopRecording();
+	            Intent intent = new Intent(MainActivity.this,EditRecordingActivity.class);
+	    		intent.putExtra("filename", filename);
+	    		startActivity(intent);
+	            
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
 				btnStop.setVisibility(View.INVISIBLE);

@@ -47,7 +47,7 @@ public class RecordingListActivity extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		//Start MediaPlayerActivity with selected file as parameter
 		Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
-		intent.putExtra("fileName", listItems.get((int)id));
+		intent.putExtra("filename", listItems.get((int)id));
 		startActivity(intent);
 	}
 	

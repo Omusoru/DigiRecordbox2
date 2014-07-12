@@ -69,4 +69,18 @@ public class MediaPlayer {
     	playingPausedAt=timeorposition;
     }
     
+    // !!!!!!! reinstantiaza Player. NU apela odata cu startRecording(); !!!!!!!!!!
+    public int getDurationInSeconds (String filename) {
+    	Player = new android.media.MediaPlayer();
+    	String filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+filename;
+    	try {
+    		Player.setDataSource(filePath);
+    		Player.prepare();
+    	} catch (IOException ioe) {
+    		Log.d(LOG_TAG,"IOException: "+ioe.getMessage());
+    	}
+    	return ((int)(getPlayerStatus().getDuration())/1000);
+    	
+    }
+    
 }
