@@ -73,7 +73,9 @@ public class EditRecordingActivity extends ActionBarActivity {
 		newRecording.setDate(getCurrentFormatedDate());
 		newRecording.setOwner(owner);
 		newRecording.setFilename(filename);
-		newRecording.setDuration(getDuration());
+		newRecording.setDuration(""+getDuration());
+		newRecording.setOnLocal(true);
+		newRecording.setOnCloud(false);
 		
 		// insert recording into database
 		DatabaseHelper db = new DatabaseHelper(this);

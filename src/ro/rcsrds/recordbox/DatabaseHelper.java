@@ -26,10 +26,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_OWNER = "owner";
     private static final String KEY_FILENAME = "filename";
     private static final String KEY_DURATION = "duration";
+    private static final String KEY_ON_LOCAL = "on_local";
+    private static final String KEY_ON_CLOUD = "on_cloud";
     // Recordings Table Columns list
     private static final String[] COLUMNS = {
     	KEY_ID,KEY_NAME,KEY_DESCRIPTION,KEY_DATE,
-    	KEY_OWNER,KEY_FILENAME,KEY_DURATION
+    	KEY_OWNER,KEY_FILENAME,KEY_DURATION,KEY_ON_LOCAL,KEY_ON_CLOUD
     };
     
 
@@ -44,7 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_DESCRIPTION + " TEXT," + KEY_DATE + " TEXT,"
                 + KEY_OWNER + " TEXT," + KEY_FILENAME + " TEXT,"
-                + KEY_DURATION + " INTEGER" + ")";
+                + KEY_DURATION + " TEXT," + KEY_ON_LOCAL + " BOOLEAN,"
+                + KEY_ON_CLOUD + " BOOLEAN" + ")";
         db.execSQL(CREATE_RECORDINGS_TABLE);
 		
 	}
@@ -72,6 +75,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put(KEY_OWNER, recording.getOwner());		
 		values.put(KEY_FILENAME, recording.getFilename());
 		values.put(KEY_DURATION, recording.getDuration());
+		values.put(KEY_ON_LOCAL, recording.isOnLocal() ? 1 : 0);
+		values.put(KEY_ON_CLOUD, recording.isOnCloud() ? 1 : 0);
 		
 		// insert
 		db.insert(TABLE_RECORDINGS, null, values);
@@ -108,7 +113,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         recording.setDate(cursor.getString(3));
         recording.setOwner(cursor.getString(4));
         recording.setFilename(cursor.getString(5));
-        recording.setDuration(Integer.parseInt(cursor.getString(6)));
+        recording.setDuration(cursor.getString(6));
+        recording.setOnLocal(Integer.parseInt(cursor.getString(7)) == 1 ? true : false);
+        recording.setOnCloud(Integer.parseInt(cursor.getString(8)) == 1 ? true : false);
         
         Log.d("Database","getRecording("+id+"): "+recording.getName());
 	   
@@ -137,7 +144,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 recording.setDate(cursor.getString(3));
                 recording.setOwner(cursor.getString(4));
                 recording.setFilename(cursor.getString(5));
-                recording.setDuration(Integer.parseInt(cursor.getString(6)));
+                recording.setDuration(cursor.getString(6));
+                recording.setOnLocal(Integer.parseInt(cursor.getString(7)) == 1 ? true : false);
+                recording.setOnCloud(Integer.parseInt(cursor.getString(8)) == 1 ? true : false);
                 
                 recordings.add(recording);
         	} while(cursor.moveToNext());
@@ -166,6 +175,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put(KEY_OWNER, recording.getOwner());		
 		values.put(KEY_FILENAME, recording.getFilename());
 		values.put(KEY_DURATION, recording.getDuration());
+		values.put(KEY_ON_LOCAL, recording.isOnLocal() ? 1 : 0);
+		values.put(KEY_ON_CLOUD, recording.isOnCloud() ? 1 : 0);
 		
 		// updating row
         int i = db.update(TABLE_RECORDINGS, //table

@@ -19,7 +19,7 @@ public class RecordingListActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recordinglist);
+		//setContentView(R.layout.activity_recordinglist);
 		adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
 	    setListAdapter(adapter);
 	   
