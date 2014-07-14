@@ -125,6 +125,7 @@ public class MainActivity extends ActionBarActivity {
 				recorder.cancelRecording();
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);
+	            switchButtons();
 			} else if (v.getId()==R.id.btn_recorder_start) {
 				switchButtons();
 				recorder.startRecording();
