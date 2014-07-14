@@ -52,12 +52,14 @@ public class MediaPlayer {
 		}*/
 	}
     
-    public void stopPlaying() {    	
-        Player.release();
-        Player = null;
-        canPlay=true;
-        isPlaying=false;
-
+    public void stopPlaying() {
+    	if(isPlaying) {
+    		Player.release();
+            Player = null;
+            canPlay=true;
+            isPlaying=false;
+    	}
+        
     }
     
     public android.media.MediaPlayer getPlayerStatus()

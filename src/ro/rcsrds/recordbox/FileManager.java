@@ -9,30 +9,32 @@ import android.os.Environment;
 public class FileManager {
 	
 	public static final String PREFS_NAME = "Authentication";
-	private static SharedPreferences preferences;
+	private SharedPreferences preferences;
+	private String localFilePath;
 	
 	public FileManager(Context context){
-		preferences=context.getSharedPreferences(PREFS_NAME, 0);
+		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/";
 	}
 	
 	public boolean upload(String file){
-		
-		 DigiFTPClient ftp=new DigiFTPClient("storage.rcs-rds.ro",21,preferences.getString("username", ""),preferences.getString("password", ""));
-		 try {
-				ftp.connect();
-				ftp.changeWorkingDir("Digi Cloud");
-				if(!ftp.dirExists("DigiRecordbox")){
-					ftp.makeDir("DigiRecordbox");
-				}
-				ftp.changeWorkingDir("DigiRecordbox");
-				ftp.putFile(file,".");
-				ftp.disconnect();
-				return true;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
+
+		file = localFilePath + file;		
+		DigiFTPClient ftp=new DigiFTPClient("storage.rcs-rds.ro",21,preferences.getString("username", ""),preferences.getString("password", ""));
+		try {
+			ftp.connect();
+			ftp.changeWorkingDir("Digi Cloud");
+			if(!ftp.dirExists("DigiRecordbox")){
+				ftp.makeDir("DigiRecordbox");
 			}
+			ftp.changeWorkingDir("DigiRecordbox");
+			ftp.putFile(file,".");
+			ftp.disconnect();
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	public boolean download(String file){

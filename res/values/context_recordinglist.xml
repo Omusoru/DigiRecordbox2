@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="context_recordinglist" >
-        <item>Edit</item>
-        <item>Delete</item>
-        <item>Upload</item>
-        <item>Download</item>	    
+        <item>Edit recording</item>
+        <item>Upload to cloud</item>
+        <item>Download from cloud</item>	
+        <item>Delete local file</item>
+        <item>Delete cloud file</item>    
     </string-array>
     
     

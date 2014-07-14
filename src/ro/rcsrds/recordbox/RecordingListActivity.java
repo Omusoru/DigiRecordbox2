@@ -26,11 +26,15 @@ public class RecordingListActivity extends Activity {
 	List<Recording> recordingList;
 	private ListView list;
 	private RecordingListAdapter adapter;
+	private FileManager fm;
+	private DatabaseHelper db;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recordinglist);
+		
+		fm = new FileManager(this);
 		
 		loadRecordings();
 		
@@ -47,7 +51,7 @@ public class RecordingListActivity extends Activity {
 	
 	public void loadRecordings() {
 		
-		DatabaseHelper db = new DatabaseHelper(this);
+		db = new DatabaseHelper(this);
 		recordingList = new ArrayList<Recording>();
 		recordingList = db.getAllRecordings();
 		
@@ -70,14 +74,47 @@ public class RecordingListActivity extends Activity {
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 		int menuItemIndex = item.getItemId();
 		String[] menuItems = getResources().getStringArray(R.array.context_recordinglist);
-		String menuItemName = menuItems[menuItemIndex];
-		String listItemName = recordingList.get(info.position).getName();
+		//String menuItemName = menuItems[menuItemIndex];
+		//String listItemName = recordingList.get(info.position).getName();
 	
 		//text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
-		Log.d("Recordinglist","Selected "+menuItemName+" for item "+listItemName);
+		//Log.d("Recordinglist","Selected "+menuItemName+" for item "+listItemName);
+		switch(menuItemIndex) {
+		case 0: // Edit recording
+			Log.d("Recordinglist","Edit recording");
+			break;
+		case 1: // Upload to cloud
+			Log.d("Recordinglist","Upload to cloud");
+			
+			// upload file
+			new Thread(new Runnable() {
+			    public void run() {
+			    	fm.upload(recordingList.get(info.position).getFilename());
+			    }
+			  }).start();
+			
+			// update recording database entry on_cloud to True
+			Recording recording = new Recording();
+			recording = recordingList.get(info.position);
+			recording.setOnCloud(true);
+			db.updateRecording(recording);
+			recording = null;
+			break;
+		case 2: // Download from cloud
+			Log.d("Recordinglist","Download from cloud");
+			break;
+		case 3: // Delete local file
+			Log.d("Recordinglist","Delete local file");
+			break;
+		case 4: // Delete cloud file
+			Log.d("Recordinglist","Delete cloud file");
+			break;
+		default:
+			Log.d("Recordinglist","Nothing");
+		}
 		
 		return super.onContextItemSelected(item);
 	}
