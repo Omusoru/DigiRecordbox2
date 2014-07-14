@@ -40,10 +40,15 @@ public class AudioRecorder {
 	
 	private Runnable merger;
 	public Thread t = null;
+
+	private RandomAccessFile randomAccessFile;
 	
 	
-	public AudioRecorder(){
-		filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox";
+	public AudioRecorder(String username){
+		username = username.toLowerCase();
+		username = username.replace(".", "DOT");
+		username = username.replace("@", "AT");
+		filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username;
 	}
 	
 	public void startRecording(){
@@ -56,6 +61,9 @@ public class AudioRecorder {
 			}
 			
 			folderTest = new File(filePath+"/Temp");
+			if(folderTest.isDirectory()){
+				deleteDirectory(folderTest);
+			}
 			folderTest.mkdirs();
 			
 			Recorder = new MediaRecorder();
@@ -218,7 +226,7 @@ public class AudioRecorder {
         	inMovies[i] = MovieCreator.build(files.get(i));
         }
 
-        List<Track> videoTracks = new LinkedList<Track>();
+        //List<Track> videoTracks = new LinkedList<Track>();
         List<Track> audioTracks = new LinkedList<Track>();
 
         for (Movie m : inMovies) {
@@ -226,9 +234,9 @@ public class AudioRecorder {
                 if (t.getHandler().equals("soun")) {
                     audioTracks.add(t);
                 }
-                if (t.getHandler().equals("vide")) {
+                /*if (t.getHandler().equals("vide")) {
                     videoTracks.add(t);
-                }
+                }*/
             }
         }
 
@@ -237,13 +245,14 @@ public class AudioRecorder {
         if (audioTracks.size() > 0) {
             result.addTrack(new AppendTrack(audioTracks.toArray(new Track[audioTracks.size()])));
         }
-        if (videoTracks.size() > 0) {
+        /*if (videoTracks.size() > 0) {
             result.addTrack(new AppendTrack(videoTracks.toArray(new Track[videoTracks.size()])));
-        }
+        }*/
 
         Container out = new DefaultMp4Builder().build(result);
 
-        FileChannel fc = new RandomAccessFile(String.format(fileDestination), "rw").getChannel();
+        randomAccessFile = new RandomAccessFile(String.format(fileDestination), "rw");
+		FileChannel fc = randomAccessFile.getChannel();
         out.writeContainer(fc);
         fc.close();
         
