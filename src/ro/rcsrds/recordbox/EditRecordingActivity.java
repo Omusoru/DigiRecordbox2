@@ -73,7 +73,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 		newRecording.setDate(getCurrentFormatedDate());
 		newRecording.setOwner(owner);
 		newRecording.setFilename(filename);
-		newRecording.setDuration(""+getDuration());
+		newRecording.setDuration(getDuration());
 		newRecording.setOnLocal(true);
 		newRecording.setOnCloud(false);
 		
@@ -91,9 +91,21 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 	}
 	
-	private int getDuration() {
+	private String getDuration() {
 		MediaPlayer player = new MediaPlayer();	
-		return player.getDurationInSeconds(filename);
+		return getTimeFormat(player.getDuration(filename));
+	}
+	
+	public String getTimeFormat(int timeinms){
+		String totext=null;
+		if((timeinms/1000)/60<10)
+			totext="0"+Integer.toString((timeinms/1000)/60);
+		else totext=Integer.toString((timeinms/1000)/60);
+		if((timeinms/1000)%60<10)
+			totext+=":0"+Integer.toString((timeinms/1000)%60);
+		else totext+=":"+Integer.toString((timeinms/1000)%60);
+		
+		return totext;
 	}
 
 }
