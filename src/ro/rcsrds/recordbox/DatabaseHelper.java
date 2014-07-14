@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 	}
 	
-	public void insertRecording(Recording recording) {
+	public int insertRecording(Recording recording) {
 		Log.d("Database", "Insert: "+recording.getName());
 		
 		// get reference to writable DB
@@ -79,10 +79,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put(KEY_ON_CLOUD, recording.isOnCloud() ? 1 : 0);
 		
 		// insert
-		db.insert(TABLE_RECORDINGS, null, values);
+		int lastRow = (int)db.insert(TABLE_RECORDINGS, null, values);
 		
 		// close
 		db.close();		
+		
+		return lastRow;
 		
 	}
 	

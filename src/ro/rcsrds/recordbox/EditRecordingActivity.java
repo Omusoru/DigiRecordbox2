@@ -22,6 +22,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	private Button btnSavePlay;
 	private String filename;
 	private String owner;
+	private int lastRecordingId;
 	public static final String PREFS_NAME = "Authentication";
 
 	@Override
@@ -56,7 +57,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 				finish();
 				// Launch media player with filename parameter
 				Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
-				intent.putExtra("filename", filename);
+				intent.putExtra("id", lastRecordingId);
 				startActivity(intent);
 			}
 			
@@ -79,7 +80,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 		// insert recording into database
 		DatabaseHelper db = new DatabaseHelper(this);
-		db.insertRecording(newRecording);
+		lastRecordingId = db.insertRecording(newRecording);
 		
 	}
 	
