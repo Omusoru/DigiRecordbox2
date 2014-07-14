@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "DigiRecordbox";
     // Recordings Table name
     private static final String TABLE_RECORDINGS = "recordings";
-    // Recordings Table Columns names
+    // Recordings Table Column names
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_DESCRIPTION = "description";
@@ -29,9 +29,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ON_LOCAL = "on_local";
     private static final String KEY_ON_CLOUD = "on_cloud";
     // Recordings Table Columns list
-    private static final String[] COLUMNS = {
+    private static final String[] COLUMNS_RECORDINGS = {
     	KEY_ID,KEY_NAME,KEY_DESCRIPTION,KEY_DATE,
     	KEY_OWNER,KEY_FILENAME,KEY_DURATION,KEY_ON_LOCAL,KEY_ON_CLOUD
+    };
+    // Authentication Table name
+    private static final String TABLE_AUTHENTICATION = "authentication";
+    // Authentication Table Column names
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_PASSWORD = "password";
+    // Authentication Table Columns list
+    private static final String[] COLUMNS_AUTHENTICATION = {
+    	KEY_USERNAME, KEY_PASSWORD
     };
     
 
@@ -49,6 +58,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + KEY_DURATION + " TEXT," + KEY_ON_LOCAL + " BOOLEAN,"
                 + KEY_ON_CLOUD + " BOOLEAN" + ")";
         db.execSQL(CREATE_RECORDINGS_TABLE);
+        
+        String CREATE_AUTHENTICATION_TABLE = "CREATE TABLE " + TABLE_AUTHENTICATION + "("
+        		+ KEY_USERNAME + " TEXT PRIMARY KEY," + KEY_PASSWORD + " TEXT" + ")";
+        db.execSQL(CREATE_AUTHENTICATION_TABLE);
 		
 	}
 
@@ -57,6 +70,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// Drop old table
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECORDINGS + ";");
 		// and create a new one
+        onCreate(db);
+        // Drop old table
+ 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_AUTHENTICATION + ";");
+ 		// and create a new one
         onCreate(db);
 		
 	}
@@ -95,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	    
 	    // build query
 	    Cursor cursor = db.query(TABLE_RECORDINGS, // a. table
-		            COLUMNS, // b. column names
+		            COLUMNS_RECORDINGS, // b. column names
 		            KEY_ID + "=?", // c. selections
 		            new String[] { String.valueOf(id) }, // d. selections args
 		            null, // e. group by
@@ -209,6 +226,96 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         
         Log.d("Database","deleteRecording: "+recording.getName());
+		
+	}
+	
+	public void saveAuth(String username, String password) {
+		
+		Log.d("Database", "Insert: "+ username);
+		
+		// get reference to writable DB
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		// create ContentValues to add key "column"/value
+		ContentValues values = new ContentValues();
+		values.put(KEY_USERNAME, username);
+		values.put(KEY_PASSWORD, password);
+		
+		// insert
+		db.insert(TABLE_AUTHENTICATION, null, values);
+		
+		// close
+		db.close();		
+		
+	}
+	
+	public String getUsername() {
+		
+		// get reference to readable DB
+	    SQLiteDatabase db = this.getReadableDatabase();
+	    
+	    // build query
+	    Cursor cursor = db.query(TABLE_AUTHENTICATION, // a. table
+		            new String[] { KEY_USERNAME}, // b. column names
+		            null, // c. selections
+		            null, // d. selections args
+		            null, // e. group by
+		            null, // f. having
+		            null, // g. order by
+		            null); // h. limit
+		
+	    // if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+        
+        String username = cursor.getString(0);
+        
+        Log.d("Database","getUsername: "+username);
+	   
+		return username;
+		
+	}
+	
+	public String getPassword() {
+		
+		// get reference to readable DB
+	    SQLiteDatabase db = this.getReadableDatabase();
+	    
+	    // build query
+	    Cursor cursor = db.query(TABLE_AUTHENTICATION, // a. table
+		            new String[] { KEY_PASSWORD}, // b. column names
+		            null, // c. selections
+		            null, // d. selections args
+		            null, // e. group by
+		            null, // f. having
+		            null, // g. order by
+		            null); // h. limit
+		
+	    // if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+        
+        String password = cursor.getString(0);
+        
+        Log.d("Database","getPassword: "+password);
+	   
+		return password;
+		
+	}
+	
+	public void deleteAuth() {
+		
+		// get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        
+        // delete
+        
+        db.delete(TABLE_AUTHENTICATION, null, null);
+        
+        // close
+        db.close();
+        
+        Log.d("Database","deleteAuth: "+ "deleted");
 		
 	}
 	
