@@ -66,9 +66,13 @@ public class LoginActivity extends Activity {
 			Intent intent = new Intent(LoginActivity.this,MainActivity.class);
 			startActivity(intent);	
 		} else {
-			Toast message = Toast.makeText(LoginActivity.this, R.string.message_authentication_failed, Toast.LENGTH_SHORT);
-			message.show();
-		}
+			runOnUiThread(new Runnable() {
+	            public void run() {
+	            	Toast message = Toast.makeText(getApplicationContext(), R.string.message_authentication_failed, Toast.LENGTH_SHORT);
+	    			message.show();
+	            }
+	        });
+	    }
 		
 	}
 }
