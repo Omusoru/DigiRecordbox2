@@ -2,7 +2,6 @@ package ro.rcsrds.recordbox;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +14,6 @@ public class LoginActivity extends Activity {
 	private EditText etEmail;
 	private EditText etPassword;
 	private Button btnLogin;
-	public static final String PREFS_NAME = "Authentication";
 	private Authentication auth;
 	
 	@Override
@@ -29,8 +27,7 @@ public class LoginActivity extends Activity {
 		btnLogin = (Button) findViewById(R.id.btn_login);
 		btnLogin.setOnClickListener(new ButtonOnClickListener());	
 		
-		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
-		auth = new Authentication(preferences);
+		auth = new Authentication(this);
 		
 	}
 	

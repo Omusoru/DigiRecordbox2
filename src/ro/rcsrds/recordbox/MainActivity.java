@@ -1,7 +1,6 @@
 package ro.rcsrds.recordbox;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -20,7 +19,6 @@ public class MainActivity extends ActionBarActivity {
 	private Button btnStop;
 	private Button btnCancel;
 	private AudioRecorder recorder;
-	public static final String PREFS_NAME = "Authentication";
 	private Authentication auth;
 	private Runnable Checker;
 	private Handler mHandle = new Handler();
@@ -35,8 +33,7 @@ public class MainActivity extends ActionBarActivity {
 		
 		setContentView(R.layout.activity_main);
 		
-		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
-		auth = new Authentication(preferences);
+		auth = new Authentication(this);
 		
 		//Check if user is logged in
 		if(!auth.isLoggedIn()) {

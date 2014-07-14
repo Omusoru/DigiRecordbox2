@@ -2,6 +2,7 @@ package ro.rcsrds.recordbox;
 
 import java.io.IOException;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -14,15 +15,16 @@ public class Authentication {
 	//private String authToken;
 	private boolean loggedIn;
 	private static final String TAG = "Authentication";
+	public static final String PREFS_NAME = "Authentication";
 	private SharedPreferences preferences;
 	private DigiFTPClient ftp;
 	
-	public Authentication(SharedPreferences preferences) {
+	public Authentication(Context context) {
+		this.preferences = context.getSharedPreferences(PREFS_NAME, 0);
 		this.loggedIn = preferences.getBoolean("loggedIn", false);
 		this.username = preferences.getString("username", "");
 		this.password = preferences.getString("password", "");
 		//this.authToken = preferences.getString("authToken", "");
-		this.preferences = preferences;
 	}
 	
 	public boolean isLoggedIn() {
