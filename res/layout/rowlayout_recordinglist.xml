@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ph_name" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/ph_name" />
 
     <TextView
-        android:id="@+id/tv_description"
+        android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ph_description" />
+        android:layout_alignLeft="@+id/tv_name"
+        android:layout_below="@+id/tv_name"
+        android:text="@string/ph_date" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_name"
+        android:layout_alignBottom="@+id/tv_name"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="22dp"
+        android:text="@string/ph_duration" />
+
+</RelativeLayout>

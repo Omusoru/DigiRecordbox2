@@ -48,13 +48,15 @@ public class RecordingListAdapter extends BaseAdapter {
 		}
 		
 		TextView tvName = (TextView) vi.findViewById(R.id.tv_name);
-		TextView tvDescription = (TextView) vi.findViewById(R.id.tv_description);
+		TextView tvDate = (TextView) vi.findViewById(R.id.tv_date);
+		TextView tvDuration = (TextView) vi.findViewById(R.id.tv_duration);
 		
 		Recording recording = new Recording();
 		recording = recordingList.get(position);
 		
 		tvName.setText(recording.getName());
-		tvDescription.setText(recording.getDescription());
+		tvDate.setText(recording.getDate());
+		tvDuration.setText(recording.getDuration());
 		
 		return vi;
 	}

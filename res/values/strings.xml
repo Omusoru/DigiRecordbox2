@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- global -->
     <string name="app_name">Digi Recordbox</string>
     <string name="hello_world">Hello world!</string>
     
+    <!-- main activity -->
     <string name="btn_recorder_start">Record</string>
     <string name="btn_recorder_pause">Pause</string>
     <string name="btn_recorder_stop">Stop</string>
     <string name="btn_recorder_cancel">Cancel</string>
     
+    <!-- media player activity -->
     <string name="btn_player_play">Play</string>
     <string name="btn_player_pause">Pause</string>
     <string name="btn_player_stop">Stop</string>
     
+    <!-- options menu -->
     <string name="option_menu_logout">Log out</string>
     <string name="option_menu_list">Recording list</string>
     <string name="option_menu_exit">Exit</string>
     
+    <!-- login activity -->
     <string name="btn_login">Log in</string>
     <string name="tv_email">E-mail:</string>
     <string name="tv_password">Password:</string>
     
+    <!-- edit recording activity -->
     <string name="tv_name">Name:</string>
     <string name="tv_description">Description:</string>
     <string name="btn_save">Save</string>
     <string name="btn_save_play">Save and play</string>
     <string name="et_untitled">Untitled</string>
     
+    <!-- recording list activity -->
+    <string name="ph_name">name</string>
+    <string name="ph_date">date</string>
+    <string name="ph_duration">duration</string>
+    
+    <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
 
 </resources>
