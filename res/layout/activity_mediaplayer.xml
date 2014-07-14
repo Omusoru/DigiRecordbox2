@@ -50,4 +50,40 @@
         android:text="00:00"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <TextView
+        android:id="@+id/tv_name_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/sk_bar_player"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="35dp"
+        android:text="@string/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_name_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_description_tag"
+        android:layout_toRightOf="@+id/btn_player_play"
+        android:text="@string/ph_name" />
+
+    <TextView
+        android:id="@+id/tv_description_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_description_tag"
+        android:layout_alignBottom="@+id/tv_description_tag"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ph_description" />
+
+    <TextView
+        android:id="@+id/tv_description_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_name_tag"
+        android:layout_below="@+id/tv_name_tag"
+        android:layout_marginTop="34dp"
+        android:text="@string/tv_description" />
+
 </RelativeLayout>

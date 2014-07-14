@@ -53,7 +53,7 @@ public class RecordingListActivity extends Activity {
 				long id) {
 			//Log.d("Recordinglist","s-a apasat ceva");
 			Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
-			intent.putExtra("filename", recordingList.get((int)id).getFilename());
+			intent.putExtra("id", recordingList.get((int)id).getId());
 			startActivity(intent);
 		}
 		

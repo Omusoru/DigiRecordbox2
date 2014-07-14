@@ -23,6 +23,8 @@ public class MediaPlayerActivity extends Activity {
 	private Runnable timer;
 	private TextView tvCurentTime;
 	private TextView tvTotalTime;	
+	private TextView tvNameContent;
+	private TextView tvDescriptionContent;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +38,19 @@ public class MediaPlayerActivity extends Activity {
 		sbarPlayer = (SeekBar) findViewById(R.id.sk_bar_player);
 		tvCurentTime = (TextView) findViewById(R.id.curentTime);
 		tvTotalTime = (TextView) findViewById(R.id.totalTime);
+		tvNameContent = (TextView) findViewById(R.id.tv_name_content);
+		tvDescriptionContent = (TextView) findViewById(R.id.tv_description_content);
 		
-		//TODO start playing this file:
-		filename = getIntent().getExtras().getString("filename");
-		//Log.d("Mediaplayer",filename);		
+		//Get recording information
+		int id = getIntent().getExtras().getInt("id");
+		DatabaseHelper db = new DatabaseHelper(this);
+		Recording recording = new Recording();
+		recording = db.getRecording(id);
+		filename = recording.getFilename();
+		tvNameContent.setText(recording.getName());
+		tvDescriptionContent.setText(recording.getDescription());
+	
 		player = new MediaPlayer();
-		//Play incepe automat
-		//player.startPlaying(filename);
-		
-		
-		
 		player.startPlaying(filename);
 		sbarPlayer.setMax(player.getPlayerStatus().getDuration());	
 		tvTotalTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()));
