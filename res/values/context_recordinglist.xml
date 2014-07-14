@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="context_recordinglist" >
+        <item>Edit</item>
+        <item>Delete</item>
+        <item>Upload</item>
+        <item>Download</item>	    
+    </string-array>
+    
+    
+</resources>
