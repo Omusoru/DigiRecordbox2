@@ -60,8 +60,8 @@ public class MainActivity extends ActionBarActivity {
 		status = (TextView) findViewById(R.id.Status);
 		status.setText("Saving...");
 		status.setVisibility(View.INVISIBLE);
-
-		recorder = new AudioRecorder();
+		
+		recorder = new AudioRecorder(auth.getUsername());
 		Checker = new Runnable() {
 			
 			@Override
@@ -74,7 +74,8 @@ public class MainActivity extends ActionBarActivity {
 					 // Start EditRecording activity with filename parameter
 					startIntent(filename);
 				}
-				else mHandle.postDelayed(this, 100);				
+				else mHandle.postDelayed(this, 100);
+				Log.d("MergeStatus", Boolean.toString(recorder.getMergeStatus()));
 				
 			}
 		};
