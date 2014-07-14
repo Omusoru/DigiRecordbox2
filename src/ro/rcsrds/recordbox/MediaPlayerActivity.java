@@ -65,12 +65,12 @@ public class MediaPlayerActivity extends Activity {
 		        }
 		        mHandler.postDelayed(this, 100);
 		        Log.d("Mediaplayer",Integer.toString(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()));
-		        if(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()<=0)
+		        if(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()<=200)
 		        {
 		        	player.stopPlaying();
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
-					finish();
+					//finish();
 		        }
 			}			
 		};
@@ -110,7 +110,7 @@ public class MediaPlayerActivity extends Activity {
 	        	mHandler.removeCallbacks(timer);
 	        }
 
-	            @Override
+	        @Override
 	        public void onProgressChanged(SeekBar sbarPlayer, int progress, boolean fromUser) {                
 	            	if(player.getPlayerStatus() != null && fromUser){
 	            		sbarPlayer.setSecondaryProgress(progress);
@@ -119,6 +119,16 @@ public class MediaPlayerActivity extends Activity {
 	        }
 	    });		
 		
+	}
+	
+	@Override
+	protected void onStop() {		
+		super.onStop();
+		mHandler.removeCallbacks(playing);
+    	mHandler.removeCallbacks(timer);
+    	if(player.getPlayerStatus() != null){
+    		player.stopPlaying();
+    	}
 	}
 	
 	private class ButtonOnClickListener implements OnClickListener {
