@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class RecordingListAdapter extends BaseAdapter {
@@ -50,6 +51,8 @@ public class RecordingListAdapter extends BaseAdapter {
 		TextView tvName = (TextView) vi.findViewById(R.id.tv_name);
 		TextView tvDate = (TextView) vi.findViewById(R.id.tv_date);
 		TextView tvDuration = (TextView) vi.findViewById(R.id.tv_duration);
+		ImageView ivStatusLocal = (ImageView) vi.findViewById(R.id.iv_status_local);
+		ImageView ivStatusCloud = (ImageView) vi.findViewById(R.id.iv_status_cloud);
 		
 		Recording recording = new Recording();
 		recording = recordingList.get(position);
@@ -57,6 +60,12 @@ public class RecordingListAdapter extends BaseAdapter {
 		tvName.setText(recording.getName());
 		tvDate.setText(recording.getDate());
 		tvDuration.setText(recording.getDuration());
+		if(recording.isOnLocal()) {
+			ivStatusLocal.setBackgroundResource(R.drawable.status_local);
+		}
+		if(recording.isOnCloud()) {
+			ivStatusCloud.setBackgroundResource(R.drawable.status_cloud);
+		}
 		
 		return vi;
 	}
