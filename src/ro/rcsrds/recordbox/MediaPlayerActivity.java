@@ -52,7 +52,7 @@ public class MediaPlayerActivity extends Activity {
 	
 		player = new MediaPlayer();
 		player.startPlaying(filename);
-		sbarPlayer.setMax(player.getPlayerStatus().getDuration());	
+		sbarPlayer.setMax(player.getPlayerStatus().getDuration()-200);	
 		tvTotalTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()));
 		
 		playing = new Runnable() {
@@ -65,9 +65,9 @@ public class MediaPlayerActivity extends Activity {
 		        }
 		        mHandler.postDelayed(this, 100);
 		        Log.d("Mediaplayer",Integer.toString(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()));
-		        if(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()<=200)
+		        if(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()<=0)
 		        {
-		        	player.stopPlaying();
+		        	//player.stopPlaying();		        
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
 					//finish();
@@ -95,6 +95,8 @@ public class MediaPlayerActivity extends Activity {
 	        @Override
 	        public void onStopTrackingTouch(SeekBar sbarPlayer) {	        	
 	        	if(player.getPlayerStatus() != null){
+	        		player.stopPlaying();
+	        		player.startPlaying(filename);
                 	player.getPlayerStatus().seekTo(sbarPlayer.getSecondaryProgress());
                 	player.setCurentPosition(sbarPlayer.getSecondaryProgress());
                 	tvCurentTime.setText(getTimeFormat(sbarPlayer.getSecondaryProgress()));
