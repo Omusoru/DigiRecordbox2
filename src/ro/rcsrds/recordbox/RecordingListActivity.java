@@ -68,7 +68,7 @@ public class RecordingListActivity extends Activity {
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 		int menuItemIndex = item.getItemId();
 		String[] menuItems = getResources().getStringArray(R.array.context_recordinglist);
 		//String menuItemName = menuItems[menuItemIndex];
@@ -80,25 +80,14 @@ public class RecordingListActivity extends Activity {
 			break;
 			
 		case 1: // Upload to cloud
-			Log.d("Recordinglist","Upload to cloud");
-			
-			// upload file
-			new Thread(new Runnable() {
-			    public void run() {
-			    	fm.upload(recordingList.get(info.position).getFilename());
-			    }
-			  }).start();
-			
-			// update recording database entry on_cloud to True
-			Recording recording = new Recording();
-			recording = recordingList.get(info.position);
-			recording.setOnCloud(true);
-			db.updateRecording(recording);
-			recording = null;
-			break;
-			
+			Log.d("Recordinglist","Upload to cloud");			
+			uploadToCloud(info.position);
+			restartActivity();
+			break;			
 		case 2: // Download from cloud
 			Log.d("Recordinglist","Download from cloud");
+			downloadFromCloud(info.position);
+			restartActivity();
 			break;
 		case 3: // Delete local file
 			Log.d("Recordinglist","Delete local file");
@@ -125,6 +114,46 @@ public class RecordingListActivity extends Activity {
 		}
 		
 			
+	}
+	
+	private void restartActivity() {
+		finish();
+		Intent intent = new Intent(RecordingListActivity.this,RecordingListActivity.class);
+		startActivity(intent);
+	}
+	
+	private void uploadToCloud(final int position) {
+		// upload file
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm.upload(recordingList.get(position).getFilename());
+		    }
+		}).start();
+		
+		// update recording database entry on_cloud to True
+		Recording recording = new Recording();
+		recording = recordingList.get(position);
+		recording.setOnCloud(true);
+		db.updateRecording(recording);
+		recording = null;
+	}
+	
+	private void downloadFromCloud(final int position) {
+		
+		// download file
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm.download(recordingList.get(position).getFilename());
+		    }
+		}).start();
+		
+		// update recording database entry on_local to True
+		Recording recording = new Recording();
+		recording = recordingList.get(position);
+		recording.setOnLocal(true);
+		db.updateRecording(recording);
+		recording = null;
+		
 	}
 	
 
