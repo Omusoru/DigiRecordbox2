@@ -25,6 +25,7 @@ public class MediaPlayerActivity extends Activity {
 	private TextView tvTotalTime;	
 	private TextView tvNameContent;
 	private TextView tvDescriptionContent;
+	private boolean online;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class MediaPlayerActivity extends Activity {
 		tvDescriptionContent.setText(recording.getDescription());
 	
 		player = new MediaPlayer(this);
-		player.startPlaying(filename);
+		player.startPlaying(filename,online);
 		sbarPlayer.setMax(player.getPlayerStatus().getDuration());	
 		tvTotalTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()));
 		
