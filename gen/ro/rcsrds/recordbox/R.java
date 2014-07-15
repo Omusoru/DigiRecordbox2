@@ -16,6 +16,9 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
+    public static final class array {
+        public static final int context_recordinglist=0x7f0c0000;
+    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -858,11 +861,13 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070006;
+        public static final int abc_search_url_text_holo=0x7f070008;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
+        public static final int blue=0x7f070007;
         public static final int gray=0x7f070004;
+        public static final int green=0x7f070006;
         public static final int light=0x7f070003;
         public static final int red=0x7f070005;
     }
@@ -1083,6 +1088,9 @@ containing a value of this type.
         public static final int button=0x7f020057;
         public static final int digirecordbox=0x7f020058;
         public static final int ic_launcher=0x7f020059;
+        public static final int status_cloud=0x7f02005a;
+        public static final int status_local=0x7f02005b;
+        public static final int status_none=0x7f02005c;
     }
     public static final class id {
         public static final int Status=0x7f05004f;
@@ -1130,15 +1138,18 @@ containing a value of this type.
         public static final int ifRoom=0x7f05000a;
         public static final int image=0x7f050027;
         public static final int img_logo=0x7f050049;
+        public static final int iv_status_cloud=0x7f05005e;
+        public static final int iv_status_local=0x7f05005d;
+        public static final int list=0x7f05005a;
         public static final int listMode=0x7f050001;
         public static final int list_item=0x7f050029;
         public static final int middle=0x7f050012;
         public static final int never=0x7f050009;
         public static final int none=0x7f050010;
         public static final int normal=0x7f050000;
-        public static final int option_menu_exit=0x7f050058;
-        public static final int option_menu_list=0x7f050057;
-        public static final int option_menu_logout=0x7f050056;
+        public static final int option_menu_exit=0x7f050061;
+        public static final int option_menu_list=0x7f050060;
+        public static final int option_menu_logout=0x7f05005f;
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int radio=0x7f05002f;
@@ -1167,9 +1178,15 @@ containing a value of this type.
         public static final int title=0x7f05002b;
         public static final int top_action_bar=0x7f050020;
         public static final int totalTime=0x7f050054;
+        public static final int tv_date=0x7f05005b;
         public static final int tv_description=0x7f050041;
+        public static final int tv_description_content=0x7f050059;
+        public static final int tv_description_tag=0x7f050058;
+        public static final int tv_duration=0x7f05005c;
         public static final int tv_email=0x7f050048;
         public static final int tv_name=0x7f05003e;
+        public static final int tv_name_content=0x7f050057;
+        public static final int tv_name_tag=0x7f050056;
         public static final int tv_password=0x7f050047;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
@@ -1230,10 +1247,11 @@ containing a value of this type.
         public static final int activity_main=0x7f03001a;
         public static final int activity_mediaplayer=0x7f03001b;
         public static final int activity_recordinglist=0x7f03001c;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001d;
+        public static final int rowlayout_recordinglist=0x7f03001d;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001e;
     }
     public static final class menu {
-        public static final int main=0x7f0c0000;
+        public static final int main=0x7f0d0000;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1276,25 +1294,45 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
+        /**  global 
+         */
         public static final int app_name=0x7f0a000d;
+        /**  login activity 
+         */
         public static final int btn_login=0x7f0a0019;
         public static final int btn_player_pause=0x7f0a0014;
+        /**  media player activity 
+         */
         public static final int btn_player_play=0x7f0a0013;
         public static final int btn_player_stop=0x7f0a0015;
         public static final int btn_recorder_cancel=0x7f0a0012;
         public static final int btn_recorder_pause=0x7f0a0010;
+        /**  main activity 
+         */
         public static final int btn_recorder_start=0x7f0a000f;
         public static final int btn_recorder_stop=0x7f0a0011;
         public static final int btn_save=0x7f0a001e;
         public static final int btn_save_play=0x7f0a001f;
         public static final int et_untitled=0x7f0a0020;
         public static final int hello_world=0x7f0a000e;
-        public static final int message_authentication_failed=0x7f0a0021;
+        /**  messages 
+         */
+        public static final int message_authentication_failed=0x7f0a0025;
         public static final int option_menu_exit=0x7f0a0018;
         public static final int option_menu_list=0x7f0a0017;
+        /**  options menu 
+         */
         public static final int option_menu_logout=0x7f0a0016;
+        public static final int ph_date=0x7f0a0022;
+        public static final int ph_description=0x7f0a0024;
+        public static final int ph_duration=0x7f0a0023;
+        /**  recording list activity 
+         */
+        public static final int ph_name=0x7f0a0021;
         public static final int tv_description=0x7f0a001d;
         public static final int tv_email=0x7f0a001a;
+        /**  edit recording activity 
+         */
         public static final int tv_name=0x7f0a001c;
         public static final int tv_password=0x7f0a001b;
     }
