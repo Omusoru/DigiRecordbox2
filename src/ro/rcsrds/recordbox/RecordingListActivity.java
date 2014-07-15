@@ -28,9 +28,13 @@ public class RecordingListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recordinglist);
-		Log.d("Recordinglist","TEST TEST");
 		
-		fm = new FileManager(this);
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm = new FileManager(RecordingListActivity.this);
+		   }
+		}).start();
+		
 		
 		loadRecordings();
 		
@@ -128,7 +132,7 @@ public class RecordingListActivity extends Activity {
 		new Thread(new Runnable() {
 		    public void run() {
 		    	fm.upload(recordingList.get(position).getFilename());
-		    }
+		   }
 		}).start();
 		
 		// update recording database entry on_cloud to True
