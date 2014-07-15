@@ -144,7 +144,7 @@ public class MediaPlayerActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_player_play) {
-				player.startPlaying(filename);
+				player.startPlaying(filename,online);
 				switchButtons();
 			} else if(v.getId()==R.id.btn_player_stop) {
 				player.stopPlaying();
