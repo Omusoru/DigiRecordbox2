@@ -24,7 +24,9 @@ public class EditRecordingActivity extends ActionBarActivity {
 	private String filename;
 	private String owner;
 	private int lastRecordingId;
+	private boolean newRecording;
 	public static final String PREFS_NAME = "Authentication";
+	private Recording recording;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +40,17 @@ public class EditRecordingActivity extends ActionBarActivity {
 		btnSavePlay = (Button) findViewById(R.id.btn_save_play);
 		btnSavePlay.setOnClickListener(new ButtonOnClickListener());
 		
-		// get filename parameter passed from mainactivity
-		if(getIntent().getExtras().containsKey("filename")) {
-			filename = getIntent().getExtras().getString("filename");
-		}
-		if(getIntent().getExtras().getBoolean("new")) {
-			Log.d("Upload", "this is new");
-		} else {
-			Log.d("Upload", "this is not new");
-		}
 		
+		if(getIntent().getExtras().getBoolean("new")) {
+			newRecording = true;
+			// get filename parameter passed from main activity
+			filename = getIntent().getExtras().getString("filename");
+		} else {			
+			newRecording = false;
+			// get recording id passed from recording list
+			lastRecordingId = getIntent().getExtras().getInt("id");	
+			getRecordingInfo();
+		}
 		
 		// get logged in username
 		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
@@ -59,10 +62,21 @@ public class EditRecordingActivity extends ActionBarActivity {
 		@Override
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_save) {
-				saveRecording();
+				if(newRecording) {
+					saveRecording();
+				} else {
+					editRecording();
+					Intent intent = new Intent(EditRecordingActivity.this,RecordingListActivity.class);
+					startActivity(intent);
+				}
+				
 				finish();
 			} else if(v.getId()==R.id.btn_save_play) {
-				saveRecording();
+				if(newRecording) {
+					saveRecording();
+				} else {
+					editRecording();
+				}
 				finish();
 				// Launch media player with filename parameter
 				Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
@@ -93,6 +107,22 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 	}
 	
+	private void getRecordingInfo() {
+		DatabaseHelper db = new DatabaseHelper(this);
+		recording = db.getRecording(lastRecordingId);
+		// populate fields
+		etName.setText(recording.getName());
+		etDescription.setText(recording.getDescription());
+	}
+	
+	private void editRecording() {
+		DatabaseHelper db = new DatabaseHelper(this);
+		recording.setName(etName.getText().toString());
+		recording.setDescription(etDescription.getText().toString());
+		db.updateRecording(recording);
+		recording = null;
+	}
+	
 	private String getCurrentFormatedDate() {
 		
 		Calendar c = Calendar.getInstance();
@@ -117,5 +147,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 		return totext;
 	}
+	
+	
 
 }

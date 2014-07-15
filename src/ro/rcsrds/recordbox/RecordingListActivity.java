@@ -82,6 +82,10 @@ public class RecordingListActivity extends Activity {
 		switch(menuItemIndex) {
 		case 0: // Edit recording
 			Log.d("Recordinglist","Edit recording");
+			Intent intent = new Intent(RecordingListActivity.this, EditRecordingActivity.class);
+			intent.putExtra("id", recordingList.get(info.position).getId());
+			intent.putExtra("new",false);
+			startActivity(intent);
 			break;
 			
 		case 1: // Upload to cloud
