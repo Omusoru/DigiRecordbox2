@@ -21,8 +21,7 @@ public class FileManager {
 	private String localFilePath;
 	private String username;
 	private String password;
-	private Mount mount;
-	private StorageApi api;
+
 	
 	public FileManager(Context context){				
 		preferences = context.getSharedPreferences(PREFS_NAME, 0);
@@ -32,7 +31,7 @@ public class FileManager {
 		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
 		username = preferences.getString("username", "");
 		password = preferences.getString("password", "");
-		try {
+		/*try {
 			api = DefaultClientFactory.create("storage.rcs-rds.ro",username, password);
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
@@ -43,7 +42,7 @@ public class FileManager {
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public boolean upload(String file){
@@ -51,6 +50,23 @@ public class FileManager {
 		file = localFilePath + file;
 		file.replace("/", "\\");
 		
+		StorageApi api = null;
+		Mount mount =null;
+		try {
+			api = DefaultClientFactory.create("storage.rcs-rds.ro",username, password);
+		} catch (StorageApiException e1) {
+			// TODO Auto-generated catch block
+			Log.d("FileManager",e1.getMessage());
+			return false;
+		}
+		try {
+			mount = api.getMounts().get(0);
+		} catch (StorageApiException e1) {
+			// TODO Auto-generated catch block
+			Log.d("FileManager",e1.getMessage());
+			return false;
+		}
+
 		try {
 			api.createFolder(mount.getId(), "/", "DigiRecordbox");
 		} catch (StorageApiException e) {
@@ -70,18 +86,34 @@ public class FileManager {
 	
 	public boolean download(String file){
 		String location = localFilePath.replace("/", "\\");
+		StorageApi api = null;
+		Mount mount =null;
+		try {
+			api = DefaultClientFactory.create("storage.rcs-rds.ro",username, password);
+		} catch (StorageApiException e1) {
+			// TODO Auto-generated catch block
+			Log.d("FileManager",e1.getMessage());
+			return false;
+		}
+		try {
+			mount = api.getMounts().get(0);
+		} catch (StorageApiException e1) {
+			// TODO Auto-generated catch block
+			Log.d("FileManager",e1.getMessage());
+			return false;
+		}
 		try {
 			api.filesDownload(mount.getId(), "/DigiRecordbox/"+file, location, new SimpleProgressListener());
 			return true;
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d("FileManager",e.getMessage());
 			return false;
 		}
 	}
 	
 	public boolean delete(String file){
-		//api.delete
+		//api.
 		return false;
 	}
 	
