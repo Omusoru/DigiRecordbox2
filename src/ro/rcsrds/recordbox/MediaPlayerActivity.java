@@ -95,13 +95,19 @@ public class MediaPlayerActivity extends Activity {
 
 	        @Override
 	        public void onStopTrackingTouch(SeekBar sbarPlayer) {
-	        		player.pausePlaying();	        		
+	        		player.pausePlaying();
+	        		if(sbarPlayer.getProgress()==player.getPlayerStatus().getDuration()){
+	        		sbarPlayer.setProgress(sbarPlayer.getProgress());
+	        		}
+	        		else{
+	        			sbarPlayer.setProgress(sbarPlayer.getProgress());
+	        		
                 	player.resumePlayingAt(sbarPlayer.getProgress());
                 	player.setCurentPosition(sbarPlayer.getProgress());
                 	tvCurentTime.setText(getTimeFormat(sbarPlayer.getProgress()));
-                
-	        	mHandler.post(playing);
-	        	mHandler.post(timer);
+                	mHandler.post(playing);
+    	        	mHandler.post(timer);
+	        		}
 	        }
 
 	        @Override
@@ -115,6 +121,7 @@ public class MediaPlayerActivity extends Activity {
 	            	if(player.getPlayerStatus() != null && fromUser){
 	            		sbarPlayer.setProgress(progress);
 	                    tvCurentTime.setText(getTimeFormat(progress));
+	                    Log.d("SeekBar",Integer.toString(player.getPlayerStatus().getDuration()-progress));
 	                }
 	        }
 	    });		
