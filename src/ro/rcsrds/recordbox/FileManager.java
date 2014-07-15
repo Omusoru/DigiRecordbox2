@@ -12,6 +12,7 @@ import net.koofr.api.v2.transfer.upload.UploadData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.util.Log;
 
 public class FileManager {
 	
@@ -52,67 +53,36 @@ public class FileManager {
 		
 		try {
 			api.createFolder(mount.getId(), "/", "DigiRecordbox");
+		} catch (StorageApiException e) {
+			Log.d("FileManager",e.getMessage());
+		}
+		try {
 			UploadData data = new FileUploadData(file);  
 			api.filesUpload(mount.getId(), "/DigiRecordbox", data, new SimpleProgressListener());
 			return true;
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d("FileManager",e.getMessage());
 			return false;
 		}
 
 	}
 	
 	public boolean download(String file){
-		String username = preferences.getString("username", "").toLowerCase();
-		username = username.replace(".", "DOT");
-		username = username.replace("@", "AT");
-		String filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username;
-		filePath=filePath.replace("/", "\\");
-		
-		DigiFTPClient ftp=new DigiFTPClient("storage.rcs-rds.ro",21,preferences.getString("username", ""),preferences.getString("password", ""));
-		 try {
-				ftp.connect();
-				ftp.changeWorkingDir("Digi Cloud");
-				if(!ftp.dirExists("DigiRecordbox")){
-					return false;
-				}
-				ftp.changeWorkingDir("DigiRecordbox");
-				if(ftp.fileExists(file)){
-					ftp.getFile(ftp.getWorkingDirectory()+"/"+file, filePath);
-					ftp.disconnect();
-					return true;
-				}
-				else return false;
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
-			}
+		String location = localFilePath.replace("/", "\\");
+		try {
+			api.filesDownload(mount.getId(), "/DigiRecordbox/"+file, location, new SimpleProgressListener());
+			return true;
+		} catch (StorageApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	public boolean delete(String file){
-		DigiFTPClient ftp=new DigiFTPClient("storage.rcs-rds.ro",21,preferences.getString("username", ""),preferences.getString("password", ""));
-		 try {
-				ftp.connect();
-				ftp.changeWorkingDir("Digi Cloud");
-				if(!ftp.dirExists("DigiRecordbox")){
-					return false;
-				}
-				ftp.changeWorkingDir("DigiRecordbox");
-				if(ftp.fileExists(file))
-				{
-				ftp.deleteFile(file);
-				ftp.disconnect();
-				return true;
-				}
-				else return false;
-		 } catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
-			}
+		//api.delete
+		return false;
 	}
 	
 	public String[] getFileList(){
