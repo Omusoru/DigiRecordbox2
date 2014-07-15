@@ -1,7 +1,8 @@
 package ro.rcsrds.recordbox;
 
-import java.io.IOException;
-
+import net.koofr.api.v2.DefaultClientFactory;
+import net.koofr.api.v2.StorageApi;
+import net.koofr.api.v2.StorageApiException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -11,13 +12,11 @@ public class Authentication {
 	private String host = "storage.rcs-rds.ro";
 	private String username = "";
 	private String password = "";
-	private int port = 21;
 	//private String authToken;
 	private boolean loggedIn;
 	private static final String TAG = "Authentication";
 	public static final String PREFS_NAME = "Authentication";
 	private SharedPreferences preferences;
-	private DigiFTPClient ftp;
 	
 	public Authentication(Context context) {
 		this.preferences = context.getSharedPreferences(PREFS_NAME, 0);
@@ -40,27 +39,14 @@ public class Authentication {
 	}
 	
 	public boolean logIn(String username, String password) {
-		/*StorageApi api = null;
 		this.loggedIn = true;
 		try {
-			api = DefaultClientFactory.create(this.host,username, password);
+			DefaultClientFactory.create(this.host,username, password);
 		} catch (StorageApiException sae) {
 			Log.e(Authentication.TAG,sae.getMessage());
 			this.loggedIn = false;
-		}*/
+		}	
 		
-		ftp=new DigiFTPClient(this.host,this.port,username,password);
-		try {
-			ftp.connect();
-		} catch (IOException e) {
-			Log.d(Authentication.TAG,e.getMessage());
-		}
-		
-		try {
-			this.loggedIn = ftp.logIn();
-		} catch (Exception e) {
-			Log.d(Authentication.TAG, e.getMessage());
-		}		
 		
 		if(this.loggedIn) {
 			//this.authToken = api.getAuthToken();
@@ -73,16 +59,8 @@ public class Authentication {
 		    //editor.putString("authToken", authToken);
 		    editor.commit();
 		    return true;
-		    
 		} else {
-			try {
-				ftp.disconnect();
-			} catch (IOException e) {
-				Log.d(Authentication.TAG, e.getMessage());
-			}
-			
-			return false;
-			
+			return false;			
 		}
 		
 	}
