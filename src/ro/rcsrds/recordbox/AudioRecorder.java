@@ -48,7 +48,7 @@ public class AudioRecorder {
 		username = username.toLowerCase();
 		username = username.replace(".", "DOT");
 		username = username.replace("@", "AT");
-		filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username;
+		filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
 	}
 	
 	public void startRecording(){
@@ -60,7 +60,7 @@ public class AudioRecorder {
 				folderTest.mkdirs();
 			}
 			
-			folderTest = new File(filePath+"/Temp");
+			folderTest = new File(filePath+"Temp");
 			if(folderTest.isDirectory()){
 				deleteDirectory(folderTest);
 			}
@@ -73,9 +73,9 @@ public class AudioRecorder {
 			Calendar c = Calendar.getInstance();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 			String currentDateandTime = df.format(c.getTime());
-			currentFile=filePath+"/"+currentDateandTime+".mp4";
+			currentFile=filePath+currentDateandTime+".mp4";
 			
-			tempAudio.add(filePath+"/Temp/temp"+"("+timesPaused+").mp4");
+			tempAudio.add(filePath+"Temp/temp"+"("+timesPaused+").mp4");
 			
 			Recorder.setOutputFile(tempAudio.get(0));
 			Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
@@ -105,7 +105,7 @@ public class AudioRecorder {
 			Recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 			Recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 			
-			tempAudio.add(filePath+"/Temp/temp"+"("+timesPaused+").mp4");
+			tempAudio.add(filePath+"Temp/temp"+"("+timesPaused+").mp4");
 			
 			Recorder.setOutputFile(tempAudio.get(timesPaused));
 			Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
@@ -132,7 +132,7 @@ public class AudioRecorder {
         {
         	renameFile(tempAudio.get(0),currentFile);
         	tempAudio=new ArrayList<String>();
-        	deleteDirectory(new File(filePath+"/Temp"));
+        	deleteDirectory(new File(filePath+"Temp"));
         	isMerging=false;
         	//Log.d("Test Tibi","intra aici ?");
         }
@@ -147,7 +147,7 @@ public class AudioRecorder {
 							e.printStackTrace();
 						}
 						isMerging=false;
-						deleteDirectory(new File(filePath+"/Temp"));
+						deleteDirectory(new File(filePath+"Temp"));
 			        	tempAudio=new ArrayList<String>();
 					}
 				};
@@ -174,7 +174,7 @@ public class AudioRecorder {
 	        Recorder.release();
 	        Recorder = null;
 		}
-		deleteDirectory(new File(filePath+"/Temp"));
+		deleteDirectory(new File(filePath+"Temp"));
 		tempAudio=new ArrayList<String>();
 		canRecord = true;
         isRecording = false;
@@ -262,8 +262,8 @@ public class AudioRecorder {
 	
 	public String getLastFilename(){
         String filename = currentFile;
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox";
-        filename = filename.replace(path+"/", "");        
+        //String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox";
+        filename = filename.replace(filePath, "");        
         
         return filename;
 	}

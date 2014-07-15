@@ -2,29 +2,43 @@ package ro.rcsrds.recordbox;
 
 import java.io.IOException;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Log;
 
 public class MediaPlayer {
 	private static final String LOG_TAG="Testing MediaPlayer";
+	private static final String PREFS_NAME="Authentication";
 	
 	private android.media.MediaPlayer Player = null;	
 	
-	private String file = null;
+	private String localFilePath;
 	
 	private int playingPausedAt;
+	private String username;
+	
+	private SharedPreferences preferences;
 	
 	private boolean isPlaying = false;
 	private boolean canPlay = true;
 	
+	public MediaPlayer(Context context) {
+		this.preferences = context.getSharedPreferences(PREFS_NAME, 0);
+		username = preferences.getString("username", "").toLowerCase();
+		username = username.replace(".", "DOT");
+		username = username.replace("@", "AT");
+		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
+		
+	}
+	
 	public void startPlaying(String filename) {
-		String filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+filename;		
+		localFilePath = localFilePath + filename;
 		if(canPlay){
-	    	file=filePath;
 	        Player = new android.media.MediaPlayer();
 	        
 	        try {
-	            Player.setDataSource(file);
+	            Player.setDataSource(localFilePath);
 	            Player.prepare();
 	            Player.start();
 	        } catch (IOException e) {
@@ -74,7 +88,7 @@ public class MediaPlayer {
     // !!!!!!! reinstantiaza Player. NU apela odata cu startRecording(); !!!!!!!!!!
     public int getDuration (String filename) {
     	android.media.MediaPlayer Player2 = new android.media.MediaPlayer();
-    	String filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+filename;
+    	String filePath= localFilePath + filename;
     	try {
     		Player2.setDataSource(filePath);
     		Player2.prepare();

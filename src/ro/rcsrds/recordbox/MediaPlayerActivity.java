@@ -50,9 +50,9 @@ public class MediaPlayerActivity extends Activity {
 		tvNameContent.setText(recording.getName());
 		tvDescriptionContent.setText(recording.getDescription());
 	
-		player = new MediaPlayer();
+		player = new MediaPlayer(this);
 		player.startPlaying(filename);
-		sbarPlayer.setMax(player.getPlayerStatus().getDuration()-200);	
+		sbarPlayer.setMax(player.getPlayerStatus().getDuration());	
 		tvTotalTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()));
 		
 		playing = new Runnable() {
@@ -65,7 +65,7 @@ public class MediaPlayerActivity extends Activity {
 		        }
 		        mHandler.postDelayed(this, 100);
 		        Log.d("Mediaplayer",Integer.toString(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()));
-		        if(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()<=0)
+		        if(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()<=200)
 		        {
 		        	//player.stopPlaying();		        
 		        	mHandler.removeCallbacks(this);

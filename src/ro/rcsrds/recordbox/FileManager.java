@@ -12,9 +12,12 @@ public class FileManager {
 	private SharedPreferences preferences;
 	private String localFilePath;
 	
-	public FileManager(Context context){
-		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/";
+	public FileManager(Context context){				
 		preferences = context.getSharedPreferences(PREFS_NAME, 0);
+		String username = preferences.getString("username", "").toLowerCase();
+		username = username.replace(".", "DOT");
+		username = username.replace("@", "AT");
+		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
 	}
 	
 	public boolean upload(String file){

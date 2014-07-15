@@ -28,6 +28,7 @@ public class RecordingListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recordinglist);
+		Log.d("Recordinglist","TEST TEST");
 		
 		fm = new FileManager(this);
 		

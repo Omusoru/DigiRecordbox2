@@ -93,7 +93,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	}
 	
 	private String getDuration() {
-		MediaPlayer player = new MediaPlayer();	
+		MediaPlayer player = new MediaPlayer(this);	
 		return getTimeFormat(player.getDuration(filename));
 	}
 	
