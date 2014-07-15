@@ -54,8 +54,15 @@ public class FileManager {
 		
 		try {
 			api.createFolder(mount.getId(), "/", "DigiRecordbox");
+			return true;
+		} catch (StorageApiException e) {
+			// TODO Auto-generated catch block
+			Log.d("FileManager",e.getMessage());
+		}
+		
+		try {
 			UploadData data = new FileUploadData(file);  
-			api.filesUpload(mount.getId(), "/DigiRecordbox", data, new SimpleProgressListener());
+			api.filesUpload(mount.getId(), "/DigiRecordbox/", data, new SimpleProgressListener());
 			return true;
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
