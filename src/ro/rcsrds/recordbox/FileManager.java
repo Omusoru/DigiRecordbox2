@@ -115,4 +115,14 @@ public class FileManager {
 		else return false;
 	}
 	
+	public String getFileLink(String file){
+		try {
+			return api.getDownloadURL(mount.getId(), "/DigiRecordBox/"+file);
+		} catch (StorageApiException e) {
+			// TODO Auto-generated catch block
+			Log.d("FileManager",e.getMessage());
+			return null;
+		}
+	}
+	
 }

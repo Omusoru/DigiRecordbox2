@@ -32,8 +32,11 @@ public class MediaPlayer {
 		
 	}
 	
-	public void startPlaying(String filename) {
-		localFilePath = localFilePath + filename;
+	public void startPlaying(String filename,Boolean online) {
+		if(online){
+			localFilePath=filename;
+		}
+		else localFilePath = localFilePath + filename;
 		if(canPlay){
 			if(Player==null){
 			    Player = new android.media.MediaPlayer();
