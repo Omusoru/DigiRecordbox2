@@ -70,6 +70,7 @@ public class MediaPlayerActivity extends Activity {
 		        	//player.stopPlaying();		        
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
+		        	sbarPlayer.setProgress(player.getPlayerStatus().getDuration());
 					//finish();
 		        }
 			}			
