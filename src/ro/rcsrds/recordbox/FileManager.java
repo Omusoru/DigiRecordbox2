@@ -6,6 +6,7 @@ import java.util.List;
 import net.koofr.api.v2.DefaultClientFactory;
 import net.koofr.api.v2.StorageApi;
 import net.koofr.api.v2.StorageApiException;
+import net.koofr.api.v2.resources.File;
 import net.koofr.api.v2.resources.Mount;
 import net.koofr.api.v2.transfer.upload.FileUploadData;
 import net.koofr.api.v2.transfer.upload.UploadData;
@@ -21,7 +22,8 @@ public class FileManager {
 	private String localFilePath;
 	private String username;
 	private String password;
-
+	private Mount mount;
+	private StorageApi api;
 	
 	public FileManager(Context context){				
 		preferences = context.getSharedPreferences(PREFS_NAME, 0);
@@ -31,18 +33,18 @@ public class FileManager {
 		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
 		username = preferences.getString("username", "");
 		password = preferences.getString("password", "");
-		/*try {
+		try {
 			api = DefaultClientFactory.create("storage.rcs-rds.ro",username, password);
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d("FileManager",e.getMessage());
 		}
 		try {
 			mount = api.getMounts().get(0);
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+			Log.d("FileManager",e.getMessage());
+		}
 	}
 	
 	public boolean upload(String file){
@@ -50,29 +52,8 @@ public class FileManager {
 		file = localFilePath + file;
 		file.replace("/", "\\");
 		
-		StorageApi api = null;
-		Mount mount =null;
-		try {
-			api = DefaultClientFactory.create("storage.rcs-rds.ro",username, password);
-		} catch (StorageApiException e1) {
-			// TODO Auto-generated catch block
-			Log.d("FileManager",e1.getMessage());
-			return false;
-		}
-		try {
-			mount = api.getMounts().get(0);
-		} catch (StorageApiException e1) {
-			// TODO Auto-generated catch block
-			Log.d("FileManager",e1.getMessage());
-			return false;
-		}
-
 		try {
 			api.createFolder(mount.getId(), "/", "DigiRecordbox");
-		} catch (StorageApiException e) {
-			Log.d("FileManager",e.getMessage());
-		}
-		try {
 			UploadData data = new FileUploadData(file);  
 			api.filesUpload(mount.getId(), "/DigiRecordbox", data, new SimpleProgressListener());
 			return true;
@@ -86,22 +67,6 @@ public class FileManager {
 	
 	public boolean download(String file){
 		String location = localFilePath.replace("/", "\\");
-		StorageApi api = null;
-		Mount mount =null;
-		try {
-			api = DefaultClientFactory.create("storage.rcs-rds.ro",username, password);
-		} catch (StorageApiException e1) {
-			// TODO Auto-generated catch block
-			Log.d("FileManager",e1.getMessage());
-			return false;
-		}
-		try {
-			mount = api.getMounts().get(0);
-		} catch (StorageApiException e1) {
-			// TODO Auto-generated catch block
-			Log.d("FileManager",e1.getMessage());
-			return false;
-		}
 		try {
 			api.filesDownload(mount.getId(), "/DigiRecordbox/"+file, location, new SimpleProgressListener());
 			return true;
@@ -112,29 +77,27 @@ public class FileManager {
 		}
 	}
 	
-	public boolean delete(String file){
-		//api.
-		return false;
+	public boolean deleteCloud(String file){
+		try {
+			api.removePath(mount.getId(), "/DigiRecordbox/"+file);
+			return true;
+		} catch (StorageApiException e) {
+			// TODO Auto-generated catch block
+			Log.d("FileManager",e.getMessage());
+			return false;
+		}
 	}
 	
-	public String[] getFileList(){
-		DigiFTPClient ftp=new DigiFTPClient("storage.rcs-rds.ro",21,preferences.getString("username", ""),preferences.getString("password", ""));
-		String[] files;
+	public List<File> getFileListCloud(){
 		try {
-			ftp.connect();
-			ftp.changeWorkingDir("Digi Cloud");
-			if(!ftp.dirExists("DigiRecordbox")){
-				ftp.makeDir("DigiRecordbox");
-			}
-			ftp.changeWorkingDir("DigiRecordbox");
-			files=ftp.getFileList(ftp.getWorkingDirectory());
-			ftp.disconnect();
-			return files;
-		} catch (IOException e) {
+			return api.listFiles(mount.getId(), "/DigiRecordbox/");
+		} catch (StorageApiException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return files=new String[]{};
+			Log.d("FileManager",e1.getMessage());
+			List<File> files = null;
+			return files;
 		}
+		
 	}
 	
 }
