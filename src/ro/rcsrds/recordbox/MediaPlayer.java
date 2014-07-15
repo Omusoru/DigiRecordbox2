@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Environment;
 import android.util.Log;
 
@@ -33,23 +34,27 @@ public class MediaPlayer {
 	}
 	
 	public void startPlaying(String filename,Boolean online) {
-		if(online){
+		if(online){			
 			localFilePath=filename;
 		}
 		else localFilePath = localFilePath + filename;
 		if(canPlay){
 			if(Player==null){
-			    Player = new android.media.MediaPlayer();
+			    Player = new android.media.MediaPlayer();			    
+			    if(online) Player.setAudioStreamType(AudioManager.STREAM_MUSIC);	    
+			   
 			}
 			else
 			{
 				Player.release();
 				Player=null;
 				Player = new android.media.MediaPlayer();
+				if(online) Player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 			}
 	        
-	        try {
+	        try {	        	
 	            Player.setDataSource(localFilePath);
+	            //Log.d("dltest","AJUNGE AICI");
 	            Player.prepare();
 	            Player.start();
 	        } catch (IOException e) {

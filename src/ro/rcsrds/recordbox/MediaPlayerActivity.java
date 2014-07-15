@@ -16,7 +16,7 @@ public class MediaPlayerActivity extends Activity {
 	private Button btnPlay;
 	private Button btnStop;
 	private MediaPlayer player;
-	private String filename;
+	private String filename = null;
 	private SeekBar sbarPlayer;
 	private Handler mHandler = new Handler();
 	private Runnable playing;
@@ -26,6 +26,8 @@ public class MediaPlayerActivity extends Activity {
 	private TextView tvNameContent;
 	private TextView tvDescriptionContent;
 	private boolean online;
+	private FileManager fm;
+	private Recording recording;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,31 @@ public class MediaPlayerActivity extends Activity {
 		
 		//Get recording information
 		int id = getIntent().getExtras().getInt("id");
-		DatabaseHelper db = new DatabaseHelper(this);
-		Recording recording = new Recording();
+		DatabaseHelper db = new DatabaseHelper(this);		
+		recording = new Recording();
 		recording = db.getRecording(id);
-		filename = recording.getFilename();
+		if(recording.isOnLocal()){
+			//Log.d("dltest", "TEST INAINTE DE FM");
+			filename = recording.getFilename();
+			online = false;
+		}
+		else{
+			//Log.d("dltest", "TEST INAINTE DE FM");
+			
+			new Thread(new Runnable() {
+			      public void run() {			    	
+			       fm = new FileManager(MediaPlayerActivity.this);
+			       filename = fm.getFileLink(recording.getFilename());
+			       //Log.d("dltest",filename);
+			     }
+			  }).start();
+			//Log.d("dltest", recording.getFilename());
+			//Log.d("dltest",fm.getFileLink(recording.getFilename()));
+			//filename = fm.getFileLink(recording.getFilename());
+			online = true;
+			while(filename == null){			
+			}
+		}
 		tvNameContent.setText(recording.getName());
 		tvDescriptionContent.setText(recording.getDescription());
 	
