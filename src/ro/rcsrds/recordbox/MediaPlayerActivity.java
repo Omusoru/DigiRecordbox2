@@ -93,15 +93,12 @@ public class MediaPlayerActivity extends Activity {
 		sbarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 	        @Override
-	        public void onStopTrackingTouch(SeekBar sbarPlayer) {	        	
-	        	if(player.getPlayerStatus() != null){
-	        		player.stopPlaying();
-	        		player.startPlaying(filename);
-                	player.getPlayerStatus().seekTo(sbarPlayer.getProgress());
+	        public void onStopTrackingTouch(SeekBar sbarPlayer) {
+	        		player.pausePlaying();	        		
+                	player.resumePlayingAt(sbarPlayer.getProgress());
                 	player.setCurentPosition(sbarPlayer.getProgress());
                 	tvCurentTime.setText(getTimeFormat(sbarPlayer.getProgress()));
-                	
-                }
+                
 	        	mHandler.post(playing);
 	        	mHandler.post(timer);
 	        }
@@ -109,7 +106,7 @@ public class MediaPlayerActivity extends Activity {
 	        @Override
 	        public void onStartTrackingTouch(SeekBar sbarPlayer) {
 	        	mHandler.removeCallbacks(playing);
-	        	mHandler.removeCallbacks(timer);
+	        	mHandler.removeCallbacks(timer);	        	
 	        }
 
 	        @Override

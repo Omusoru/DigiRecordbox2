@@ -35,7 +35,15 @@ public class MediaPlayer {
 	public void startPlaying(String filename) {
 		localFilePath = localFilePath + filename;
 		if(canPlay){
-	        Player = new android.media.MediaPlayer();
+			if(Player==null){
+			    Player = new android.media.MediaPlayer();
+			}
+			else
+			{
+				Player.release();
+				Player=null;
+				Player = new android.media.MediaPlayer();
+			}
 	        
 	        try {
 	            Player.setDataSource(localFilePath);
@@ -96,6 +104,18 @@ public class MediaPlayer {
     		Log.d(LOG_TAG,"IOException: "+ioe.getMessage());
     	}
     	return Player2.getDuration();    	
+    }
+    
+    public void pausePlaying(){
+    	Player.pause();
+		playingPausedAt = Player.getCurrentPosition();
+		isPlaying=false;
+    }
+    
+    public void resumePlayingAt(int time){
+    	Player.seekTo(time);
+		Player.start();    		
+		isPlaying=true;
     }
     
 }
