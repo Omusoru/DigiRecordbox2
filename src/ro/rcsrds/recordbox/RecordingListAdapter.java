@@ -13,13 +13,13 @@ import android.widget.TextView;
 
 public class RecordingListAdapter extends BaseAdapter {
 
-	private Activity activity;
+	//private Activity activity;
 	private List<Recording> recordingList;
 	private static LayoutInflater inflater=null;
 	
 	
 	public RecordingListAdapter(Activity activity, List<Recording> recordingList ) {
-		this.activity = activity;
+		//this.activity = activity;
 		this.recordingList = recordingList;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}

@@ -9,21 +9,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 public class RecordingListActivity extends Activity {	
 	
-//	ArrayList<String> listItems=new ArrayList<String>();
-//	ArrayAdapter<String> adapter;
-	List<Recording> recordingList;
+	private List<Recording> recordingList;
 	private ListView list;
 	private RecordingListAdapter adapter;
 	private FileManager fm;
@@ -43,7 +38,6 @@ public class RecordingListActivity extends Activity {
 		adapter = new RecordingListAdapter(this, recordingList);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new ListOnClickListener());
-		//list.setOnItemLongClickListener(new ListOnLongClickListener());
 		registerForContextMenu(list);
 		
     	    
@@ -80,12 +74,11 @@ public class RecordingListActivity extends Activity {
 		//String menuItemName = menuItems[menuItemIndex];
 		//String listItemName = recordingList.get(info.position).getName();
 	
-		//text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
-		//Log.d("Recordinglist","Selected "+menuItemName+" for item "+listItemName);
 		switch(menuItemIndex) {
 		case 0: // Edit recording
 			Log.d("Recordinglist","Edit recording");
 			break;
+			
 		case 1: // Upload to cloud
 			Log.d("Recordinglist","Upload to cloud");
 			
@@ -103,6 +96,7 @@ public class RecordingListActivity extends Activity {
 			db.updateRecording(recording);
 			recording = null;
 			break;
+			
 		case 2: // Download from cloud
 			Log.d("Recordinglist","Download from cloud");
 			break;
@@ -132,22 +126,6 @@ public class RecordingListActivity extends Activity {
 		
 			
 	}
-	
-//	private class ListOnLongClickListener implements OnItemLongClickListener {
-//
-//		@Override
-//		public boolean onItemLongClick(AdapterView<?> parent, View view,
-//				int position, long id) {
-//			//MenuInflater inflater = new MenuInflater(this);
-//			
-//			return false;
-//		}
-//
-//		
-//		
-//	
-//	}
-	
 	
 
 }
