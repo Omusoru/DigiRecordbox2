@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,7 +39,15 @@ public class EditRecordingActivity extends ActionBarActivity {
 		btnSavePlay.setOnClickListener(new ButtonOnClickListener());
 		
 		// get filename parameter passed from mainactivity
-		filename = getIntent().getExtras().getString("filename");
+		if(getIntent().getExtras().containsKey("filename")) {
+			filename = getIntent().getExtras().getString("filename");
+		}
+		if(getIntent().getExtras().getBoolean("new")) {
+			Log.d("Upload", "this is new");
+		} else {
+			Log.d("Upload", "this is not new");
+		}
+		
 		
 		// get logged in username
 		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);

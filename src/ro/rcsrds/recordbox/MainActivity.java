@@ -153,6 +153,7 @@ public class MainActivity extends ActionBarActivity {
 		Log.d("Mediaplyer","filename after startRecording(): "+filename);
         Intent intent = new Intent(MainActivity.this,EditRecordingActivity.class);
 		intent.putExtra("filename", filename);
+		intent.putExtra("new",true);
 		startActivity(intent);
 	}
 

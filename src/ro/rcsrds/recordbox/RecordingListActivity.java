@@ -116,7 +116,6 @@ public class RecordingListActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			//Log.d("Recordinglist","s-a apasat ceva");
 			Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
 			intent.putExtra("id", recordingList.get((int)id).getId());
 			startActivity(intent);
@@ -126,7 +125,7 @@ public class RecordingListActivity extends Activity {
 	}
 	
 	private void restartActivity() {
-		finish();
+		finish();		
 		Intent intent = new Intent(RecordingListActivity.this,RecordingListActivity.class);
 		startActivity(intent);
 	}
@@ -140,11 +139,8 @@ public class RecordingListActivity extends Activity {
 		}).start();
 		
 		// update recording database entry on_cloud to True
-		Recording recording = new Recording();
-		recording = recordingList.get(position);
-		recording.setOnCloud(true);
-		db.updateRecording(recording);
-		recording = null;
+		updateEntry("cloud", true, position);
+		restartActivity();
 	}
 	
 	private void downloadFromCloud(final int position) {
@@ -157,11 +153,8 @@ public class RecordingListActivity extends Activity {
 		}).start();
 		
 		// update recording database entry on_local to True
-		Recording recording = new Recording();
-		recording = recordingList.get(position);
-		recording.setOnLocal(true);
-		db.updateRecording(recording);
-		recording = null;
+		updateEntry("local",true,position);
+		restartActivity();
 		
 	}
 	
@@ -174,11 +167,8 @@ public class RecordingListActivity extends Activity {
 		}).start();
 		
 		// update recording database entry on_cloud to False
-		Recording recording = new Recording();
-		recording = recordingList.get(position);
-		recording.setOnCloud(false);
-		db.updateRecording(recording);
-		recording = null;
+		updateEntry("cloud",false,position);
+		restartActivity();
 	}
 	
 	private void deleteFromLocal(final int position) {
@@ -190,11 +180,26 @@ public class RecordingListActivity extends Activity {
 		}).start();
 		
 		// update recording database entry on_local to False
+		updateEntry("local",false,position);
+		restartActivity();
+	}
+	
+	private void updateEntry(String location, boolean status, int position) {
+		
 		Recording recording = new Recording();
 		recording = recordingList.get(position);
-		recording.setOnLocal(false);
-		db.updateRecording(recording);
+		if(location.equals("cloud")) {
+			recording.setOnCloud(status);			
+		} else if(location.equals("local")) {
+			recording.setOnLocal(status);
+		}
+		if((recording.isOnCloud()==false)&&(recording.isOnLocal()==false)) {
+			db.deleteRecording(recording);
+		} else {
+			db.updateRecording(recording);
+		}		
 		recording = null;
+		
 	}
 	
 
