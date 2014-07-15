@@ -100,4 +100,13 @@ public class FileManager {
 		
 	}
 	
+	public boolean deleteLocal(String file){
+		java.io.File localFile = new java.io.File(localFilePath+file);
+		if(localFile.exists()){
+			localFile.delete();
+			return true;
+		}
+		else return false;
+	}
+	
 }
