@@ -62,9 +62,13 @@ public class RecordingListAdapter extends BaseAdapter {
 		tvDuration.setText(recording.getDuration());
 		if(recording.isOnLocal()) {
 			ivStatusLocal.setBackgroundResource(R.drawable.status_local);
+		} else {
+			ivStatusLocal.setBackgroundResource(R.drawable.status_none);
 		}
 		if(recording.isOnCloud()) {
 			ivStatusCloud.setBackgroundResource(R.drawable.status_cloud);
+		} else {
+			ivStatusCloud.setBackgroundResource(R.drawable.status_none);
 		}
 		
 		return vi;

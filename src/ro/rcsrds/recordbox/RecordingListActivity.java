@@ -96,9 +96,13 @@ public class RecordingListActivity extends Activity {
 			break;
 		case 3: // Delete local file
 			Log.d("Recordinglist","Delete local file");
+			deleteFromLocal(info.position);
+			restartActivity();
 			break;
 		case 4: // Delete cloud file
 			Log.d("Recordinglist","Delete cloud file");
+			deleteFromCloud(info.position);
+			restartActivity();
 			break;
 		default:
 			Log.d("Recordinglist","Nothing");
@@ -159,6 +163,38 @@ public class RecordingListActivity extends Activity {
 		db.updateRecording(recording);
 		recording = null;
 		
+	}
+	
+	private void deleteFromCloud(final int position) {
+		// delete cloud file
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm.deleteCloud(recordingList.get(position).getFilename());
+		    }
+		}).start();
+		
+		// update recording database entry on_cloud to False
+		Recording recording = new Recording();
+		recording = recordingList.get(position);
+		recording.setOnCloud(false);
+		db.updateRecording(recording);
+		recording = null;
+	}
+	
+	private void deleteFromLocal(final int position) {
+		// delete local file
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm.deleteLocal(recordingList.get(position).getFilename());
+		    }
+		}).start();
+		
+		// update recording database entry on_local to False
+		Recording recording = new Recording();
+		recording = recordingList.get(position);
+		recording.setOnLocal(false);
+		db.updateRecording(recording);
+		recording = null;
 	}
 	
 
