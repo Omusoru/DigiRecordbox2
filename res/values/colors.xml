@@ -7,4 +7,8 @@
     <color name="green">#00FF00</color>
     <color name="blue">#4285F4</color>
     
+    <color name="digi_lightblue">#00a6ff</color>
+    <color name="digi_darkblue">#0056b9</color>
+    <color name="digi_lightgray">#ededed</color>
+    
 </resources>

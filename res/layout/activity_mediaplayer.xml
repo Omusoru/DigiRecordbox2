@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/background_blue" >
 
     <Button
         android:id="@+id/btn_player_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="56dp"
         android:layout_marginTop="74dp"
-        android:text="@string/btn_player_play"/>
+        android:background="@drawable/button_play_small"
+        android:text="@string/btn_player_play"
+        android:textSize="0sp" />
 
     <Button
         android:id="@+id/btn_player_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_alignBaseline="@+id/btn_player_play"
         android:layout_alignBottom="@+id/btn_player_play"
         android:layout_marginLeft="46dp"
         android:layout_toRightOf="@+id/btn_player_play"
-        android:text="@string/btn_player_stop" />
+        android:background="@drawable/button_stop_small"
+        android:text="@string/btn_player_stop"
+        android:textSize="0sp" />
 
     <SeekBar
         android:id="@+id/sk_bar_player"
@@ -38,8 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/sk_bar_player"
-        android:text="00:00"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:text="@string/tv_recorder_time"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/digi_lightgray" />
 
     <TextView
         android:id="@+id/totalTime"
@@ -47,8 +53,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/sk_bar_player"
-        android:text="00:00"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:text="@string/tv_recorder_time"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/digi_lightgray" />
 
     <TextView
         android:id="@+id/tv_name_tag"
@@ -58,7 +65,8 @@
         android:layout_below="@+id/sk_bar_player"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="35dp"
-        android:text="@string/tv_name" />
+        android:text="@string/tv_name"
+        android:textColor="@color/digi_lightgray" />
 
     <TextView
         android:id="@+id/tv_name_content"
@@ -66,7 +74,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tv_description_tag"
         android:layout_toRightOf="@+id/btn_player_play"
-        android:text="@string/ph_name" />
+        android:text="@string/ph_name"
+        android:textColor="@color/digi_lightgray" />
 
     <TextView
         android:id="@+id/tv_description_content"
@@ -75,7 +84,8 @@
         android:layout_alignBaseline="@+id/tv_description_tag"
         android:layout_alignBottom="@+id/tv_description_tag"
         android:layout_centerHorizontal="true"
-        android:text="@string/ph_description" />
+        android:text="@string/ph_description"
+        android:textColor="@color/digi_lightgray" />
 
     <TextView
         android:id="@+id/tv_description_tag"
@@ -84,6 +94,7 @@
         android:layout_alignLeft="@+id/tv_name_tag"
         android:layout_below="@+id/tv_name_tag"
         android:layout_marginTop="34dp"
-        android:text="@string/tv_description" />
+        android:text="@string/tv_description"
+        android:textColor="@color/digi_lightgray" />
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -17,18 +17,14 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
-    <style name="AppTheme.Login">
-        
+    <style name="AppTheme.Login">        
         <item name="android:windowBackground">@color/light</item>
-        <item name="android:windowNoTitle">true</item>
-        
+        <item name="android:windowNoTitle">true</item>        
     </style>
     
-     <style name="AppTheme.LoginButton">
-        
+     <style name="AppTheme.LoginButton">        
         <item name="android:background">@drawable/button</item>
-        <item name="android:textColor">@color/gray</item>
-        
+        <item name="android:textColor">@color/gray</item>        
     </style>
     
     <style name="AppTheme.LoginTextView">

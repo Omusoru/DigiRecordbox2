@@ -113,7 +113,8 @@ public class MediaPlayerActivity extends Activity {
 		playing.run();
 		timer.run();
 		
-		btnPlay.setText("Pause");		
+		btnPlay.setText("Pause");	
+		btnPlay.setBackgroundResource(R.drawable.button_pause_small);
 		
 		sbarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -183,8 +184,10 @@ public class MediaPlayerActivity extends Activity {
 	public void switchButtons() {
 		if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_play))) {
 			btnPlay.setText(this.getString(R.string.btn_player_pause));
+			btnPlay.setBackgroundResource(R.drawable.button_pause_small);
 		} else if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_pause))) {
 			btnPlay.setText(this.getString(R.string.btn_player_play));
+			btnPlay.setBackgroundResource(R.drawable.button_play_small);
 		}
 	}
 	

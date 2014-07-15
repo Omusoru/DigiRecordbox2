@@ -10,6 +10,7 @@
     <string name="btn_recorder_pause">Pause</string>
     <string name="btn_recorder_stop">Stop</string>
     <string name="btn_recorder_cancel">Cancel</string>
+    <string name="tv_recorder_time">00:00</string>
     
     <!-- media player activity -->
     <string name="btn_player_play">Play</string>

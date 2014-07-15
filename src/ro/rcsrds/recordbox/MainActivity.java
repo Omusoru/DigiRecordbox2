@@ -120,19 +120,19 @@ public class MainActivity extends ActionBarActivity {
 	            recorder.setMergeStatus(true);
 	            recorder.stopRecording();
 	            Checker.run();
-	            switchButtons();	            
+	            resetButton();	            
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);
-	            switchButtons();
-			} else if (v.getId()==R.id.btn_recorder_start) {
-				switchButtons();
+	            resetButton();
+			} else if (v.getId()==R.id.btn_recorder_start) {				
 				recorder.startRecording();
 				filename = recorder.getLastFilename();
 				Log.d("Mediaplyer","filename after startRecording(): "+filename);
 				btnStop.setVisibility(View.VISIBLE);
 	            btnCancel.setVisibility(View.VISIBLE);	  
+	            switchButtons();
 			} 
 			
 		}		
@@ -143,10 +143,17 @@ public class MainActivity extends ActionBarActivity {
 		
 		if(btnRecord.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_recorder_start))) {
 			btnRecord.setText(this.getString(R.string.btn_recorder_pause));
+			btnRecord.setBackgroundResource(R.drawable.button_pause_big);
 		} else if(btnRecord.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_recorder_pause))) {
 			btnRecord.setText(this.getString(R.string.btn_recorder_start));
+			btnRecord.setBackgroundResource(R.drawable.button_record_big);
 		}
 		
+	}
+	
+	private void resetButton() {
+		btnRecord.setText(this.getString(R.string.btn_recorder_start));
+		btnRecord.setBackgroundResource(R.drawable.button_record_big);
 	}
 	
 	private void startIntent(String filename){
