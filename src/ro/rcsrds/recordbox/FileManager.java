@@ -14,6 +14,7 @@ public class FileManager {
 	
 	public FileManager(Context context){
 		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/";
+		preferences = context.getSharedPreferences(PREFS_NAME, 0);
 	}
 	
 	public boolean upload(String file){
