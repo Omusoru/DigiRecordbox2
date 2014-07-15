@@ -97,9 +97,9 @@ public class MediaPlayerActivity extends Activity {
 	        	if(player.getPlayerStatus() != null){
 	        		player.stopPlaying();
 	        		player.startPlaying(filename);
-                	player.getPlayerStatus().seekTo(sbarPlayer.getSecondaryProgress());
-                	player.setCurentPosition(sbarPlayer.getSecondaryProgress());
-                	tvCurentTime.setText(getTimeFormat(sbarPlayer.getSecondaryProgress()));
+                	player.getPlayerStatus().seekTo(sbarPlayer.getProgress());
+                	player.setCurentPosition(sbarPlayer.getProgress());
+                	tvCurentTime.setText(getTimeFormat(sbarPlayer.getProgress()));
                 	
                 }
 	        	mHandler.post(playing);
@@ -115,7 +115,7 @@ public class MediaPlayerActivity extends Activity {
 	        @Override
 	        public void onProgressChanged(SeekBar sbarPlayer, int progress, boolean fromUser) {                
 	            	if(player.getPlayerStatus() != null && fromUser){
-	            		sbarPlayer.setSecondaryProgress(progress);
+	            		sbarPlayer.setProgress(progress);
 	                    tvCurentTime.setText(getTimeFormat(progress));
 	                }
 	        }
