@@ -73,9 +73,8 @@ public class FileManager {
 	}
 	
 	public boolean download(String file){
-		String location = localFilePath.replace("/", "\\");
 		try {
-			api.filesDownload(mount.getId(), "/DigiRecordbox/"+file, location, new SimpleProgressListener());
+			api.filesDownload(mount.getId(), "/DigiRecordbox/"+file, localFilePath, new SimpleProgressListener());
 			return true;
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
