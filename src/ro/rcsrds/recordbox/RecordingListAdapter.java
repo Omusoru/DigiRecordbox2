@@ -1,5 +1,6 @@
 package ro.rcsrds.recordbox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -11,16 +12,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class RecordingListAdapter extends BaseAdapter {
+public class RecordingListAdapter extends BaseAdapter{
 
 	//private Activity activity;
 	private List<Recording> recordingList;
-	private static LayoutInflater inflater=null;
+	private List<Recording> fullList;
+	private static LayoutInflater inflater=null;	
 	
 	
 	public RecordingListAdapter(Activity activity, List<Recording> recordingList ) {
 		//this.activity = activity;
 		this.recordingList = recordingList;
+		this.fullList= recordingList;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
@@ -74,8 +77,18 @@ public class RecordingListAdapter extends BaseAdapter {
 		return vi;
 	}
 	
-	
-
-	
+	public List<Recording> getRecList(CharSequence cs){
+		
+		List<Recording>templist = new ArrayList<Recording>();
+		for(int i=0;i<fullList.size();i++){
+			if(fullList.get(i).getName().contains(cs)){
+				templist.add(fullList.get(i));
+			}						
+		}
+		
+        recordingList=templist;
+        notifyDataSetChanged();
+        return recordingList;
+	}
 	
 }
