@@ -81,7 +81,7 @@ public class RecordingListAdapter extends BaseAdapter{
 		
 		List<Recording>templist = new ArrayList<Recording>();
 		for(int i=0;i<fullList.size();i++){
-			if(fullList.get(i).getName().contains(cs)){
+			if(fullList.get(i).getName().toLowerCase().contains(cs.toString().toLowerCase())){
 				templist.add(fullList.get(i));
 			}						
 		}
