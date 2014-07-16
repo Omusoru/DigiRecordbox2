@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -219,10 +219,30 @@ public class RecordingListActivity extends Activity {
 			
 	}
 	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		// Overwrite back key function for api level < 11
+		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT)<11) {
+			Intent intent = new Intent(RecordingListActivity.this,MainActivity.class);
+			startActivity(intent);
+		}
+		
+	}
+	
+	@SuppressLint("NewApi")
 	private void restartActivity() {
-		finish();		
-		Intent intent = new Intent(RecordingListActivity.this,RecordingListActivity.class);
-		startActivity(intent);
+		// Restart activity manualy on api level < 11
+		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT)<11) {
+			Intent intent = getIntent();
+		    overridePendingTransition(0, 0);
+		    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		    finish();
+		    overridePendingTransition(0, 0);
+		    startActivity(intent);
+		} else {
+			recreate();
+		}			
 	}
 	
 	private void importLocalFiles() {
