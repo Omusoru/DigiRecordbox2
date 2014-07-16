@@ -1,7 +1,9 @@
 package ro.rcsrds.recordbox;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
@@ -52,26 +55,38 @@ public class MediaPlayerActivity extends Activity {
 		DatabaseHelper db = new DatabaseHelper(this);		
 		recording = new Recording();
 		recording = db.getRecording(id);
+		fm = new FileManager(MediaPlayerActivity.this);
+		
 		if(recording.isOnLocal()){
 			//Log.d("dltest", "TEST INAINTE DE FM");
 			filename = recording.getFilename();
 			online = false;
 		}
 		else{
-			//Log.d("dltest", "TEST INAINTE DE FM");
-			
+		
 			new Thread(new Runnable() {
-			      public void run() {			    	
-			       fm = new FileManager(MediaPlayerActivity.this);
-			       filename = fm.getFileLink(recording.getFilename());
-			       //Log.d("dltest",filename);
-			     }
-			  }).start();
-			//Log.d("dltest", recording.getFilename());
-			//Log.d("dltest",fm.getFileLink(recording.getFilename()));
-			//filename = fm.getFileLink(recording.getFilename());
-			online = true;
-			while(filename == null){			
+				 public void run() {		    	
+				    	if(isNetworkConnected()) {
+				    		fm.connectToCloud();
+				    		online = true;
+				    		filename = fm.getFileLink(recording.getFilename());				    		
+				    	} else {
+				    		//TODO toast
+				    		Log.d("Connection","Not network connected");
+				    		online = false;
+				    		filename = "a";
+				    		runOnUiThread(new Runnable() {
+					            public void run() {
+					            	Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();					            	
+					            }
+					        });
+				    	}
+			   }
+			}).start();			
+			while(filename == null){
+			}
+			if(online==false){
+				finish();
 			}
 		}
 		tvNameContent.setText(recording.getName());
@@ -225,5 +240,10 @@ public class MediaPlayerActivity extends Activity {
 		
 		return totext;
 	}
+	
+	private boolean isNetworkConnected() {
+		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		  return (cm.getActiveNetworkInfo() != null);
+	 }
 
 }
