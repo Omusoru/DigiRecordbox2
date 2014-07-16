@@ -4,14 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 @SuppressLint("SimpleDateFormat")
 public class EditRecordingActivity extends ActionBarActivity {
@@ -27,6 +30,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	private boolean newRecording;
 	public static final String PREFS_NAME = "Authentication";
 	private Recording recording;
+	private FileManager fm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,16 @@ public class EditRecordingActivity extends ActionBarActivity {
 		btnSave.setOnClickListener(new ButtonOnClickListener());
 		btnSavePlay = (Button) findViewById(R.id.btn_save_play);
 		btnSavePlay.setOnClickListener(new ButtonOnClickListener());
+		
+		fm = new FileManager(this);
+		new Thread(new Runnable() {
+			 public void run() {		    	
+			    	if(isNetworkConnected()) {
+			    		fm.connectToCloud();
+			    	}
+		   }
+		}).start();
+		
 		
 		
 		if(getIntent().getExtras().getBoolean("new")) {
@@ -89,6 +103,11 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 	}
 	
+	private boolean isNetworkConnected() {
+		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		  return (cm.getActiveNetworkInfo() != null);
+	 }
+	
 	private void saveRecording() {
 		
 		// create recording object
@@ -102,10 +121,27 @@ public class EditRecordingActivity extends ActionBarActivity {
 		newRecording.setOnLocal(true);
 		newRecording.setOnCloud(false);
 		
+		
+		
+		if(isNetworkConnected()) {
+			uploadToCloud(filename);
+			newRecording.setOnCloud(true);
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
+		}
+		
 		// insert recording into database
 		DatabaseHelper db = new DatabaseHelper(this);
 		lastRecordingId = db.insertRecording(newRecording);
 		
+	}
+	
+	private void uploadToCloud(final String filename) {
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm.upload(filename);
+		   }
+		}).start();
 	}
 	
 	private void getRecordingInfo() {
