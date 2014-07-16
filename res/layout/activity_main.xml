@@ -62,7 +62,7 @@
         android:layout_marginBottom="109dp"
         android:background="@drawable/button_record_big"
         android:text="@string/btn_recorder_start"
-        android:textSize="20sp" />
+        android:textSize="0sp" />
 
     <ProgressBar
         android:id="@+id/spinner"
