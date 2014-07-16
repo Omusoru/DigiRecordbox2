@@ -46,10 +46,11 @@
     <string name="ph_date">date</string>
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
-    <string name="search">Search...</string>
+    <string name="search">Search&#8230;</string>
     
     <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
     <string name="message_no_internet">No internet connectivity</string>
+    <string name="message_saving">Saving, please wait</string>
 
 </resources>

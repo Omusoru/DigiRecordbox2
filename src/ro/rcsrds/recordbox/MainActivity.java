@@ -1,5 +1,6 @@
 package ro.rcsrds.recordbox;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,11 +24,8 @@ public class MainActivity extends ActionBarActivity {
 	private TextView tvRecorderTime;
 	private AudioRecorder recorder;
 	private Authentication auth;
-//	private Runnable Checker;
-//	private Handler mHandle = new Handler();
-	private ProgressBar spinner;	
-	private TextView status;
 	private String filename;
+	private Dialog dlgSaving;
 	
 	//Timer
 	private long startTime = 0L;
@@ -65,44 +63,20 @@ public class MainActivity extends ActionBarActivity {
 		btnCancel.setOnClickListener(new ButtonClickListener());
 		btnCancel.setVisibility(View.INVISIBLE);
 		tvRecorderTime = (TextView) findViewById(R.id.tv_recorder_time);
-		spinner =(ProgressBar) findViewById(R.id.spinner);
-		spinner.setVisibility(View.INVISIBLE);
-		status = (TextView) findViewById(R.id.Status);
-		status.setText("Saving...");
-		status.setVisibility(View.INVISIBLE);
 		
 		recorder = new AudioRecorder(auth.getUsername());
-//		Checker = new Runnable() {
-//			
-//			@Override
-//			public void run() {				
-//				if(recorder.getMergeStatus()==false){
-//					btnRecord.setVisibility(View.VISIBLE);
-//					mHandle.removeCallbacks(this);
-//					spinner.setVisibility(View.INVISIBLE);
-//					status.setVisibility(View.INVISIBLE);					
-//					 // Start EditRecording activity with filename parameter
-//					startIntent(filename);
-//				}
-//				else mHandle.postDelayed(this, 100);
-//				Log.d("MergeStatus", Boolean.toString(recorder.getMergeStatus()));
-//				
-//			}
-//		};
 		
-		
+		dlgSaving = new Dialog(this);
 	}
-	
+
 	private class StopRecordingTask extends AsyncTask<Object, Object, Object> {
 		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			btnStop.setVisibility(View.INVISIBLE);
-            btnCancel.setVisibility(View.INVISIBLE);
-            btnRecord.setVisibility(View.INVISIBLE);
-            spinner.setVisibility(View.VISIBLE);
-            status.setVisibility(View.VISIBLE);
+			dlgSaving.setContentView(R.layout.dialog_main);
+			dlgSaving.setTitle(getResources().getString(R.string.message_saving)); 
+			dlgSaving.show();
 		}
 
 		@Override
@@ -113,11 +87,8 @@ public class MainActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(Object result) {
-			btnRecord.setVisibility(View.VISIBLE);
-			spinner.setVisibility(View.INVISIBLE);
-			status.setVisibility(View.INVISIBLE);					
-			 // Start EditRecording activity with filename parameter
-			startIntent(filename);
+			dlgSaving.dismiss();
+			startIntent(filename);			
 			super.onPostExecute(result);
 		}
 		
@@ -149,15 +120,7 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public void onClick(View v) {
 			
-			if (v.getId()==R.id.btn_recorder_stop) {
-//				btnStop.setVisibility(View.INVISIBLE);
-//	            btnCancel.setVisibility(View.INVISIBLE);
-//	            btnRecord.setVisibility(View.INVISIBLE);
-//	            spinner.setVisibility(View.VISIBLE);
-//	            status.setVisibility(View.VISIBLE);
-//	            recorder.setMergeStatus(true);
-//	            recorder.stopRecording();
-//	            Checker.run();				
+			if (v.getId()==R.id.btn_recorder_stop) {			
 				previousTime = tvRecorderTime.getText().toString();
 				new StopRecordingTask().execute(true);
 	            resetButton();	
