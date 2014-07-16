@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.EditText;
 
 public class RecordingListActivity extends Activity {	
 	
@@ -26,6 +29,7 @@ public class RecordingListActivity extends Activity {
 	private RecordingListAdapter adapter;
 	private FileManager fm;
 	private DatabaseHelper db;
+	private EditText searchField;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +39,18 @@ public class RecordingListActivity extends Activity {
 		
 		fm = new FileManager(RecordingListActivity.this);
 		new Thread(new Runnable() {
-		    public void run() {		    	
-		    	if(isNetworkConnected()) {
-		    		fm.connectToCloud();
-		    	} else {
-		    		//TODO toast
-		    		Log.d("Connection","Not network connected");
-		    		runOnUiThread(new Runnable() {
-			            public void run() {
-			            	Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
-			            }
-			        });
-		    	}
+			 public void run() {		    	
+			    	if(isNetworkConnected()) {
+			    		fm.connectToCloud();
+			    	} else {
+			    		//TODO toast
+			    		Log.d("Connection","Not network connected");
+			    		runOnUiThread(new Runnable() {
+				            public void run() {
+				            	Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+				            }
+				        });
+			    	}
 		   }
 		}).start();
 		
@@ -54,13 +58,34 @@ public class RecordingListActivity extends Activity {
 		loadRecordings();
 		
 		list = (ListView) findViewById(R.id.list);
+		searchField = (EditText) findViewById(R.id.searchField);
 	    
 		adapter = new RecordingListAdapter(this, recordingList);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new ListOnClickListener());
 		registerForContextMenu(list);
-	}
+		list.setTextFilterEnabled(true);
 	
+		searchField.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence cs, int start, int before, int count) {
+				recordingList=adapter.getRecList(cs);
+
+			}			
+			@Override
+			public void beforeTextChanged(CharSequence cs, int start, int count,int after) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				
+			}
+		});
+		
+    	    
+}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -241,6 +266,4 @@ public class RecordingListActivity extends Activity {
 		recording = null;
 		
 	}
-	
-
 }
