@@ -26,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
 	private Authentication auth;
 	private String filename;
 	private Dialog dlgSaving;
+	private boolean buttonRecording;
 	
 	//Timer
 	private long startTime = 0L;
@@ -63,6 +64,8 @@ public class MainActivity extends ActionBarActivity {
 		btnCancel.setOnClickListener(new ButtonClickListener());
 		btnCancel.setVisibility(View.INVISIBLE);
 		tvRecorderTime = (TextView) findViewById(R.id.tv_recorder_time);
+		
+		buttonRecording = true; 
 		
 		recorder = new AudioRecorder(auth.getUsername());
 		
@@ -192,19 +195,16 @@ public class MainActivity extends ActionBarActivity {
 	
 	
 	private void switchButtons() {
-		
-		if(btnRecord.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_recorder_start))) {
-			btnRecord.setText(this.getString(R.string.btn_recorder_pause));
+		if(buttonRecording) {
 			btnRecord.setBackgroundResource(R.drawable.button_pause_big);
-		} else if(btnRecord.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_recorder_pause))) {
-			btnRecord.setText(this.getString(R.string.btn_recorder_start));
+			buttonRecording = false;
+		} else if(!buttonRecording) {
 			btnRecord.setBackgroundResource(R.drawable.button_record_big);
+			buttonRecording = true;
 		}
-		
 	}
 	
 	private void resetButton() {
-		btnRecord.setText(this.getString(R.string.btn_recorder_start));
 		btnRecord.setBackgroundResource(R.drawable.button_record_big);
 	}
 	

@@ -34,6 +34,7 @@ public class MediaPlayerActivity extends Activity {
 	private boolean online;
 	private FileManager fm;
 	private Recording recording;
+	private boolean buttonPlaying;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +132,7 @@ public class MediaPlayerActivity extends Activity {
 		playing.run();
 		timer.run();
 		
-		btnPlay.setText("Pause");	
+		buttonPlaying = false;
 		btnPlay.setBackgroundResource(R.drawable.button_pause_small);
 		
 		sbarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -220,12 +221,19 @@ public class MediaPlayerActivity extends Activity {
 	}
 	
 	public void switchButtons() {
-		if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_play))) {
-			btnPlay.setText(this.getString(R.string.btn_player_pause));
+//		if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_play))) {
+//			btnPlay.setText(this.getString(R.string.btn_player_pause));
+//			btnPlay.setBackgroundResource(R.drawable.button_pause_small);
+//		} else if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_pause))) {
+//			btnPlay.setText(this.getString(R.string.btn_player_play));
+//			btnPlay.setBackgroundResource(R.drawable.button_play_small);
+//		}
+		if(buttonPlaying) {
 			btnPlay.setBackgroundResource(R.drawable.button_pause_small);
-		} else if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_pause))) {
-			btnPlay.setText(this.getString(R.string.btn_player_play));
+			buttonPlaying = false;
+		} else if(!buttonPlaying) {
 			btnPlay.setBackgroundResource(R.drawable.button_play_small);
+			buttonPlaying = true;
 		}
 	}
 	
