@@ -60,28 +60,28 @@ public class MainActivity extends ActionBarActivity {
 		status.setVisibility(View.INVISIBLE);
 		
 		recorder = new AudioRecorder(auth.getUsername());
-		Checker = new Runnable() {
-			
-			@Override
-			public void run() {				
-				if(recorder.getMergeStatus()==false){
-					btnRecord.setVisibility(View.VISIBLE);
-					mHandle.removeCallbacks(this);
-					spinner.setVisibility(View.INVISIBLE);
-					status.setVisibility(View.INVISIBLE);					
-					 // Start EditRecording activity with filename parameter
-					startIntent(filename);
-				}
-				else mHandle.postDelayed(this, 100);
-				Log.d("MergeStatus", Boolean.toString(recorder.getMergeStatus()));
-				
-			}
-		};
+//		Checker = new Runnable() {
+//			
+//			@Override
+//			public void run() {				
+//				if(recorder.getMergeStatus()==false){
+//					btnRecord.setVisibility(View.VISIBLE);
+//					mHandle.removeCallbacks(this);
+//					spinner.setVisibility(View.INVISIBLE);
+//					status.setVisibility(View.INVISIBLE);					
+//					 // Start EditRecording activity with filename parameter
+//					startIntent(filename);
+//				}
+//				else mHandle.postDelayed(this, 100);
+//				Log.d("MergeStatus", Boolean.toString(recorder.getMergeStatus()));
+//				
+//			}
+//		};
 		
 		
 	}
 	
-	/*private class StopRecordingTask extends AsyncTask {
+	private class StopRecordingTask extends AsyncTask<Object, Object, Object> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -109,11 +109,10 @@ public class MainActivity extends ActionBarActivity {
 			status.setVisibility(View.INVISIBLE);					
 			 // Start EditRecording activity with filename parameter
 			startIntent(filename);
-			super.onPostExecute(result);
+			//super.onPostExecute(result);
 		}
 		
-	}*/
-
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -143,15 +142,15 @@ public class MainActivity extends ActionBarActivity {
 		public void onClick(View v) {
 			
 			if (v.getId()==R.id.btn_recorder_stop) {
-				btnStop.setVisibility(View.INVISIBLE);
-	            btnCancel.setVisibility(View.INVISIBLE);
-	            btnRecord.setVisibility(View.INVISIBLE);
-	            spinner.setVisibility(View.VISIBLE);
-	            status.setVisibility(View.VISIBLE);
-	            recorder.setMergeStatus(true);
-	            recorder.stopRecording();
-	            Checker.run();
-				//new StopRecordingTask().execute();
+//				btnStop.setVisibility(View.INVISIBLE);
+//	            btnCancel.setVisibility(View.INVISIBLE);
+//	            btnRecord.setVisibility(View.INVISIBLE);
+//	            spinner.setVisibility(View.VISIBLE);
+//	            status.setVisibility(View.VISIBLE);
+//	            recorder.setMergeStatus(true);
+//	            recorder.stopRecording();
+//	            Checker.run();
+				new StopRecordingTask().execute(true);
 	            resetButton();	            
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
