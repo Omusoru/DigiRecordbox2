@@ -46,7 +46,7 @@
     <string name="ph_date">date</string>
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
-    <string name="search">Search...</string>
+     <string name="search">Search...</string>
     
     <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
