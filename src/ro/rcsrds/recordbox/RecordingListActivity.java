@@ -219,7 +219,7 @@ public class RecordingListActivity extends Activity {
 				}
 				if(!fileInDb) {
 					Recording newRecording = new Recording();
-					newRecording.setName("Untitled");
+					newRecording.setName("Untitled import");
 					newRecording.setDescription("");
 					newRecording.setDate(getCurrentFormatedDate());
 					newRecording.setOwner(getSharedPreferences(PREFS_NAME, 0).getString("username", ""));
