@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -29,9 +32,21 @@ public class RecordingListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recordinglist);
 		
+		
+		fm = new FileManager(RecordingListActivity.this);
 		new Thread(new Runnable() {
-		    public void run() {
-		    	fm = new FileManager(RecordingListActivity.this);
+		    public void run() {		    	
+		    	if(isNetworkConnected()) {
+		    		fm.connectToCloud();
+		    	} else {
+		    		//TODO toast
+		    		Log.d("Connection","Not network connected");
+		    		runOnUiThread(new Runnable() {
+			            public void run() {
+			            	Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+			            }
+			        });
+		    	}
 		   }
 		}).start();
 		
@@ -62,6 +77,11 @@ public class RecordingListActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	private boolean isNetworkConnected() {
+		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		  return (cm.getActiveNetworkInfo() != null);
+	 }
     	   
 	
 	public void loadRecordings() {

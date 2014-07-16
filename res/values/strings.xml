@@ -49,5 +49,6 @@
     
     <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
+    <string name="message_no_internet">No internet connectivity</string>
 
 </resources>

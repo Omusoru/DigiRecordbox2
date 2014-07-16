@@ -34,6 +34,10 @@ public class FileManager {
 		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
 		username = preferences.getString("username", "");
 		password = preferences.getString("password", "");
+	}
+	
+	public void connectToCloud() {
+		
 		try {
 			api = DefaultClientFactory.create("storage.rcs-rds.ro",username, password);
 		} catch (StorageApiException e) {
@@ -47,6 +51,7 @@ public class FileManager {
 			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
 		}
+		
 	}
 	
 	public boolean upload(String file){
