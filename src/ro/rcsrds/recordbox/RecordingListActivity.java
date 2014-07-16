@@ -45,14 +45,6 @@ public class RecordingListActivity extends Activity {
 			 public void run() {		    	
 			    	if(isNetworkConnected()) {
 			    		fm.connectToCloud();
-			    	} else {
-			    		//TODO toast
-			    		Log.d("Connection","Not network connected");
-			    		runOnUiThread(new Runnable() {
-				            public void run() {
-				            	Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
-				            }
-				        });
 			    	}
 		   }
 		}).start();
@@ -147,7 +139,6 @@ public class RecordingListActivity extends Activity {
 	
 		switch(menuItemIndex) {
 		case 0: // Edit recording
-			Log.d("Recordinglist","Edit recording");
 			Intent intent = new Intent(RecordingListActivity.this, EditRecordingActivity.class);
 			intent.putExtra("id", recordingList.get(info.position).getId());
 			intent.putExtra("new",false);
@@ -155,25 +146,37 @@ public class RecordingListActivity extends Activity {
 			break;
 			
 		case 1: // Upload to cloud
-			Log.d("Recordinglist","Upload to cloud");			
-			uploadToCloud(info.position);
-			restartActivity();
+			if(!isNetworkConnected()) {
+				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+	    	} else {
+	    		uploadToCloud(info.position);
+				restartActivity();
+	    	}			
 			break;			
+			
 		case 2: // Download from cloud
-			Log.d("Recordinglist","Download from cloud");
-			downloadFromCloud(info.position);
-			restartActivity();
+			if(!isNetworkConnected()) {
+				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+	    	} else {
+	    		downloadFromCloud(info.position);
+	    		restartActivity();
+	    	}
 			break;
+			
 		case 3: // Delete local file
-			Log.d("Recordinglist","Delete local file");
 			deleteFromLocal(info.position);
 			restartActivity();
 			break;
+			
 		case 4: // Delete cloud file
-			Log.d("Recordinglist","Delete cloud file");
-			deleteFromCloud(info.position);
-			restartActivity();
+			if(!isNetworkConnected()) {
+				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+	    	} else {
+	    		deleteFromCloud(info.position);
+	    		restartActivity();
+	    	}
 			break;
+			
 		default:
 			Log.d("Recordinglist","Nothing");
 		}
