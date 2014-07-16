@@ -10,5 +10,7 @@
     <color name="digi_lightblue">#00a6ff</color>
     <color name="digi_darkblue">#0056b9</color>
     <color name="digi_lightgray">#ededed</color>
+    <color name="digi_blueish">#D9DFE3</color>
+    <color name="digi_semidark">#D8DEE2</color>
     
 </resources>
