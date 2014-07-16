@@ -1,6 +1,8 @@
 package ro.rcsrds.recordbox;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -30,6 +32,7 @@ public class RecordingListActivity extends Activity {
 	private FileManager fm;
 	private DatabaseHelper db;
 	private EditText searchField;
+	public static final String PREFS_NAME = "Authentication";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,8 @@ public class RecordingListActivity extends Activity {
 		if(item.getItemId()==R.id.option_menu_recorder) {
 			Intent mediaPlayer = new Intent(RecordingListActivity.this,MainActivity.class);
 			startActivity(mediaPlayer);
+		} else if(item.getItemId()==R.id.option_menu_import_local) {
+			importLocalFiles();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -195,6 +200,52 @@ public class RecordingListActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	private void importLocalFiles() {
+		
+		ArrayList<String> filenames = fm.getFileListLocal();
+		DatabaseHelper db = new DatabaseHelper(this);
+		List<Recording> recordingList = db.getAllRecordings();
+		boolean fileInDb = false;
+		int count = 0;
+		
+		for(String filename : filenames) {
+			if(isValidFileType(filename)) {
+				fileInDb = false;
+				for(Recording recording : recordingList) {
+					if(filename.equalsIgnoreCase(recording.getFilename())){
+						fileInDb = true;
+						break;
+					}
+				}
+				if(!fileInDb) {
+					Recording newRecording = new Recording();
+					newRecording.setName("Untitled");
+					newRecording.setDescription("");
+					newRecording.setDate(getCurrentFormatedDate());
+					newRecording.setOwner(getSharedPreferences(PREFS_NAME, 0).getString("username", ""));
+					newRecording.setFilename(filename);
+					newRecording.setDuration(getDuration(filename));
+					newRecording.setOnLocal(true);
+					newRecording.setOnCloud(false);
+					db.insertRecording(newRecording);
+					count ++;
+				}
+			}
+			
+		}
+		
+		if(count == 0) {
+			Toast.makeText(this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
+		} else if (count == 1) {
+			Toast.makeText(this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
+			restartActivity();
+		} else if (count > 1) {
+			Toast.makeText(this, "Added one "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
+			restartActivity();
+		}
+		
+	}
+	
 	private void uploadToCloud(final int position) {
 		// upload file
 		new Thread(new Runnable() {
@@ -265,5 +316,40 @@ public class RecordingListActivity extends Activity {
 		}		
 		recording = null;
 		
+	}
+	
+	private String getCurrentFormatedDate() {
+		
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return df.format(c.getTime());
+		
+	}
+	
+	private boolean isValidFileType(String filename) {
+		
+		filename = filename.substring(filename.length()-3, filename.length());
+		if(filename.equalsIgnoreCase("mp4")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private String getDuration(String filename) {
+		MediaPlayer player = new MediaPlayer(this);	
+		return getTimeFormat(player.getDuration(filename));
+	}
+	
+	private String getTimeFormat(int timeinms){
+		String totext=null;
+		if((timeinms/1000)/60<10)
+			totext="0"+Integer.toString((timeinms/1000)/60);
+		else totext=Integer.toString((timeinms/1000)/60);
+		if((timeinms/1000)%60<10)
+			totext+=":0"+Integer.toString((timeinms/1000)%60);
+		else totext+=":"+Integer.toString((timeinms/1000)%60);
+		
+		return totext;
 	}
 }

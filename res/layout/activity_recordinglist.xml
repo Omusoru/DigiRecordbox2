@@ -12,7 +12,6 @@
         android:hint="@string/search"
         android:inputType="textVisiblePassword">
 
-        <requestFocus />
     </EditText>
 
     <ListView
