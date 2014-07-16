@@ -149,8 +149,15 @@ public class RecordingListActivity extends Activity {
 			if(!isNetworkConnected()) {
 				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
 	    	} else {
-	    		uploadToCloud(info.position);
-				restartActivity();
+	    		if(!recordingList.get(info.position).isOnLocal()) {
+	    			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
+	    		} else if(recordingList.get(info.position).isOnCloud()) {
+	    			Toast.makeText(getApplicationContext(), R.string.message_already_on_cloud, Toast.LENGTH_SHORT).show();
+	    		} else {
+	    			uploadToCloud(info.position);
+					restartActivity();
+	    		}
+	    		
 	    	}			
 			break;			
 			
@@ -158,22 +165,37 @@ public class RecordingListActivity extends Activity {
 			if(!isNetworkConnected()) {
 				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
 	    	} else {
-	    		downloadFromCloud(info.position);
-	    		restartActivity();
+	    		if(!recordingList.get(info.position).isOnCloud()) {
+	    			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+	    		} else if(recordingList.get(info.position).isOnLocal()) {
+	    			Toast.makeText(getApplicationContext(), R.string.message_already_on_local, Toast.LENGTH_SHORT).show();
+	    		} else {
+	    			downloadFromCloud(info.position);
+					restartActivity();
+	    		}
 	    	}
 			break;
 			
 		case 3: // Delete local file
-			deleteFromLocal(info.position);
-			restartActivity();
+			if(!recordingList.get(info.position).isOnLocal()) {
+    			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
+    		} else {
+    			deleteFromLocal(info.position);
+    			restartActivity();
+    		}
+			
 			break;
 			
 		case 4: // Delete cloud file
 			if(!isNetworkConnected()) {
 				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
 	    	} else {
-	    		deleteFromCloud(info.position);
-	    		restartActivity();
+	    		if(!recordingList.get(info.position).isOnCloud()) {
+	    			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+	    		} else {
+	    			deleteFromCloud(info.position);
+	    			restartActivity();
+	    		}
 	    	}
 			break;
 			
