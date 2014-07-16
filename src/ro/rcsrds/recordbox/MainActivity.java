@@ -1,6 +1,7 @@
 package ro.rcsrds.recordbox;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -79,6 +80,39 @@ public class MainActivity extends ActionBarActivity {
 		
 		
 	}
+	
+	/*private class StopRecordingTask extends AsyncTask {
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			btnStop.setVisibility(View.INVISIBLE);
+            btnCancel.setVisibility(View.INVISIBLE);
+            btnRecord.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.VISIBLE);
+            status.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected Object doInBackground(Object... params) {
+			// TODO Auto-generated method stub
+			recorder.stopRecording();
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Object result) {
+			// TODO Auto-generated method stub
+			btnRecord.setVisibility(View.VISIBLE);
+			spinner.setVisibility(View.INVISIBLE);
+			status.setVisibility(View.INVISIBLE);					
+			 // Start EditRecording activity with filename parameter
+			startIntent(filename);
+			super.onPostExecute(result);
+		}
+		
+	}*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,6 +151,7 @@ public class MainActivity extends ActionBarActivity {
 	            recorder.setMergeStatus(true);
 	            recorder.stopRecording();
 	            Checker.run();
+				//new StopRecordingTask().execute();
 	            resetButton();	            
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
