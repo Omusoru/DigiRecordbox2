@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,13 +20,23 @@ public class MainActivity extends ActionBarActivity {
 	private Button btnRecord;
 	private Button btnStop;
 	private Button btnCancel;
+	private TextView tvRecorderTime;
 	private AudioRecorder recorder;
 	private Authentication auth;
-	private Runnable Checker;
-	private Handler mHandle = new Handler();
-	private ProgressBar spinner;
+//	private Runnable Checker;
+//	private Handler mHandle = new Handler();
+	private ProgressBar spinner;	
 	private TextView status;
 	private String filename;
+	
+	//Timer
+	private long startTime = 0L;
+	private Handler myHandler = new Handler();
+	long timeInMillies = 0L;
+	long timeSwap = 0L;
+	long finalTime = 0L;
+	private boolean paused = true;
+	private String previousTime;
 	
 	
 	@Override
@@ -53,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
 		btnCancel = (Button) findViewById(R.id.btn_recorder_cancel);
 		btnCancel.setOnClickListener(new ButtonClickListener());
 		btnCancel.setVisibility(View.INVISIBLE);
+		tvRecorderTime = (TextView) findViewById(R.id.tv_recorder_time);
 		spinner =(ProgressBar) findViewById(R.id.spinner);
 		spinner.setVisibility(View.INVISIBLE);
 		status = (TextView) findViewById(R.id.Status);
@@ -85,7 +97,6 @@ public class MainActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			btnStop.setVisibility(View.INVISIBLE);
             btnCancel.setVisibility(View.INVISIBLE);
@@ -96,26 +107,23 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		protected Object doInBackground(Object... params) {
-			// TODO Auto-generated method stub
 			recorder.stopRecording();
 			return null;
 		}
 		
 		@Override
 		protected void onPostExecute(Object result) {
-			// TODO Auto-generated method stub
 			btnRecord.setVisibility(View.VISIBLE);
 			spinner.setVisibility(View.INVISIBLE);
 			status.setVisibility(View.INVISIBLE);					
 			 // Start EditRecording activity with filename parameter
 			startIntent(filename);
-			//super.onPostExecute(result);
+			super.onPostExecute(result);
 		}
 		
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -149,26 +157,76 @@ public class MainActivity extends ActionBarActivity {
 //	            status.setVisibility(View.VISIBLE);
 //	            recorder.setMergeStatus(true);
 //	            recorder.stopRecording();
-//	            Checker.run();
+//	            Checker.run();				
+				previousTime = tvRecorderTime.getText().toString();
 				new StopRecordingTask().execute(true);
-	            resetButton();	            
+	            resetButton();	
+	            stopTimer();
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);
 	            resetButton();
-			} else if (v.getId()==R.id.btn_recorder_start) {				
+	            stopTimer();
+			} else if (v.getId()==R.id.btn_recorder_start) {	
 				recorder.startRecording();
 				filename = recorder.getLastFilename();
 				Log.d("Mediaplyer","filename after startRecording(): "+filename);
 				btnStop.setVisibility(View.VISIBLE);
 	            btnCancel.setVisibility(View.VISIBLE);	  
 	            switchButtons();
+	            startTimer();
 			} 
 			
 		}		
 		
 	}
+	
+	private void startTimer() {
+		if(paused) {
+        	startTime = SystemClock.uptimeMillis();
+			myHandler.postDelayed(updateTimerMethod, 0);
+			paused = false;
+        } else {
+        	timeSwap += timeInMillies;
+			myHandler.removeCallbacks(updateTimerMethod);
+			paused = true;
+        }
+	}
+	
+	private void stopTimer() {
+		myHandler.removeCallbacks(updateTimerMethod);
+		paused = true;
+		tvRecorderTime.setText("00:00");
+		startTime = 0L;
+		timeInMillies = 0L;
+		timeSwap = 0L;
+		finalTime = 0L;
+	}
+	
+	private Runnable updateTimerMethod = new Runnable() {
+
+		public void run() {
+			timeInMillies = SystemClock.uptimeMillis()-startTime;
+			finalTime = timeSwap + timeInMillies;			
+			tvRecorderTime.setText(getTimeFormat(finalTime));
+			myHandler.postDelayed(this, 0);
+		}
+	
+	};
+	
+	public String getTimeFormat(long timeinms){
+		String totext=null;
+		if((timeinms/1000)/60<10)
+			totext="0"+Long.toString((timeinms/1000)/60);
+		else totext=Long.toString((timeinms/1000)/60);
+		if((timeinms/1000)%60<10)
+			totext+=":0"+Long.toString((timeinms/1000)%60);
+		else totext+=":"+Long.toString((timeinms/1000)%60);
+		
+		return totext;
+	}
+	
 	
 	private void switchButtons() {
 		
@@ -192,6 +250,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(MainActivity.this,EditRecordingActivity.class);
 		intent.putExtra("filename", filename);
 		intent.putExtra("new",true);
+		intent.putExtra("duration", previousTime);
 		startActivity(intent);
 	}
 

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +22,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	private Button btnSavePlay;
 	private String filename;
 	private String owner;
+	private String duration;
 	private int lastRecordingId;
 	private boolean newRecording;
 	public static final String PREFS_NAME = "Authentication";
@@ -45,6 +45,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 			newRecording = true;
 			// get filename parameter passed from main activity
 			filename = getIntent().getExtras().getString("filename");
+			duration = getIntent().getExtras().getString("duration");
 		} else {			
 			newRecording = false;
 			// get recording id passed from recording list
@@ -97,7 +98,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 		newRecording.setDate(getCurrentFormatedDate());
 		newRecording.setOwner(owner);
 		newRecording.setFilename(filename);
-		newRecording.setDuration(getDuration());
+		newRecording.setDuration(duration);
 		newRecording.setOnLocal(true);
 		newRecording.setOnCloud(false);
 		
@@ -130,24 +131,6 @@ public class EditRecordingActivity extends ActionBarActivity {
 		return df.format(c.getTime());
 		
 	}
-	
-	private String getDuration() {
-		MediaPlayer player = new MediaPlayer(this);	
-		return getTimeFormat(player.getDuration(filename));
-	}
-	
-	public String getTimeFormat(int timeinms){
-		String totext=null;
-		if((timeinms/1000)/60<10)
-			totext="0"+Integer.toString((timeinms/1000)/60);
-		else totext=Integer.toString((timeinms/1000)/60);
-		if((timeinms/1000)%60<10)
-			totext+=":0"+Integer.toString((timeinms/1000)%60);
-		else totext+=":"+Integer.toString((timeinms/1000)%60);
-		
-		return totext;
-	}
-	
 	
 
 }
