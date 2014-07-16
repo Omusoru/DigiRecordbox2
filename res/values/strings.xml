@@ -4,6 +4,10 @@
     <!-- global -->
     <string name="app_name">Digi Recordbox</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_mainactivity">Digi Recordbox</string>
+    <string name="title_mediaplayer">Media player</string>
+    <string name="title_recordinglist">Recording list</string>
+    <string name="title_editrecording">Edit recording</string>
     
     <!-- main activity -->
     <string name="btn_recorder_start">Record</string>
@@ -21,6 +25,9 @@
     <string name="option_menu_logout">Log out</string>
     <string name="option_menu_list">Recording list</string>
     <string name="option_menu_exit">Exit</string>
+    <string name="option_menu_recorder">Recorder</string>
+    <string name="option_menu_search">Search</string>
+    <string name="option_menu_import">Import audio files</string>
     
     <!-- login activity -->
     <string name="btn_login">Log in</string>

@@ -44,9 +44,25 @@ public class RecordingListActivity extends Activity {
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new ListOnClickListener());
 		registerForContextMenu(list);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.recordinglist, menu);
+		return true;
 		
-    	    
-}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==R.id.option_menu_recorder) {
+			Intent mediaPlayer = new Intent(RecordingListActivity.this,MainActivity.class);
+			startActivity(mediaPlayer);
+		}
+		return super.onOptionsItemSelected(item);
+	}
+    	   
 	
 	public void loadRecordings() {
 		

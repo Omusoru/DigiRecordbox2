@@ -89,9 +89,6 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		if(item.getItemId()==R.id.option_menu_logout) {
 			auth.logOut();	
 		    //Close main activity so user can't bypass login screen

@@ -1,9 +1,12 @@
 package ro.rcsrds.recordbox;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -151,6 +154,26 @@ public class MediaPlayerActivity extends Activity {
 	        }
 	    });		
 		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.mediaplayer, menu);
+		return true;
+		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==R.id.option_menu_list) {
+			Intent mediaPlayer = new Intent(MediaPlayerActivity.this,RecordingListActivity.class);
+			startActivity(mediaPlayer);
+		} else if(item.getItemId()==R.id.option_menu_recorder) {
+			Intent mediaPlayer = new Intent(MediaPlayerActivity.this,MainActivity.class);
+			startActivity(mediaPlayer);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override
