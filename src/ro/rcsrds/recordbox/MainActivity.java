@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
 	private String previousTime;
 	
 	
-	@Override
+	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		

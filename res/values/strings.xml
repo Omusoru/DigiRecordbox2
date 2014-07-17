@@ -3,7 +3,6 @@
 
     <!-- global -->
     <string name="app_name">Digi Recordbox</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_mainactivity">Digi Recordbox</string>
     <string name="title_mediaplayer">Media player</string>
     <string name="title_recordinglist">Recording list</string>
@@ -49,7 +48,8 @@
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
     <string name="search">Search&#8230;</string>
-
+    
+        
     <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
     <string name="message_no_internet">No internet connectivity</string>
@@ -61,5 +61,39 @@
     <string name="message_not_on_cloud">The file does not exist on the cloud</string>
     <string name="message_name_validation">Invalid characters in name field. Only letters, numbers, spaces and _ &#8211; characters allowed </string>
     <string name="message_recording_canceled">Recording has been canceled</string>
+    
+      <!-- about activity -->
+    <string name="about_title1">
+		About Digi Recordbox\n
+	</string>
+	<string name="about_content1">
+	    Digi Recordbox allows the recording of audio notes which are then uploaded and stored on the Digi cloud storage service. \n
+		The audio notes can then be played back, either directly from the device\'s local storage, or by streaming them from the cloud. \n\n
+	</string>
+	<string name="about_title2">
+	    Developers\n
+	</string>
+	<string name="about_content2">
+	    Răzvan Mandache - razvan.mandache@gmail.com\n
+		Tiberiu Omușoru - tiberiu.omusoru@gmail.com\n\n
+	</string>
+	<string name="about_title3">
+	    Instructions\n
+	</string>
+	<string name="about_content3">
+	    -Start recording by pressing on the record button in the main screen.\n
+		-You can pause and resume recording by pressing the same button.\n
+		-When you are done recording, pressing the stop button will present you a new screen 
+		 where you can enter a name and a description for the audio note.\n
+		-After entering the name and the description, you can either just save and go back
+		 to the main screen, or save and them immediately open the audio note in the
+		 media player.\n
+		-You can access the list of audio notes saved locally and/or on the cloud by pressing the 
+		device\'s menu button (if the device doesn\'t have a physical menu button, a menu icon
+		will show up on the top action bar) and selecting "Recording list".\n
+		-From here you can click on a note and open it in the media player. \n
+		-Long pressing on the audio note will open up a context menu from where you can perform
+		 different actions like deleting and uploading recordings.\n
+	</string>
 
 </resources>
