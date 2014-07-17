@@ -48,7 +48,6 @@
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
     <string name="search">Search&#8230;</string>
-    
         
     <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
@@ -59,7 +58,7 @@
     <string name="message_already_on_local">The file already exists on the local storage</string>
     <string name="message_not_on_local">The file does not exist on the local storage</string>
     <string name="message_not_on_cloud">The file does not exist on the cloud</string>
-    <string name="message_name_validation">Invalid characters in name field. Only letters, numbers, spaces and _ &#8211; characters allowed </string>
+    <string name="message_name_validation">Invalid characters in name field. Only letters, numbers, spaces and _ &#8211; allowed </string>
     <string name="message_recording_canceled">Recording has been canceled</string>
     
       <!-- about activity -->
@@ -81,18 +80,21 @@
 	    Instructions\n
 	</string>
 	<string name="about_content3">
-	    -Start recording by pressing on the record button in the main screen.\n
-		-You can pause and resume recording by pressing the same button.\n
-		-When you are done recording, pressing the stop button will present you a new screen 
+	    - Start recording by pressing on the record button in the main screen.\n
+		- You can pause and resume recording by pressing the same button.\n
+		- When you are done recording, pressing the stop button will present you a new screen 
 		 where you can enter a name and a description for the audio note.\n
-		-After entering the name and the description, you can either just save and go back
+		- After entering the name and the description, you can either just save and go back
 		 to the main screen, or save and them immediately open the audio note in the
 		 media player.\n
-		-You can access the list of audio notes saved locally and/or on the cloud by pressing the 
+		- You can access the list of audio notes saved locally and/or on the cloud by pressing the 
 		device\'s menu button (if the device doesn\'t have a physical menu button, a menu icon
 		will show up on the top action bar) and selecting "Recording list".\n
-		-From here you can click on a note and open it in the media player. \n
-		-Long pressing on the audio note will open up a context menu from where you can perform
+		- Besides the name, description and duration of the recording, you'll also notice
+		 two small circles. The first one will color green when the file is present on the local
+		 storage and the second one will color blue when the file is stored in the cloud.\n
+		- From here you can click on a note and open it in the media player. \n
+		- Long pressing on the audio note will open up a context menu from where you can perform
 		 different actions like deleting and uploading recordings.\n
 	</string>
 

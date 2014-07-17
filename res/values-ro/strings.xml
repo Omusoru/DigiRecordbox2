@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- global -->
+    <string name="app_name">Digi Recordbox</string>
+    <string name="title_mainactivity">Digi Recordbox</string>
+    <string name="title_mediaplayer">Player media</string>
+    <string name="title_recordinglist">Listă înregistrări</string>
+    <string name="title_editrecording">Modificare înregistrare</string>
+    <string name="title_about">Despre</string>
+
+    <!-- main activity -->
+    <string name="tv_recorder_time">00:00</string>
+
+    <!-- options menu -->
+    <string name="option_menu_logout">Delogare</string>
+    <string name="option_menu_list">Listă înregistrări</string>
+    <string name="option_menu_exit">Ieșire</string>
+    <string name="option_menu_recorder">Înregistrator</string>
+    <string name="option_menu_import_local">Importă fișiere locale</string>
+    <string name="option_menu_import_cloud">Importă fișiere online</string>
+    <string name="option_menu_about">Despre</string>
+
+    <!-- login activity -->
+    <string name="btn_login">Logare</string>
+    <string name="tv_email">E-mail:</string>
+    <string name="tv_password">Parolă:</string>
+
+    <!-- edit recording activity -->
+    <string name="tv_name">Nume:</string>
+    <string name="tv_description">Descriere:</string>
+    <string name="btn_save">Salvează</string>
+    <string name="btn_save_play">Salvează și deschide</string>
+    <string name="et_untitled">Fără titlu</string>
+
+    <!-- recording list activity -->
+    <string name="ph_name">name</string>
+    <string name="ph_date">date</string>
+    <string name="ph_duration">duration</string>
+    <string name="ph_description">description</string>
+    <string name="search">Caută&#8230;</string>
+    
+        
+    <!-- messages -->
+    <string name="message_authentication_failed">Autentificare eșuată</string>
+    <string name="message_no_internet">Nu există conexiune la internet</string>
+    <string name="message_saving">Se salvează, vă rog așteptați</string>
+    <string name="message_not_uploaded">Nu s-a putut încărca pe cloud. Verificați conexiunea la internet</string>
+    <string name="message_already_on_cloud">Fișierul există deja pe cloud</string>
+    <string name="message_already_on_local">Fișierul există deja pe memoria locală</string>
+    <string name="message_not_on_local">Fișierul nu există pe memoria locală</string>
+    <string name="message_not_on_cloud">Fișierul nu există pe cloud</string>
+    <string name="message_name_validation">Caractere invalide în nume. Doar litere, numere, spații și _ &#8211; permise </string>
+    <string name="message_recording_canceled">Înregistrarea a fost anulată</string>
+    
+      <!-- about activity -->
+    <string name="about_title1">
+		Despre Digi Recordbox\n
+	</string>
+	<string name="about_content1">
+	    Digi Recordbox permite înregistrarea notițelor audio ce sunt apoi urcate și stocate pe serviciul de cloud storage Digi.\n
+		Notițele audio pot fi apoi redate, fie direct din memoria locală a dispozitivului, fie prin streaming de pe cloud. \n\n
+	</string>
+	<string name="about_title2">
+	    Dezvoltatori\n
+	</string>
+	<string name="about_content2">
+	    Răzvan Mandache - razvan.mandache@gmail.com\n
+		Tiberiu Omușoru - tiberiu.omusoru@gmail.com\n\n
+	</string>
+	<string name="about_title3">
+	    Instrucțiuni\n
+	</string>
+	<string name="about_content3">
+	    - Începe să înregistrezi prin apăsarea butonului de înregistrare din ecranul principal. \n
+		- Poți pune pauză și reporni înregistrarea prin apăsarea aceluiași buton.\n
+		- Când ai terminat de înregistrat, apăsarea butonului de stop va deschide un nou ecran
+		 unde poți introduce un nume și o descriere pentru notița audio.\n
+		- După introducerea numelui și a descrierii, poți ori doar să salvezi și să revi
+		 la ecranul principal, ori poți salva și reda imediat notița audio în player-ul media.\n
+		- Poți accesa lista de notițe audio salvate local sau/și pe cloud prin apăsarea butonului de 
+		 meniu al dispozitivului(dacă dispozitivul nu dispune de un buton de meniu fizic, o iconiță
+		 de meniu va apărea sus în bara de acțiuni) și selectarea opțiunii "Listă înregistrari".\n
+		 - Besides the name, description and duration of the recording, you'll also notice
+		 two small circles. The first one will color green when the file is present on the local
+		 storage and the second one will color blue when the file is stored in the cloud.\n
+		 - Pe lângă numele, descrierea și durata înregistrării, de asemenea vei putea observa
+		 două mici cercuri. Primul va avea culoarea verde dacă fișierul există în memoria dispozitivului,
+		 iar al doilea va avea culoarea albastră dacă fișierul este stocat pe cloud.
+		- De aici poți apăsa pe o notița și a o deschide în player-ul media. \n
+		- Efectuarea unei apăsări lungi pe notița audio va deschide un meniu de context de unde
+		poți accesa diferite acțiuni precum ștergerea și urcarea înregistrărilor. \n
+	</string>
+
+</resources>

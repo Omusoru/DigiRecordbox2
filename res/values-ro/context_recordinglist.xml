@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="context_recordinglist" >
+        <item>Modifică înregistrare</item>
+        <item>Încarcă pe cloud</item>
+        <item>Descarcă de pe cloud</item>	
+        <item>Șterge fișier local</item>
+        <item>Șterge fișier cloud</item>    
+    </string-array>
+    
+    
+</resources>
