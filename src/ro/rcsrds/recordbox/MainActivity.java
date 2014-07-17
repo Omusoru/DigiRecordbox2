@@ -2,8 +2,10 @@ package ro.rcsrds.recordbox;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import android.annotation.SuppressLint;
+
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -29,7 +32,8 @@ public class MainActivity extends ActionBarActivity {
 	private String filename;
 	private Dialog dlgSaving;
 	private boolean buttonRecording;
-	private Handler mHandler = new Handler();
+	//private Handler mHandler = new Handler();
+	private boolean needsCancel;
 	
 	//Timer
 	private long startTime = 0L;
@@ -68,10 +72,9 @@ public class MainActivity extends ActionBarActivity {
 		btnCancel.setVisibility(View.INVISIBLE);
 		tvRecorderTime = (TextView) findViewById(R.id.tv_recorder_time);
 		
+		needsCancel = false;
 		buttonRecording = true; 
-		
 		recorder = new AudioRecorder(auth.getUsername());
-		
 		dlgSaving = new Dialog(this);
 	}
 
@@ -99,6 +102,23 @@ public class MainActivity extends ActionBarActivity {
 		}
 		
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(needsCancel) {
+			recorder.cancelRecording();
+		    btnStop.setVisibility(View.INVISIBLE);
+	        btnCancel.setVisibility(View.INVISIBLE);
+	        resetButton();
+	        stopTimer();
+	        Toast.makeText(this, R.string.message_recording_canceled, Toast.LENGTH_SHORT).show();
+	        needsCancel = false;
+		}
+	    
+	}
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -132,19 +152,21 @@ public class MainActivity extends ActionBarActivity {
 				new StopRecordingTask().execute(true);
 	            resetButton();	
 	            stopTimer();
+	            needsCancel = false;
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);
 	            resetButton();
 	            stopTimer();
+	            needsCancel = false;
 			} else if (v.getId()==R.id.btn_recorder_start) {	
 				recorder.startRecording();
 				filename = recorder.getLastFilename();
-				Log.d("Mediaplyer","filename after startRecording(): "+filename);
 				btnStop.setVisibility(View.VISIBLE);
 	            btnCancel.setVisibility(View.VISIBLE);	  
 	            disableButton();
+	            needsCancel = true;
 	            //switchButtons();
 	            startTimer();  
 			}

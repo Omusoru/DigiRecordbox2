@@ -58,5 +58,6 @@
     <string name="message_not_on_local">The file does not exist on the local storage</string>
     <string name="message_not_on_cloud">The file does not exist on the cloud</string>
     <string name="message_name_validation">Invalid characters in name field. Only letters, numbers, spaces and _ &#8211; characters allowed </string>
+    <string name="message_recording_canceled">Recording has been canceled</string>
 
 </resources>
