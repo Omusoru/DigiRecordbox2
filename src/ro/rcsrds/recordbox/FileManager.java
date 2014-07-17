@@ -152,10 +152,14 @@ public class FileManager {
 	
 	public boolean rename(String originalName,String newName){
 		
+		Log.d("FileManager","parameters "+originalName + " " + newName);
+		
 		java.io.File file = new java.io.File(localFilePath+originalName);
 		if(file.exists()){
 			java.io.File file2 = new java.io.File(localFilePath+newName);
-			file.renameTo(file2); 
+			if(file.renameTo(file2)) {
+				Log.d("FileManager","after "+file.getName());
+			}
 			return true;
 		}
 		else return false;
