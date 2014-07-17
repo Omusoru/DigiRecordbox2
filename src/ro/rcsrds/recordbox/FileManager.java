@@ -24,7 +24,6 @@ public class FileManager {
 	private String username;
 	private String password;
 	private Mount mount;
-	private String mounty;
 	private StorageApi api;
 	
 	public FileManager(Context context){				
@@ -47,7 +46,7 @@ public class FileManager {
 		}
 		try {
 			mount = api.getMounts().get(0);
-			mounty = api.getMounts().get(0).toString();
+			api.getMounts().get(0).toString();
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
@@ -160,6 +159,17 @@ public class FileManager {
 		} else {
 			return false;
 		}
+	}
+	
+	public boolean renameCloud(String originalName,String newName){
+		
+		try {
+			api.renamePath(mount.getId(),"/RecordBox/"+originalName, newName);
+			return true;
+		} catch (StorageApiException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}		
 	}
 	
 }
