@@ -162,4 +162,15 @@ public class FileManager {
 		}
 	}
 	
+	public boolean renameCloud(String originalName,String newName){
+		
+		try {
+			api.renamePath(mount.getId(),"/RecordBox/"+originalName, newName);
+			return true;
+		} catch (StorageApiException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}		
+	}
+	
 }
