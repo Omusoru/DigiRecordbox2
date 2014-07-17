@@ -81,9 +81,6 @@
 		- Poți accesa lista de notițe audio salvate local sau/și pe cloud prin apăsarea butonului de 
 		 meniu al dispozitivului(dacă dispozitivul nu dispune de un buton de meniu fizic, o iconiță
 		 de meniu va apărea sus în bara de acțiuni) și selectarea opțiunii "Listă înregistrari".\n
-		 - Besides the name, description and duration of the recording, you'll also notice
-		 two small circles. The first one will color green when the file is present on the local
-		 storage and the second one will color blue when the file is stored in the cloud.\n
 		 - Pe lângă numele, descrierea și durata înregistrării, de asemenea vei putea observa
 		 două mici cercuri. Primul va avea culoarea verde dacă fișierul există în memoria dispozitivului,
 		 iar al doilea va avea culoarea albastră dacă fișierul este stocat pe cloud.

@@ -80,7 +80,7 @@
 	    Instructions\n
 	</string>
 	<string name="about_content3">
-	    - Start recording by pressing on the record button in the main screen.\n
+	    - Start recording by pressing the record button in the main screen.\n
 		- You can pause and resume recording by pressing the same button.\n
 		- When you are done recording, pressing the stop button will present you a new screen 
 		 where you can enter a name and a description for the audio note.\n
@@ -90,7 +90,7 @@
 		- You can access the list of audio notes saved locally and/or on the cloud by pressing the 
 		device\'s menu button (if the device doesn\'t have a physical menu button, a menu icon
 		will show up on the top action bar) and selecting "Recording list".\n
-		- Besides the name, description and duration of the recording, you'll also notice
+		- Besides the name, description and duration of the recording, you\'ll also notice
 		 two small circles. The first one will color green when the file is present on the local
 		 storage and the second one will color blue when the file is stored in the cloud.\n
 		- From here you can click on a note and open it in the media player. \n
