@@ -1,8 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ro.rcsrds.recordbox.MainActivity" >
-    
+    tools:context="ro.rcsrds.recordbox.MainActivity"
+    xmlns:recordbox="http://schemas.android.com/apk/res-auto" >
+   
     <item android:id="@+id/option_menu_list" android:title="@string/option_menu_list" />
     <item android:id="@+id/option_menu_logout" android:title="@string/option_menu_logout" />
     <item android:id="@+id/option_menu_exit" android:title="@string/option_menu_exit" />
