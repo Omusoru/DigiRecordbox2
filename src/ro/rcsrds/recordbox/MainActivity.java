@@ -137,6 +137,9 @@ public class MainActivity extends ActionBarActivity {
 		} else if(item.getItemId()==R.id.option_menu_list) {
 			Intent mediaPlayer = new Intent(MainActivity.this,RecordingListActivity.class);
 			startActivity(mediaPlayer);
+		} else if(item.getItemId()==R.id.option_menu_about) {
+			Intent intent = new Intent(MainActivity.this,AboutActivity.class);
+			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
 	}

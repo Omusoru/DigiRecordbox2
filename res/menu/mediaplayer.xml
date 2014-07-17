@@ -5,6 +5,6 @@
     
     <item android:id="@+id/option_menu_recorder" android:title="@string/option_menu_recorder" />
     <item android:id="@+id/option_menu_list" android:title="@string/option_menu_list" />
-    <item android:id="@+id/option_menu_exit" android:title="@string/option_menu_exit" />
+    <item android:id="@+id/option_menu_about" android:title="@string/option_menu_about" />
 
 </menu>

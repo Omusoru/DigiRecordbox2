@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ro.rcsrds.recordbox.RecordingListActivity" >
     
+    <item android:id="@+id/option_menu_recorder" android:title="@string/option_menu_recorder" />
     <item android:id="@+id/option_menu_import_local" android:title="@string/option_menu_import_local" />
-    <item android:id="@+id/option_menu_recorder" android:title="@string/option_menu_recorder" />    
-    <item android:id="@+id/option_menu_exit" android:title="@string/option_menu_exit" />
+    <item android:id="@+id/option_menu_about" android:title="@string/option_menu_about" />    
 
 </menu>

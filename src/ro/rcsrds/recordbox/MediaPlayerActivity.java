@@ -188,6 +188,9 @@ public class MediaPlayerActivity extends Activity {
 		} else if(item.getItemId()==R.id.option_menu_recorder) {
 			Intent mediaPlayer = new Intent(MediaPlayerActivity.this,MainActivity.class);
 			startActivity(mediaPlayer);
+		} else if(item.getItemId()==R.id.option_menu_about) {
+			Intent intent = new Intent(MediaPlayerActivity.this,AboutActivity.class);
+			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
 	}

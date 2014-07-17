@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -96,6 +97,9 @@ public class RecordingListActivity extends Activity {
 			startActivity(mediaPlayer);
 		} else if(item.getItemId()==R.id.option_menu_import_local) {
 			importLocalFiles();
+		} else if(item.getItemId()==R.id.option_menu_about) {
+			Intent intent = new Intent(RecordingListActivity.this,AboutActivity.class);
+			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
 	}
