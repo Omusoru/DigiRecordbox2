@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
@@ -125,6 +124,8 @@ public class MainActivity extends ActionBarActivity {
 			
 			if (v.getId()==R.id.btn_recorder_stop) {			
 				previousTime = tvRecorderTime.getText().toString();
+				btnStop.setVisibility(View.INVISIBLE);
+	            btnCancel.setVisibility(View.INVISIBLE);
 				new StopRecordingTask().execute(true);
 	            resetButton();	
 	            stopTimer();
