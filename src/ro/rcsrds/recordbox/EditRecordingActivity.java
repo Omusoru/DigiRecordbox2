@@ -77,26 +77,37 @@ public class EditRecordingActivity extends ActionBarActivity {
 		@Override
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_save) {
-				if(newRecording) {
-					saveRecording();
+				if(validateFields()) {
+					if(newRecording) {
+						saveRecording();
+					} else {
+						editRecording();
+						Intent intent = new Intent(EditRecordingActivity.this,RecordingListActivity.class);
+						startActivity(intent);
+					}
+					finish();
 				} else {
-					editRecording();
-					Intent intent = new Intent(EditRecordingActivity.this,RecordingListActivity.class);
-					startActivity(intent);
+					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();
 				}
 				
-				finish();
+				
+				
 			} else if(v.getId()==R.id.btn_save_play) {
-				if(newRecording) {
-					saveRecording();
+				if(validateFields()) {
+					if(newRecording) {
+						saveRecording();
+					} else {
+						editRecording();
+					}
+					finish();
+					// Launch media player with filename parameter
+					Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
+					intent.putExtra("id", lastRecordingId);
+					startActivity(intent);
 				} else {
-					editRecording();
+					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();
 				}
-				finish();
-				// Launch media player with filename parameter
-				Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
-				intent.putExtra("id", lastRecordingId);
-				startActivity(intent);
+				
 			}
 			
 		}
@@ -107,6 +118,15 @@ public class EditRecordingActivity extends ActionBarActivity {
 		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		  return (cm.getActiveNetworkInfo() != null);
 	 }
+	
+	private boolean validateFields() {
+		
+		String content = etName.getText().toString();
+		String regex = "[a-zA-Z0-9 _-]*";
+		if(content.matches(regex)) return true;
+		else return false;
+		
+	}
 	
 	private void saveRecording() {
 		
@@ -145,6 +165,14 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 	}
 	
+	private void editRecording() {
+		DatabaseHelper db = new DatabaseHelper(this);
+		recording.setName(etName.getText().toString());
+		recording.setDescription(etDescription.getText().toString());
+		db.updateRecording(recording);
+		recording = null;
+	}
+	
 	private void uploadToCloud(final String filename) {
 		new Thread(new Runnable() {
 		    public void run() {
@@ -159,14 +187,6 @@ public class EditRecordingActivity extends ActionBarActivity {
 		// populate fields
 		etName.setText(recording.getName());
 		etDescription.setText(recording.getDescription());
-	}
-	
-	private void editRecording() {
-		DatabaseHelper db = new DatabaseHelper(this);
-		recording.setName(etName.getText().toString());
-		recording.setDescription(etDescription.getText().toString());
-		db.updateRecording(recording);
-		recording = null;
 	}
 	
 	private String getCurrentFormatedDate() {
