@@ -150,4 +150,15 @@ public class FileManager {
 		return myList;
 	}
 	
+	public boolean rename(String originalName,String newName){
+		
+		java.io.File file = new java.io.File(localFilePath+originalName);
+		if(file.exists()){
+			java.io.File file2 = new java.io.File(localFilePath+newName);
+			file.renameTo(file2);
+			return true;
+		}
+		else return false;
+	}
+	
 }
