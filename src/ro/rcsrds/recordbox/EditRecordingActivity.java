@@ -110,13 +110,27 @@ public class EditRecordingActivity extends ActionBarActivity {
 	
 	private void saveRecording() {
 		
+		//rename file		
+		final String currentDate = getCurrentFormatedDate();
+		final String name = etName.getText().toString();
+		final String oldFilename = filename;
+		final String newFilename = name+" "+currentDate+".mp4";
+		
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm.rename(oldFilename,newFilename);
+		   }
+		}).start();
+		
+		
+		
 		// create recording object
 		Recording newRecording = new Recording();
-		newRecording.setName(etName.getText().toString());
+		newRecording.setName(name);
 		newRecording.setDescription(etDescription.getText().toString());
-		newRecording.setDate(getCurrentFormatedDate());
+		newRecording.setDate(currentDate);
 		newRecording.setOwner(owner);
-		newRecording.setFilename(filename);
+		newRecording.setFilename(newFilename);
 		newRecording.setDuration(duration);
 		newRecording.setOnLocal(true);
 		newRecording.setOnCloud(false);
@@ -124,7 +138,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 		
 		if(isNetworkConnected()) {
-			uploadToCloud(filename);
+			uploadToCloud(newFilename);
 			newRecording.setOnCloud(true);
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
@@ -133,6 +147,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 		// insert recording into database
 		DatabaseHelper db = new DatabaseHelper(this);
 		lastRecordingId = db.insertRecording(newRecording);
+		newRecording = null;
 		
 	}
 	
