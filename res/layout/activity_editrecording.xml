@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
+            android:maxLength="100"
             android:text="@string/et_untitled" >
 
             <requestFocus />
@@ -50,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:maxLength="254"
             android:inputType="textMultiLine"
             android:minLines="5" />
 
