@@ -114,15 +114,9 @@ public class EditRecordingActivity extends ActionBarActivity {
 		final String currentDate = getCurrentFormatedDate();
 		final String name = etName.getText().toString();
 		final String oldFilename = filename;
-		final String newFilename = name+" "+currentDate+".mp4";
-		
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.rename(oldFilename,newFilename);
-		   }
-		}).start();
-		
-		
+		final String newFilename = name+" "+currentDate+".mp4";		
+
+		fm.rename(oldFilename,newFilename);		
 		
 		// create recording object
 		Recording newRecording = new Recording();
@@ -178,7 +172,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	private String getCurrentFormatedDate() {
 		
 		Calendar c = Calendar.getInstance();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 		return df.format(c.getTime());
 		
 	}
