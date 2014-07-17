@@ -2,7 +2,7 @@ package ro.rcsrds.recordbox;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -123,26 +123,7 @@ public class MainActivity extends ActionBarActivity {
 	
 	private class ButtonClickListener implements OnClickListener {
 
-		@Override
 		public void onClick(View v) {
-			
-			btnRecord.setEnabled(false);
-
-			Timer buttonTimer = new Timer();
-			buttonTimer.schedule(new TimerTask() {
-
-			    @Override
-			    public void run() {
-			        runOnUiThread(new Runnable() {
-
-			            @Override
-			            public void run() {
-			            	btnRecord.setEnabled(true);
-			            }
-			        });
-			    }
-			}, 500);
-		
 			
 			if (v.getId()==R.id.btn_recorder_stop) {			
 				previousTime = tvRecorderTime.getText().toString();
@@ -163,9 +144,10 @@ public class MainActivity extends ActionBarActivity {
 				Log.d("Mediaplyer","filename after startRecording(): "+filename);
 				btnStop.setVisibility(View.VISIBLE);
 	            btnCancel.setVisibility(View.VISIBLE);	  
-	            switchButtons();
-	            startTimer();
-			} 
+	            disableButton();
+	            //switchButtons();
+	            startTimer();  
+			}
 			
 		}		
 		
@@ -214,6 +196,44 @@ public class MainActivity extends ActionBarActivity {
 		else totext+=":"+Long.toString((timeinms/1000)%60);
 		
 		return totext;
+	}
+	
+	private void disableButton() {
+		
+        btnRecord.setEnabled(false);
+		setEnabledButtons(false);		
+
+		Timer buttonTimer = new Timer();
+		buttonTimer.schedule(new TimerTask() {
+
+		    @Override
+		    public void run() {
+		        runOnUiThread(new Runnable() {
+		            public void run() {			            	
+		            	btnRecord.setEnabled(true);
+		            	setEnabledButtons(true);
+		            	switchButtons();		            	
+		            }
+		        });
+		    }
+		}, 500);
+	}
+	
+	private void setEnabledButtons(boolean enable) {
+		if(enable) {
+			if(buttonRecording) {
+				btnRecord.setBackgroundResource(R.drawable.button_record_big);
+			} else if(!buttonRecording) {
+				btnRecord.setBackgroundResource(R.drawable.button_pause_big);				
+			}
+		} else {
+			if(buttonRecording) {
+				btnRecord.setBackgroundResource(R.drawable.button_record_big_disabled);				
+			} else if(!buttonRecording) {
+				btnRecord.setBackgroundResource(R.drawable.button_pause_big_disabled);
+			}
+		}
+		
 	}
 	
 	
