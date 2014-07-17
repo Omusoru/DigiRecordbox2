@@ -1,5 +1,8 @@
 package ro.rcsrds.recordbox;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
 	private String filename;
 	private Dialog dlgSaving;
 	private boolean buttonRecording;
+	private Handler mHandler = new Handler();
 	
 	//Timer
 	private long startTime = 0L;
@@ -121,6 +125,24 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		public void onClick(View v) {
+			
+			btnRecord.setEnabled(false);
+
+			Timer buttonTimer = new Timer();
+			buttonTimer.schedule(new TimerTask() {
+
+			    @Override
+			    public void run() {
+			        runOnUiThread(new Runnable() {
+
+			            @Override
+			            public void run() {
+			            	btnRecord.setEnabled(true);
+			            }
+			        });
+			    }
+			}, 500);
+		
 			
 			if (v.getId()==R.id.btn_recorder_stop) {			
 				previousTime = tvRecorderTime.getText().toString();
