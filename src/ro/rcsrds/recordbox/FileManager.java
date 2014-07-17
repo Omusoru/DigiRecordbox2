@@ -155,7 +155,7 @@ public class FileManager {
 		java.io.File file = new java.io.File(localFilePath+originalName);
 		if(file.exists()){
 			java.io.File file2 = new java.io.File(localFilePath+newName);
-			file.renameTo(file2);
+			file.renameTo(file2); 
 			return true;
 		}
 		else return false;
