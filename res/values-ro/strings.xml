@@ -59,6 +59,8 @@
 	</string>
 	<string name="about_content1">
 	    Digi Recordbox permite înregistrarea notițelor audio ce sunt apoi urcate și stocate pe serviciul de cloud storage Digi.\n
+	    După urcarea primei înregistrări, un nou director numit "Digi Recordbox" va fi creat în directorul rădăcină existent "Digi cloud"
+	    asociat contului dumneavoastră de utilizator Digi Storage.\n
 		Notițele audio pot fi apoi redate, fie direct din memoria locală a dispozitivului, fie prin streaming de pe cloud. \n\n
 	</string>
 	<string name="about_title2">

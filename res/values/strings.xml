@@ -66,7 +66,9 @@
 		About Digi Recordbox\n
 	</string>
 	<string name="about_content1">
-	    Digi Recordbox allows the recording of audio notes which are then uploaded and stored on the Digi cloud storage service. \n
+	    Digi Recordbox allows the recording of audio notes which are then uploaded and stored on the Digi Storage cloud service. \n
+	    After uploading the first recording, a new folder named "Digi Recordbox" will be created in the existing root folder "Digi cloud"
+	    associated with your Digi Storage account.\n
 		The audio notes can then be played back, either directly from the device\'s local storage, or by streaming them from the cloud. \n\n
 	</string>
 	<string name="about_title2">
