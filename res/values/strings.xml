@@ -10,16 +10,7 @@
     <string name="title_about">About</string>
 
     <!-- main activity -->
-    <string name="btn_recorder_start">Record</string>
-    <string name="btn_recorder_pause">Pause</string>
-    <string name="btn_recorder_stop">Stop</string>
-    <string name="btn_recorder_cancel">Cancel</string>
     <string name="tv_recorder_time">00:00</string>
-
-    <!-- media player activity -->
-    <string name="btn_player_play">Play</string>
-    <string name="btn_player_pause">Pause</string>
-    <string name="btn_player_stop">Stop</string>
 
     <!-- options menu -->
     <string name="option_menu_logout">Log out</string>

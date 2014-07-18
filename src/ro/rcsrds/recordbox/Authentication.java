@@ -1,7 +1,6 @@
 package ro.rcsrds.recordbox;
 
 import net.koofr.api.v2.DefaultClientFactory;
-import net.koofr.api.v2.StorageApi;
 import net.koofr.api.v2.StorageApiException;
 import android.content.Context;
 import android.content.SharedPreferences;
