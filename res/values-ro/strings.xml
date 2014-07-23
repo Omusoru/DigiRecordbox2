@@ -20,6 +20,7 @@
     <string name="option_menu_import_local">Importă fișiere locale</string>
     <string name="option_menu_import_cloud">Importă fișiere online</string>
     <string name="option_menu_about">Despre</string>
+    <string name="option_menu_check_files">Verifică starea fișierelor</string>
 
     <!-- login activity -->
     <string name="btn_login">Logare</string>

@@ -20,6 +20,7 @@
     <string name="option_menu_import_local">Import local files</string>
     <string name="option_menu_import_cloud">Import online files</string>
     <string name="option_menu_about">About</string>
+    <string name="option_menu_check_files">Check missing files</string>
 
     <!-- login activity -->
     <string name="btn_login">Log in</string>

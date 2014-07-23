@@ -103,6 +103,8 @@ public class RecordingListActivity extends Activity {
 		} else if(item.getItemId()==R.id.option_menu_about) {
 			Intent intent = new Intent(RecordingListActivity.this,AboutActivity.class);
 			startActivity(intent);
+		} else if(item.getItemId()==R.id.option_menu_check_files) {
+			// Functia ta
 		}
 		return super.onOptionsItemSelected(item);
 	}
