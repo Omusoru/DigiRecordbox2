@@ -78,7 +78,7 @@ public class MediaPlayerActivity extends Activity {
 				    		filename = "a";
 				    		runOnUiThread(new Runnable() {
 					            public void run() {
-					            	Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();					            	
+					            	Toast.makeText(getApplicationContext(), R.string.message_no_internet_checking, Toast.LENGTH_SHORT).show();					            	
 					            }
 					        });
 				    	}

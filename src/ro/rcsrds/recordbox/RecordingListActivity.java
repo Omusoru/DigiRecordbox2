@@ -37,6 +37,7 @@ public class RecordingListActivity extends Activity {
 	
 	private boolean fileExists;
 	private String looping;
+	ArrayList<String> onlineFiles;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class RecordingListActivity extends Activity {
 		
     	    
 }
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -104,7 +106,8 @@ public class RecordingListActivity extends Activity {
 			Intent intent = new Intent(RecordingListActivity.this,AboutActivity.class);
 			startActivity(intent);
 		} else if(item.getItemId()==R.id.option_menu_check_files) {
-			// Functia ta
+			checkFiles();
+			restartActivity();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -468,4 +471,59 @@ public class RecordingListActivity extends Activity {
 		
 		return totext;
 	}
+	
+	private void checkFiles(){
+		DatabaseHelper db = new DatabaseHelper(this);
+		List<Recording> recordingList = db.getAllRecordings();
+		ArrayList<String> localFiles = fm.getFileListLocal();
+		
+		for(int i=0;i<recordingList.size();i++){
+			if(!localFiles.contains(recordingList.get(i).getLocalFilename())){
+				recordingList.get(i).setOnLocal(false);
+				db.updateRecording(recordingList.get(i));
+			}
+		}
+		
+		if(isConnection()){			
+			looping=null;
+			new Thread(new Runnable() {				
+				@Override
+				public void run() {
+					onlineFiles=fm.getFileListCloud();
+					looping="a";
+				}
+			}).start();
+			while(looping==null){};
+			looping=null;
+			
+			for(int i=0;i<recordingList.size();i++){
+				if(!onlineFiles.contains(recordingList.get(i).getLocalFilename())){
+					recordingList.get(i).setOnCloud(false);
+					db.updateRecording(recordingList.get(i));
+				}
+			}
+			
+		}
+		else{
+			runOnUiThread(new Runnable() {
+	            public void run() {
+	            	Toast.makeText(getApplicationContext(), R.string.message_no_internet_checking, Toast.LENGTH_SHORT).show();					            	
+	            }
+	        });
+		}
+		
+		for(int i=0;i<recordingList.size();i++){
+			if((recordingList.get(i).isOnCloud()==false)&&(recordingList.get(i).isOnLocal()==false)) {
+				db.deleteRecording(recordingList.get(i));
+				i--;
+				recordingList = db.getAllRecordings();
+			}
+		}
+
+	}
+	
+	private boolean isConnection() {
+		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		  return (cm.getActiveNetworkInfo() != null);
+	 }
 }
