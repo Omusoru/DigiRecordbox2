@@ -35,6 +35,9 @@ public class RecordingListActivity extends Activity {
 	private EditText searchField;
 	public static final String PREFS_NAME = "Authentication";
 	
+	private boolean fileExists;
+	private String looping;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -215,9 +218,44 @@ public class RecordingListActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
-			intent.putExtra("id", recordingList.get((int)id).getId());
-			startActivity(intent);
+			Recording recording = recordingList.get((int)id);
+			// check for local file
+			if(recording.isOnLocal()) {
+				if(checkFile("local",recording.getLocalFilename())) {
+					// if file exists start media player
+					Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
+					intent.putExtra("id", recording.getId());
+					startActivity(intent);
+				} else {
+					//show message
+					Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
+					//update database
+					updateEntry("local", false, position);
+					//refresh list
+					restartActivity();
+				}
+				
+			// check for cloud file
+			} else if(recording.isOnCloud()) {
+				if(isNetworkConnected()) {
+					if(checkFile("cloud",recording.getCloudFilename())) {
+						// if file exists start media player
+						Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
+						intent.putExtra("id", recording.getId());
+						startActivity(intent);
+					} else {
+						//show message
+						Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+						//update database
+						updateEntry("cloud", false, position);
+						//refresh list
+						restartActivity();
+					}
+				} else {
+					Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+				}
+			}
+			
 		}
 		
 			
@@ -366,6 +404,32 @@ public class RecordingListActivity extends Activity {
 		}		
 		recording = null;
 		
+	}
+	
+	private boolean checkFile(String location,final String filename) {
+		fileExists = false;
+		looping = null;
+		if(location=="cloud") {
+			Log.d("Filename","test 1: "+fileExists);
+			new Thread(new Runnable() {
+			    public void run() {
+			    	Log.d("Filename","test 2: "+fileExists);
+			    	fileExists =  fm.checkFileOnline(filename);	
+			    	Log.d("Filename","test 3: "+fileExists);
+			    	if(!fileExists) {
+			    		Log.d("Filename",filename+" does not exist on cloud");
+			    	}
+			    	looping = "";
+			    }
+			}).start();
+			while(looping == null) {}
+			looping = null;//
+				    			
+		} else if(location=="local") {
+			fileExists =  fm.checkFileLocal(filename);
+		}
+		Log.d("Filename","test 4: "+fileExists);
+		return fileExists;
 	}
 	
 	private String getCurrentFormatedDate() {
