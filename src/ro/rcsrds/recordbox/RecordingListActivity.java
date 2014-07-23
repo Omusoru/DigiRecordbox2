@@ -261,7 +261,7 @@ public class RecordingListActivity extends Activity {
 			if(isValidFileType(filename)) {
 				fileInDb = false;
 				for(Recording recording : recordingList) {
-					if(filename.equalsIgnoreCase(recording.getFilename())){
+					if(filename.equalsIgnoreCase(recording.getLocalFilename())){
 						fileInDb = true;
 						break;
 					}
@@ -272,7 +272,8 @@ public class RecordingListActivity extends Activity {
 					newRecording.setDescription("");
 					newRecording.setDate(getCurrentFormatedDate());
 					newRecording.setOwner(getSharedPreferences(PREFS_NAME, 0).getString("username", ""));
-					newRecording.setFilename(filename);
+					newRecording.setLocalFilename(filename);
+					newRecording.setCloudFilename(filename);
 					newRecording.setDuration(getDuration(filename));
 					newRecording.setOnLocal(true);
 					newRecording.setOnCloud(false);
@@ -299,7 +300,7 @@ public class RecordingListActivity extends Activity {
 		// upload file
 		new Thread(new Runnable() {
 		    public void run() {
-		    	fm.upload(recordingList.get(position).getFilename());
+		    	fm.upload(recordingList.get(position).getLocalFilename());
 		   }
 		}).start();
 		
@@ -313,7 +314,7 @@ public class RecordingListActivity extends Activity {
 		// download file
 		new Thread(new Runnable() {
 		    public void run() {
-		    	fm.download(recordingList.get(position).getFilename());
+		    	fm.download(recordingList.get(position).getCloudFilename());
 		    }
 		}).start();
 		
@@ -327,7 +328,7 @@ public class RecordingListActivity extends Activity {
 		// delete cloud file
 		new Thread(new Runnable() {
 		    public void run() {
-		    	fm.deleteCloud(recordingList.get(position).getFilename());
+		    	fm.deleteCloud(recordingList.get(position).getCloudFilename());
 		    }
 		}).start();
 		
@@ -340,7 +341,7 @@ public class RecordingListActivity extends Activity {
 		// delete local file
 		new Thread(new Runnable() {
 		    public void run() {
-		    	fm.deleteLocal(recordingList.get(position).getFilename());
+		    	fm.deleteLocal(recordingList.get(position).getLocalFilename());
 		    }
 		}).start();
 		

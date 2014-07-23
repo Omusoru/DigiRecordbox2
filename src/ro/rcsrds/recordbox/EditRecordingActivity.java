@@ -144,7 +144,8 @@ public class EditRecordingActivity extends ActionBarActivity {
 		newRecording.setDescription(etDescription.getText().toString());
 		newRecording.setDate(currentDate);
 		newRecording.setOwner(owner);
-		newRecording.setFilename(newFilename);
+		newRecording.setLocalFilename(newFilename);
+		newRecording.setCloudFilename(newFilename);
 		newRecording.setDuration(duration);
 		newRecording.setOnLocal(true);
 		newRecording.setOnCloud(false);

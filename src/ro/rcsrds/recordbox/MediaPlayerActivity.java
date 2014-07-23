@@ -60,7 +60,7 @@ public class MediaPlayerActivity extends Activity {
 		
 		if(recording.isOnLocal()){
 			//Log.d("dltest", "TEST INAINTE DE FM");
-			filename = recording.getFilename();
+			filename = recording.getLocalFilename();
 			online = false;
 		}
 		else{
@@ -70,7 +70,7 @@ public class MediaPlayerActivity extends Activity {
 				    	if(isNetworkConnected()) {
 				    		fm.connectToCloud();
 				    		online = true;
-				    		filename = fm.getFileLink(recording.getFilename());				    		
+				    		filename = fm.getFileLink(recording.getCloudFilename());				    		
 				    	} else {
 				    		//TODO toast
 				    		Log.d("Connection","Not network connected");
@@ -174,10 +174,8 @@ public class MediaPlayerActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.mediaplayer, menu);
-		return true;
-		
+		return true;		
 	}
 	
 	@Override
@@ -224,13 +222,6 @@ public class MediaPlayerActivity extends Activity {
 	}
 	
 	public void switchButtons() {
-//		if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_play))) {
-//			btnPlay.setText(this.getString(R.string.btn_player_pause));
-//			btnPlay.setBackgroundResource(R.drawable.button_pause_small);
-//		} else if(btnPlay.getText().toString().equalsIgnoreCase(this.getString(R.string.btn_player_pause))) {
-//			btnPlay.setText(this.getString(R.string.btn_player_play));
-//			btnPlay.setBackgroundResource(R.drawable.button_play_small);
-//		}
 		if(buttonPlaying) {
 			btnPlay.setBackgroundResource(R.drawable.button_pause_small);
 			buttonPlaying = false;
