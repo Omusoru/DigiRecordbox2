@@ -289,7 +289,7 @@ public class RecordingListActivity extends Activity {
 			Toast.makeText(this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
 			restartActivity();
 		} else if (count > 1) {
-			Toast.makeText(this, "Added one "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
 			restartActivity();
 		}
 		
