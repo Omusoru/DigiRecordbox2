@@ -267,5 +267,9 @@ public class AudioRecorder {
         
         return filename;
 	}
+	
+	public boolean getCanRecord(){
+		return canRecord;
+	}
 
 }

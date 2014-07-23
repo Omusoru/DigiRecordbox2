@@ -6,8 +6,11 @@ import java.util.TimerTask;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.StatFs;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -161,7 +164,9 @@ public class MainActivity extends ActionBarActivity {
 	            resetButton();
 	            stopTimer();
 	            needsCancel = false;
-			} else if (v.getId()==R.id.btn_recorder_start) {	
+			} else if (v.getId()==R.id.btn_recorder_start) {
+				
+				if(getMBAvailable()>10){				
 				recorder.startRecording();
 				filename = recorder.getLastFilename();
 				btnStop.setVisibility(View.VISIBLE);
@@ -169,7 +174,27 @@ public class MainActivity extends ActionBarActivity {
 	            disableButton();
 	            needsCancel = true;
 	            //switchButtons();
-	            startTimer();  
+	            startTimer();
+	            }
+				else{					
+					runOnUiThread(new Runnable() {
+			            public void run() {
+			            	Toast.makeText(getApplicationContext(), R.string.message_no_space_avaible, Toast.LENGTH_SHORT).show();					            	
+			            }
+			        });
+					if(!recorder.getCanRecord()){
+						previousTime = tvRecorderTime.getText().toString();
+						btnStop.setVisibility(View.INVISIBLE);
+			            btnCancel.setVisibility(View.INVISIBLE);
+						new StopRecordingTask().execute(true);
+			            resetButton();	
+			            stopTimer();
+			            needsCancel = false;
+					}
+					Log.d("Files", Float.toString(getMBAvailable()));
+					
+				}
+				
 			}
 			
 		}		
@@ -281,6 +306,20 @@ public class MainActivity extends ActionBarActivity {
 		intent.putExtra("new",true);
 		intent.putExtra("duration", previousTime);
 		startActivity(intent);
-	}
+	}	
 
+	private static float getMBAvailable() {
+	    StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
+			@SuppressWarnings("deprecation")
+			long bytesAvailable = (long)stat.getAvailableBlocksLong() * (long)stat.getBlockSizeLong();
+			return bytesAvailable / (1024.f * 1024.f);
+			} 		
+		else{
+			@SuppressWarnings("deprecation")
+			double bytesAvailable = (double)stat.getAvailableBlocks() * (double)stat.getBlockSize();
+			return (float) (bytesAvailable / (1024.f * 1024.f));
+			}	    
+	    
+	}
 }
