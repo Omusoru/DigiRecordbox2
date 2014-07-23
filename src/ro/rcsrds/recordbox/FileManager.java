@@ -169,7 +169,6 @@ public class FileManager {
 		
 		try {
 			api.renamePath(mount.getId(),"/DigiRecordbox/"+originalName, newName);
-			
 			return true;
 		} catch (StorageApiException e) {
 			Log.e("Rename",e.getMessage());

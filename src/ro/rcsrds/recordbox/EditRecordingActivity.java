@@ -167,9 +167,37 @@ public class EditRecordingActivity extends ActionBarActivity {
 	}
 	
 	private void editRecording() {
-		DatabaseHelper db = new DatabaseHelper(this);
+		
 		recording.setName(etName.getText().toString());
 		recording.setDescription(etDescription.getText().toString());
+		
+		final String currentDate = getCurrentFormatedDate();
+		final String name = etName.getText().toString();
+		final String oldLocalFilename = recording.getLocalFilename();
+		final String oldCloudFilename = recording.getCloudFilename();
+		final String newFilename = name+" "+currentDate+".mp4";
+		
+		//rename local file
+		if(recording.isOnLocal()) {
+			fm.rename(oldLocalFilename,newFilename);	
+			recording.setLocalFilename(newFilename);
+		}
+		//rename cloud file
+		if(recording.isOnCloud()) {
+			if(isNetworkConnected()) {
+				new Thread(new Runnable() {
+				    public void run() {
+				    	fm.renameCloud(oldCloudFilename, newFilename);
+				   }
+				}).start();				
+				recording.setCloudFilename(newFilename);
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.message_cloud_not_renamed, Toast.LENGTH_SHORT).show();
+			}
+		}
+		
+		// update recording
+		DatabaseHelper db = new DatabaseHelper(this);
 		db.updateRecording(recording);
 		recording = null;
 	}

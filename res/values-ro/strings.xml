@@ -46,6 +46,7 @@
     <string name="message_no_internet">Nu există conexiune la internet</string>
     <string name="message_saving">Se salvează, vă rog așteptați</string>
     <string name="message_not_uploaded">Nu s-a putut încărca pe cloud. Verificați conexiunea la internet</string>
+    <string name="message_cloud_not_renamed">Nu s-a putut redenumi fișierul de pe cliud. Verificați conexiunea la internet</string>
     <string name="message_already_on_cloud">Fișierul există deja pe cloud</string>
     <string name="message_already_on_local">Fișierul există deja pe memoria locală</string>
     <string name="message_not_on_local">Fișierul nu există pe memoria locală</string>
