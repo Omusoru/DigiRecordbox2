@@ -54,6 +54,7 @@
     <string name="message_name_validation">Invalid characters in name field. Only letters, numbers, spaces and _ &#8211; allowed </string>
     <string name="message_recording_canceled">Recording has been canceled</string>
     <string name="message_no_internet_checking">Cannot get status for online files. Unable to connect to the internet</string>
+    <string name="message_no_space_avaible">The application needs at least 10MB of internal storage to run. Please free up space.</string>
     
       <!-- about activity -->
     <string name="about_title1">
