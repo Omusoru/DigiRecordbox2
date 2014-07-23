@@ -100,13 +100,18 @@ public class FileManager {
 		}
 	}
 	
-	public List<File> getFileListCloud(){
+	public ArrayList<String> getFileListCloud(){
 		try {
-			return api.listFiles(mount.getId(), "/DigiRecordbox/");
+			List<File> localFilesFile=api.listFiles(mount.getId(), "/DigiRecordbox/");
+			ArrayList<String> files = new ArrayList<String>();
+			for(int i = 0;i<localFilesFile.size();i++){
+				files.add(localFilesFile.get(i).getName().toString());
+			}
+			return files;
 		} catch (StorageApiException e1) {
 			// TODO Auto-generated catch block
 			Log.d("FileManager",e1.getMessage());
-			List<File> files = null;
+			ArrayList<String> files = null;
 			return files;
 		}
 		
@@ -142,7 +147,7 @@ public class FileManager {
 		
 		for( int i=0; i< list.length; i++)
 	    {
-	            myList.add( list[i].getName() );
+			myList.add( list[i].getName() );
 	    }		
 		
 		return myList;
@@ -164,11 +169,35 @@ public class FileManager {
 		
 		try {
 			api.renamePath(mount.getId(),"/RecordBox/"+originalName, newName);
+			
 			return true;
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
 			return false;
 		}		
+	}
+	
+	public boolean checkFileLocal(String fileName){
+		ArrayList<String> localFiles=getFileListLocal();
+		
+		for(int i=0;i<localFiles.size();i++){
+			if(localFiles.get(i).contains(fileName))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean checkFileOnline(String fileName){
+
+		ArrayList<String> onlineFiles = getFileListCloud();
+		
+		for(int i=0;i<onlineFiles.size();i++){
+			if(onlineFiles.get(i).contains(fileName))
+				return true;
+		}
+		
+		return false;
 	}
 	
 }
