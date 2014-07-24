@@ -6,6 +6,7 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class AudioRecorder {
 		username = username.replace(".", "DOT");
 		username = username.replace("@", "AT");
 		filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
+		currentFile = filePath+"salvage.mp4";
 	}
 	
 	public void startRecording(){
@@ -61,9 +63,6 @@ public class AudioRecorder {
 			}
 			
 			folderTest = new File(filePath+"Temp");
-			if(folderTest.isDirectory()){
-				deleteDirectory(folderTest);
-			}
 			folderTest.mkdirs();
 			
 			Recorder = new MediaRecorder();
@@ -181,7 +180,7 @@ public class AudioRecorder {
         timesPaused = 0;
 	}
 	
-    private void deleteDirectory(File path){
+    public void deleteDirectory(File path){
     	if(path.exists()) {
     		File[] files = path.listFiles();
     	    	for(int i=0; i<files.length; i++) {
@@ -216,14 +215,13 @@ public class AudioRecorder {
 	
 	public String mergeAudio(ArrayList<String> files) throws IOException
 	{
-		String fileDestination=currentFile;
+		String fileDestination=currentFile;		
 
-
-        Movie[] inMovies = new Movie[files.size()];
-        
+        Movie[] inMovies = new Movie[files.size()];        
         for(int i=0; i<files.size();i++)
         {
         	inMovies[i] = MovieCreator.build(files.get(i));
+        	
         }
 
         //List<Track> videoTracks = new LinkedList<Track>();
@@ -255,7 +253,6 @@ public class AudioRecorder {
 		FileChannel fc = randomAccessFile.getChannel();
         out.writeContainer(fc);
         fc.close();
-        
 	return fileDestination;
 
 	}

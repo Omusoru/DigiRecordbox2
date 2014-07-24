@@ -1,10 +1,15 @@
 package ro.rcsrds.recordbox;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -77,6 +82,9 @@ public class MainActivity extends ActionBarActivity {
 		buttonRecording = true; 
 		recorder = new AudioRecorder(auth.getUsername());
 		dlgSaving = new Dialog(this);
+		
+		if(isSalvageble())
+			new SalvageRecordingTask().execute(true);	
 	}
 
 	private class StopRecordingTask extends AsyncTask<Object, Object, Object> {
@@ -92,6 +100,31 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			recorder.stopRecording();
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Object result) {
+			dlgSaving.dismiss();
+			startIntent(filename);			
+			super.onPostExecute(result);
+		}
+		
+	}
+	
+	private class SalvageRecordingTask extends AsyncTask<Object, Object, Object> {
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			dlgSaving.setContentView(R.layout.dialog_main);
+			dlgSaving.setTitle(getResources().getString(R.string.message_saving)); 
+			dlgSaving.show();
+		}
+
+		@Override
+		protected Object doInBackground(Object... params) {
+			filename=salvage();
 			return null;
 		}
 		
@@ -141,7 +174,9 @@ public class MainActivity extends ActionBarActivity {
 		} else if(item.getItemId()==R.id.option_menu_about) {
 			Intent intent = new Intent(MainActivity.this,AboutActivity.class);
 			startActivity(intent);
-		}
+		} else if(item.getItemId()==R.id.debug_crash) {
+			   throw new RuntimeException("This is a crash");
+		  }
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -323,5 +358,67 @@ public class MainActivity extends ActionBarActivity {
 			return (float) (bytesAvailable / (1024.f * 1024.f));
 			}	    
 	    
+	}
+	
+	private boolean isSalvageble(){
+		SharedPreferences preferences = MainActivity.this.getSharedPreferences("Authentication", 0);
+		String username = preferences.getString("username", "").toLowerCase();
+		username = username.replace(".", "DOT");
+		username = username.replace("@", "AT");
+		String localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
+		
+		java.io.File localFileFolder = new java.io.File(localFilePath+"Temp/");
+		
+		if(localFileFolder.exists()==false)
+			return false;		
+		
+		java.io.File list[] = localFileFolder.listFiles();
+		ArrayList<String> myList = new ArrayList<String>();
+		for( int i=0; i< list.length; i++)
+	    {
+			myList.add( list[i].getName() );
+			//Log.d("Files",list[i].getName());
+	    }
+		
+		if(myList.size()<2)
+			return false;
+		else return true;
+	}
+	
+	private String salvage(){
+		
+		SharedPreferences preferences = MainActivity.this.getSharedPreferences("Authentication", 0);
+		String username = preferences.getString("username", "").toLowerCase();
+		username = username.replace(".", "DOT");
+		username = username.replace("@", "AT");
+		String localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
+		
+		java.io.File localFileFolder = new java.io.File(localFilePath+"Temp/");
+		
+		ArrayList<String> myList = new ArrayList<String>();
+		java.io.File list[] = localFileFolder.listFiles();
+		Arrays.sort(list);
+		
+		for( int i=0; i< list.length; i++)
+	    {
+			myList.add( localFilePath+"/Temp/"+list[i].getName() );
+			Log.d("Files",list[i].getName());
+	    }
+		
+		myList.remove(myList.size()-1);
+		String fileLocation = null;
+		AudioRecorder tempRec=new AudioRecorder(preferences.getString("username", "").toLowerCase());
+		try {
+			fileLocation=tempRec.mergeAudio(myList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();			
+		}
+		while(fileLocation==null){}
+		tempRec.deleteDirectory(localFileFolder);
+		
+		return "salvage.mp4";
+		
+		
 	}
 }

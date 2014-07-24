@@ -2,6 +2,7 @@ package ro.rcsrds.recordbox;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.koofr.api.v2.DefaultClientFactory;
@@ -145,11 +146,12 @@ public class FileManager {
 		java.io.File localFileFolder = new java.io.File(localFilePath);
 		
 		ArrayList<String> myList = new ArrayList<String>();
-		java.io.File list[] = localFileFolder.listFiles();
+		java.io.File list[] = localFileFolder.listFiles();		
 		
 		for( int i=0; i< list.length; i++)
 	    {
 			myList.add( list[i].getName() );
+			Log.d("Files",list[i].getName());
 	    }		
 		
 		return myList;
