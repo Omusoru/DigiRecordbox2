@@ -17,8 +17,7 @@
     <string name="option_menu_list">Listă înregistrări</string>
     <string name="option_menu_exit">Ieșire</string>
     <string name="option_menu_recorder">Înregistrator</string>
-    <string name="option_menu_import_local">Importă fișiere locale</string>
-    <string name="option_menu_import_cloud">Importă fișiere online</string>
+    <string name="option_menu_import_files">Importă fișiere audio</string>
     <string name="option_menu_about">Despre</string>
     <string name="option_menu_check_files">Verifică starea fișierelor</string>
 
@@ -54,8 +53,9 @@
     <string name="message_not_on_cloud">Fișierul nu există pe cloud</string>
     <string name="message_name_validation">Caractere invalide în nume. Doar litere, numere, spații și _ &#8211; permise </string>
     <string name="message_recording_canceled">Înregistrarea a fost anulată</string>
-    <string name="message_no_internet_checking">Nu putem verifica existanta fișierelor de pe cloud. Nu exista conexiune la internet</string>
-    <string name="message_no_space_avaible">Aplicatia are nevoie de cel putin 10MB liberi pe SD intern al telefonului. Va rugam sa eliberati memorie</string>
+    <string name="message_no_internet_checking">Nu s-a putut verifica existența fișierelor pe cloud. Nu există conexiune la internet</string>
+    <string name="message_no_space_avaible">Aplicația are nevoie de cel putin 10MB de memorie liberi. Vă rugam să eliberați memorie</string>
+    <string name="message_cloud_not_imported">Nu s-a putut importa de pe cloud. Verificați conexiunea la internet</string>
      
       <!-- about activity -->
     <string name="about_title1">

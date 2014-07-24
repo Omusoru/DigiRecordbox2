@@ -35,6 +35,7 @@ public class RecordingListActivity extends Activity {
 	private EditText searchField;
 	public static final String PREFS_NAME = "Authentication";
 	
+	//globals
 	private boolean fileExists;
 	private String looping;
 	ArrayList<String> onlineFiles;
@@ -89,7 +90,6 @@ public class RecordingListActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.recordinglist, menu);
 		return true;
 		
@@ -100,8 +100,24 @@ public class RecordingListActivity extends Activity {
 		if(item.getItemId()==R.id.option_menu_recorder) {
 			Intent mediaPlayer = new Intent(RecordingListActivity.this,MainActivity.class);
 			startActivity(mediaPlayer);
-		} else if(item.getItemId()==R.id.option_menu_import_local) {
-			importLocalFiles();
+		} else if(item.getItemId()==R.id.option_menu_import_files) {
+			int count = 0;
+			count += importLocalFiles();
+			if(isNetworkConnected()) {
+				count += importCloudFiles();
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.message_cloud_not_imported, Toast.LENGTH_SHORT).show();
+			}
+			if(count == 0) {
+				Toast.makeText(this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
+			} else if (count == 1) {
+				Toast.makeText(this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
+				restartActivity();
+			} else if (count > 1) {
+				Toast.makeText(this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
+				restartActivity();
+			}
+			
 		} else if(item.getItemId()==R.id.option_menu_about) {
 			Intent intent = new Intent(RecordingListActivity.this,AboutActivity.class);
 			startActivity(intent);
@@ -145,7 +161,7 @@ public class RecordingListActivity extends Activity {
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 		int menuItemIndex = item.getItemId();
-		String[] menuItems = getResources().getStringArray(R.array.context_recordinglist);
+		//String[] menuItems = getResources().getStringArray(R.array.context_recordinglist);
 		//String menuItemName = menuItems[menuItemIndex];
 		//String listItemName = recordingList.get(info.position).getName();
 	
@@ -279,7 +295,7 @@ public class RecordingListActivity extends Activity {
 	
 	@SuppressLint("NewApi")
 	private void restartActivity() {
-		// Restart activity manualy on api level < 11
+		// Restart activity manually on api level < 11
 		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT)<11) {
 			Intent intent = getIntent();
 		    overridePendingTransition(0, 0);
@@ -292,7 +308,52 @@ public class RecordingListActivity extends Activity {
 		}			
 	}
 	
-	private void importLocalFiles() {
+	private int importCloudFiles() {
+		looping = null;
+		new Thread(new Runnable() {
+		    public void run() {
+		    	onlineFiles = fm.getFileListCloud();
+		    	looping = "";
+		    }
+		}).start();
+		while(looping == null) {}
+		looping = null;//
+		DatabaseHelper db = new DatabaseHelper(this);
+		List<Recording> recordingList = db.getAllRecordings();
+		boolean fileInDb = false;
+		int count = 0;
+		
+		for(String filename : onlineFiles) {
+			if(isValidFileType(filename)) {
+				fileInDb = false;
+				for(Recording recording : recordingList) {
+					if(filename.equalsIgnoreCase(recording.getCloudFilename())){
+						fileInDb = true;
+						break;
+					}
+				}
+				if(!fileInDb) {
+					Recording newRecording = new Recording();
+					newRecording.setName("Untitled import");
+					newRecording.setDescription("");
+					newRecording.setDate(getCurrentFormatedDate());
+					newRecording.setOwner(getSharedPreferences(PREFS_NAME, 0).getString("username", ""));
+					newRecording.setLocalFilename(filename);
+					newRecording.setCloudFilename(filename);
+					newRecording.setDuration(getDuration(filename));
+					newRecording.setOnLocal(false);
+					newRecording.setOnCloud(true);
+					db.insertRecording(newRecording);
+					count ++;
+				}
+			}
+			
+		}
+		
+		return count;
+	}
+	
+	private int importLocalFiles() {
 		
 		ArrayList<String> filenames = fm.getFileListLocal();
 		DatabaseHelper db = new DatabaseHelper(this);
@@ -327,43 +388,52 @@ public class RecordingListActivity extends Activity {
 			
 		}
 		
-		if(count == 0) {
-			Toast.makeText(this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
-		} else if (count == 1) {
-			Toast.makeText(this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
-			restartActivity();
-		} else if (count > 1) {
-			Toast.makeText(this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
-			restartActivity();
-		}
+		return count;
 		
 	}
 	
 	private void uploadToCloud(final int position) {
 		// upload file
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.upload(recordingList.get(position).getLocalFilename());
-		   }
-		}).start();
+		if(checkFile("local", recordingList.get(position).getLocalFilename())) {
+			new Thread(new Runnable() {
+			    public void run() {
+			    	fm.upload(recordingList.get(position).getLocalFilename());
+			   }
+			}).start();
+			// update recording database entry on_cloud to True
+			updateEntry("cloud", true, position);
+			restartActivity();
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
+			// update recording database entry on_local to False
+			updateEntry("local", false, position);
+			restartActivity();
+		}
 		
-		// update recording database entry on_cloud to True
-		updateEntry("cloud", true, position);
-		restartActivity();
+		
+		
 	}
 	
 	private void downloadFromCloud(final int position) {
 		
 		// download file
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.download(recordingList.get(position).getCloudFilename());
-		    }
-		}).start();
+		if(checkFile("cloud", recordingList.get(position).getCloudFilename())) {
+			new Thread(new Runnable() {
+			    public void run() {
+			    	fm.download(recordingList.get(position).getCloudFilename());
+			    }
+			}).start();
+			// update recording database entry on_local to True
+			updateEntry("local",true,position);
+			restartActivity();
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+			// update recording database entry on_cloud to False
+			updateEntry("cloud", false, position);
+			restartActivity();
+		}
 		
-		// update recording database entry on_local to True
-		updateEntry("local",true,position);
-		restartActivity();
+		
 		
 	}
 	
@@ -415,14 +485,10 @@ public class RecordingListActivity extends Activity {
 		fileExists = false;
 		looping = null;
 		if(location=="cloud") {
-			Log.d("Filename","test 1: "+fileExists);
 			new Thread(new Runnable() {
 			    public void run() {
-			    	Log.d("Filename","test 2: "+fileExists);
 			    	fileExists =  fm.checkFileOnline(filename);	
-			    	Log.d("Filename","test 3: "+fileExists);
 			    	if(!fileExists) {
-			    		Log.d("Filename",filename+" does not exist on cloud");
 			    	}
 			    	looping = "";
 			    }
@@ -433,10 +499,10 @@ public class RecordingListActivity extends Activity {
 		} else if(location=="local") {
 			fileExists =  fm.checkFileLocal(filename);
 		}
-		Log.d("Filename","test 4: "+fileExists);
 		return fileExists;
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	private String getCurrentFormatedDate() {
 		
 		Calendar c = Calendar.getInstance();
@@ -484,7 +550,7 @@ public class RecordingListActivity extends Activity {
 			}
 		}
 		
-		if(isConnection()){			
+		if(isNetworkConnected()){			
 			looping=null;
 			new Thread(new Runnable() {				
 				@Override
@@ -505,11 +571,7 @@ public class RecordingListActivity extends Activity {
 			
 		}
 		else{
-			runOnUiThread(new Runnable() {
-	            public void run() {
-	            	Toast.makeText(getApplicationContext(), R.string.message_no_internet_checking, Toast.LENGTH_SHORT).show();					            	
-	            }
-	        });
+    		Toast.makeText(getApplicationContext(), R.string.message_no_internet_checking, Toast.LENGTH_SHORT).show();
 		}
 		
 		for(int i=0;i<recordingList.size();i++){
@@ -521,9 +583,4 @@ public class RecordingListActivity extends Activity {
 		}
 
 	}
-	
-	private boolean isConnection() {
-		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		  return (cm.getActiveNetworkInfo() != null);
-	 }
 }

@@ -2,7 +2,7 @@ package ro.rcsrds.recordbox;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -308,6 +308,8 @@ public class MainActivity extends ActionBarActivity {
 		startActivity(intent);
 	}	
 
+	
+	@SuppressLint("NewApi")
 	private static float getMBAvailable() {
 	    StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
