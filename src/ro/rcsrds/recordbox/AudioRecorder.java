@@ -236,7 +236,7 @@ public class AudioRecorder {
                     videoTracks.add(t);
                 }*/
             }
-        }
+        } 
 
         Movie result = new Movie();
 

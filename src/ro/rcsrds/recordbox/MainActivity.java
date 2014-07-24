@@ -412,7 +412,7 @@ public class MainActivity extends ActionBarActivity {
 			fileLocation=tempRec.mergeAudio(myList);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();			
+			e.printStackTrace(); 
 		}
 		while(fileLocation==null){}
 		tempRec.deleteDirectory(localFileFolder);

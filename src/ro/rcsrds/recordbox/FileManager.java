@@ -27,7 +27,7 @@ public class FileManager {
 	private String password;
 	private Mount mount;
 	private StorageApi api;
-	
+	 
 	public FileManager(Context context){				
 		preferences = context.getSharedPreferences(PREFS_NAME, 0);
 		username = preferences.getString("username", "").toLowerCase();
