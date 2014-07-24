@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			dlgSaving.setContentView(R.layout.dialog_main);
-			dlgSaving.setTitle(getResources().getString(R.string.message_saving)); 
+			dlgSaving.setTitle(getResources().getString(R.string.message_recovering)); 
 			dlgSaving.show();
 		}
 
@@ -175,8 +175,8 @@ public class MainActivity extends ActionBarActivity {
 			Intent intent = new Intent(MainActivity.this,AboutActivity.class);
 			startActivity(intent);
 		} else if(item.getItemId()==R.id.debug_crash) {
-			   throw new RuntimeException("This is a crash");
-		  }
+			 throw new RuntimeException("This is a crash");
+		}
 		return super.onOptionsItemSelected(item);
 	}
 	

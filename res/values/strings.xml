@@ -44,6 +44,7 @@
     <string name="message_authentication_failed">Authentication failed</string>
     <string name="message_no_internet">No internet connectivity</string>
     <string name="message_saving">Saving, please wait</string>
+    <string name="message_recovering">Recovering last recording, please wait</string>
     <string name="message_not_uploaded">Could not upload to cloud. Please check your internet connectivity</string>
     <string name="message_cloud_not_renamed">Could not rename cloud file. Please check your internet connectivity</string>
     <string name="message_already_on_cloud">The file already exists on the cloud</string>
