@@ -51,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
 	private String previousTime;
 	
 	private long intervalTime = 0;
+	private float freeMbAtStart = 0;
 	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -202,7 +203,10 @@ public class MainActivity extends ActionBarActivity {
 	            needsCancel = false;
 			} else if (v.getId()==R.id.btn_recorder_start) {
 				
-				if(getMBAvailable()>10){				
+				if(getMBAvailable()>10){	
+				if(recorder.getCanRecord()){
+					freeMbAtStart=getMBAvailable();
+				}
 				recorder.startRecording();
 				filename = recorder.getLastFilename();
 				btnStop.setVisibility(View.VISIBLE);
@@ -212,6 +216,7 @@ public class MainActivity extends ActionBarActivity {
 	            //switchButtons();
 	            startTimer();
 	            intervalTime=0;
+	            
 	            }
 				else{					
 					runOnUiThread(new Runnable() {
@@ -274,7 +279,10 @@ public class MainActivity extends ActionBarActivity {
 				recorder.startRecording();
 				intervalTime=0;
 			}else intervalTime++;
-			Log.d("Files", Long.toString(finalTime));
+			
+			if(getMBAvailable()<((freeMbAtStart/2)+10)){
+				stopRecording();
+			}
 		}
 	
 	};
@@ -448,8 +456,16 @@ public class MainActivity extends ActionBarActivity {
 		while(fileLocation==null){}
 		tempRec.deleteDirectory(localFileFolder);
 		
-		return "salvage.mp4";
-		
-		
+		return "salvage.mp4";		
+	}
+	
+	public void stopRecording(){
+		previousTime = tvRecorderTime.getText().toString();
+		btnStop.setVisibility(View.INVISIBLE);
+        btnCancel.setVisibility(View.INVISIBLE);
+		new StopRecordingTask().execute(true);
+        resetButton();	
+        stopTimer();
+        needsCancel = false;
 	}
 }
