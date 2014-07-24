@@ -4,7 +4,7 @@
     tools:context="ro.rcsrds.recordbox.RecordingListActivity" >
     
     <item android:id="@+id/option_menu_recorder" android:title="@string/option_menu_recorder" />
-    <item android:id="@+id/option_menu_import_local" android:title="@string/option_menu_import_local" />
+    <item android:id="@+id/option_menu_import_files" android:title="@string/option_menu_import_files" />
     <item android:id="@+id/option_menu_check_files" android:title="@string/option_menu_check_files" />
     <item android:id="@+id/option_menu_about" android:title="@string/option_menu_about" />    
 

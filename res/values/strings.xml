@@ -17,8 +17,7 @@
     <string name="option_menu_list">Recording list</string>
     <string name="option_menu_exit">Exit</string>
     <string name="option_menu_recorder">Recorder</string>
-    <string name="option_menu_import_local">Import local files</string>
-    <string name="option_menu_import_cloud">Import online files</string>
+    <string name="option_menu_import_files">Import audio files</string>
     <string name="option_menu_about">About</string>
     <string name="option_menu_check_files">Check missing files</string>
 
