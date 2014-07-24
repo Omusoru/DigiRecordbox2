@@ -228,7 +228,7 @@ public class FileManager {
     	} catch (IOException ioe) {
     		Log.d("LOG_TAG","IOException: "+ioe.getMessage());
     	}
-    	return Player.getDuration(); 	
+    	return Player.getDuration();
 	}
 		
     
