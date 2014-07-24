@@ -50,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
 	private boolean paused = true;
 	private String previousTime;
 	
+	private long intervalTime = 0;
 	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -210,6 +211,7 @@ public class MainActivity extends ActionBarActivity {
 	            needsCancel = true;
 	            //switchButtons();
 	            startTimer();
+	            intervalTime=0;
 	            }
 				else{					
 					runOnUiThread(new Runnable() {
@@ -241,6 +243,7 @@ public class MainActivity extends ActionBarActivity {
         	startTime = SystemClock.uptimeMillis();
 			myHandler.postDelayed(updateTimerMethod, 0);
 			paused = false;
+			intervalTime=0;
         } else {
         	timeSwap += timeInMillies;
 			myHandler.removeCallbacks(updateTimerMethod);
@@ -264,7 +267,14 @@ public class MainActivity extends ActionBarActivity {
 			timeInMillies = SystemClock.uptimeMillis()-startTime;
 			finalTime = timeSwap + timeInMillies;			
 			tvRecorderTime.setText(getTimeFormat(finalTime));
-			myHandler.postDelayed(this, 0);
+			myHandler.postDelayed(this, 500);
+			if((((finalTime/1000)%3000)<1)&&(intervalTime>10)){
+				periodicSave();
+				recorder.startRecording();
+				recorder.startRecording();
+				intervalTime=0;
+			}else intervalTime++;
+			Log.d("Files", Long.toString(finalTime));
 		}
 	
 	};
@@ -279,6 +289,27 @@ public class MainActivity extends ActionBarActivity {
 		else totext+=":"+Long.toString((timeinms/1000)%60);
 		
 		return totext;
+	}
+	
+	private void periodicSave() {
+		
+        btnRecord.setEnabled(false);
+		setEnabledButtons(false);		
+
+		Timer buttonTimer = new Timer();
+		buttonTimer.schedule(new TimerTask() {
+
+		    @Override
+		    public void run() {
+		        runOnUiThread(new Runnable() {
+		            public void run() {			            	
+		            	btnRecord.setEnabled(true);
+		            	setEnabledButtons(true);
+		            	//switchButtons();		            	
+		            }
+		        });
+		    }
+		}, 500);
 	}
 	
 	private void disableButton() {
