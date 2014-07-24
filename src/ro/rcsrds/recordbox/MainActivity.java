@@ -176,9 +176,9 @@ public class MainActivity extends ActionBarActivity {
 		} else if(item.getItemId()==R.id.option_menu_about) {
 			Intent intent = new Intent(MainActivity.this,AboutActivity.class);
 			startActivity(intent);
-		} else if(item.getItemId()==R.id.debug_crash) {
+		} /*else if(item.getItemId()==R.id.debug_crash) {
 			 throw new RuntimeException("This is a crash");
-		}
+		}*/
 		return super.onOptionsItemSelected(item);
 	}
 	
