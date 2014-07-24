@@ -57,6 +57,9 @@
     <string name="message_no_internet_checking">Nu s-a putut verifica existența fișierelor pe cloud. Nu există conexiune la internet</string>
     <string name="message_no_space_avaible">Aplicația are nevoie de cel putin 10MB de memorie liberi. Vă rugam să eliberați memorie</string>
     <string name="message_cloud_not_imported">Nu s-a putut importa de pe cloud. Verificați conexiunea la internet</string>
+    <string name="message_audio_not_inserted">
+   	    Fișierul audio nu a fost adăugat în lista de înregistrări. Îl puteți importa ulterior accesând opțiunea \'Importă fișiere audio\'
+  	</string>
      
       <!-- about activity -->
     <string name="about_title1">

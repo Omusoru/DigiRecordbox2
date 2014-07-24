@@ -56,6 +56,9 @@
     <string name="message_no_internet_checking">Cannot get status for online files. Unable to connect to the internet</string>
     <string name="message_no_space_avaible">The application needs at least 10MB of internal storage to run. Please free up space.</string>
    	<string name="message_cloud_not_imported">Could not import cloud files. Please check your internet connectivity</string>
+   	<string name="message_audio_not_inserted">
+   	    The audio file has not been added to the recording list. You can import it later by accessing the \'Import audio files\' option
+  	</string>
     
       <!-- about activity -->
     <string name="about_title1">

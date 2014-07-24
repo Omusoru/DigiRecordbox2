@@ -72,6 +72,17 @@ public class EditRecordingActivity extends ActionBarActivity {
 		owner = preferences.getString("username", "no owner");
 	}
 	
+	@Override
+	public void onBackPressed() {
+		if(newRecording) {
+			Toast.makeText(getApplicationContext(), R.string.message_audio_not_inserted, Toast.LENGTH_LONG).show();
+			super.onBackPressed();
+		} else {
+			super.onBackPressed();
+		}
+		
+	}
+	
 	private class ButtonOnClickListener implements OnClickListener {
 
 		@Override
