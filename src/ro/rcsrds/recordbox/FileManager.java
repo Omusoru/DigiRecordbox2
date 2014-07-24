@@ -1,5 +1,6 @@
 package ro.rcsrds.recordbox;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import net.koofr.api.v2.transfer.upload.FileUploadData;
 import net.koofr.api.v2.transfer.upload.UploadData;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Environment;
 import android.util.Log;
 
@@ -199,4 +201,35 @@ public class FileManager {
 		return false;
 	}
 	
+	public int getDurationCloud (String filename) {
+		
+			android.media.MediaPlayer Player = new android.media.MediaPlayer();
+			String dlLink=null;
+			dlLink=getFileLink("/DigiRecordbox/"+filename);
+			while(dlLink==null){};
+			Player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			try {
+				Player.setDataSource(dlLink);
+				Player.prepare();
+			} catch (IllegalArgumentException | SecurityException
+					| IllegalStateException | IOException e) {
+				// TODO Auto-generated catch block
+				return -1;
+			}			
+			return Player.getDuration();
+		}
+	
+	public int getDurationLocal(String filename){
+		android.media.MediaPlayer Player = new android.media.MediaPlayer();
+    	String filePath= localFilePath + filename;
+    	try {
+    		Player.setDataSource(filePath);
+    		Player.prepare();
+    	} catch (IOException ioe) {
+    		Log.d("LOG_TAG","IOException: "+ioe.getMessage());
+    	}
+    	return Player.getDuration(); 	
+	}
+		
+    
 }
