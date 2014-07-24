@@ -39,6 +39,7 @@ public class RecordingListActivity extends Activity {
 	private boolean fileExists;
 	private String looping;
 	ArrayList<String> onlineFiles;
+	private String duration;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -340,7 +341,7 @@ public class RecordingListActivity extends Activity {
 					newRecording.setOwner(getSharedPreferences(PREFS_NAME, 0).getString("username", ""));
 					newRecording.setLocalFilename(filename);
 					newRecording.setCloudFilename(filename);
-					newRecording.setDuration(getDuration(filename));
+					newRecording.setDuration(getDuration("cloud",filename));
 					newRecording.setOnLocal(false);
 					newRecording.setOnCloud(true);
 					db.insertRecording(newRecording);
@@ -378,7 +379,7 @@ public class RecordingListActivity extends Activity {
 					newRecording.setOwner(getSharedPreferences(PREFS_NAME, 0).getString("username", ""));
 					newRecording.setLocalFilename(filename);
 					newRecording.setCloudFilename(filename);
-					newRecording.setDuration(getDuration(filename));
+					newRecording.setDuration(getDuration("local",filename));
 					newRecording.setOnLocal(true);
 					newRecording.setOnCloud(false);
 					db.insertRecording(newRecording);
@@ -433,8 +434,6 @@ public class RecordingListActivity extends Activity {
 			restartActivity();
 		}
 		
-		
-		
 	}
 	
 	private void deleteFromCloud(final int position) {
@@ -467,9 +466,9 @@ public class RecordingListActivity extends Activity {
 		
 		Recording recording = new Recording();
 		recording = recordingList.get(position);
-		if(location.equals("cloud")) {
+		if(location.equalsIgnoreCase("cloud")) {
 			recording.setOnCloud(status);			
-		} else if(location.equals("local")) {
+		} else if(location.equalsIgnoreCase("local")) {
 			recording.setOnLocal(status);
 		}
 		if((recording.isOnCloud()==false)&&(recording.isOnLocal()==false)) {
@@ -484,19 +483,17 @@ public class RecordingListActivity extends Activity {
 	private boolean checkFile(String location,final String filename) {
 		fileExists = false;
 		looping = null;
-		if(location=="cloud") {
+		if(location.equalsIgnoreCase("cloud")) {
 			new Thread(new Runnable() {
 			    public void run() {
 			    	fileExists =  fm.checkFileOnline(filename);	
-			    	if(!fileExists) {
-			    	}
 			    	looping = "";
 			    }
 			}).start();
 			while(looping == null) {}
 			looping = null;//
 				    			
-		} else if(location=="local") {
+		} else if(location.equalsIgnoreCase("local")) {
 			fileExists =  fm.checkFileLocal(filename);
 		}
 		return fileExists;
@@ -521,9 +518,23 @@ public class RecordingListActivity extends Activity {
 		}
 	}
 	
-	private String getDuration(String filename) {
-		MediaPlayer player = new MediaPlayer(this);	
-		return getTimeFormat(player.getDuration(filename));
+	private String getDuration(String location,final String filename) {
+		duration = "";
+		looping = null;
+		if(location.equalsIgnoreCase("local")) {
+			duration = getTimeFormat(fm.getDurationLocal(filename));
+		} else if(location.equalsIgnoreCase("cloud")) {
+			new Thread(new Runnable() {
+			    public void run() {
+			    	duration = getTimeFormat(fm.getDurationCloud(filename));
+			    	looping = "";
+			    }
+			}).start();
+			while(looping == null) {}
+			looping = null;//
+			
+		}
+		return duration;
 	}
 	
 	private String getTimeFormat(int timeinms){
@@ -556,7 +567,7 @@ public class RecordingListActivity extends Activity {
 				@Override
 				public void run() {
 					onlineFiles=fm.getFileListCloud();
-					looping="a";
+					looping="";
 				}
 			}).start();
 			while(looping==null){};
