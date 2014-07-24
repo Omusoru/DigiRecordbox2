@@ -215,8 +215,13 @@ public class FileManager {
 					| IllegalStateException | IOException e) {
 				// TODO Auto-generated catch block
 				return -1;
-			}			
-			return Player.getDuration();
+			}
+			Player.start();
+			int durration = Player.getDuration();
+			Player.stop();
+			Player.release();
+			Player=null;
+			return durration;
 		}
 	
 	public int getDurationLocal(String filename){
