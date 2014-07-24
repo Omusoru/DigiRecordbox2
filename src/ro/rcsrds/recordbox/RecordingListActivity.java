@@ -285,13 +285,13 @@ public class RecordingListActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
 		// Overwrite back key function for api level < 11
 		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT)<11) {
 			Intent intent = new Intent(RecordingListActivity.this,MainActivity.class);
 			startActivity(intent);
+		} else {
+			super.onBackPressed();
 		}
-		
 	}
 	
 	@SuppressLint("NewApi")
