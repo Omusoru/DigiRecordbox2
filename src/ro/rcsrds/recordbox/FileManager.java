@@ -205,7 +205,7 @@ public class FileManager {
 		
 			android.media.MediaPlayer Player = new android.media.MediaPlayer();
 			String dlLink=null;
-			dlLink=getFileLink("/DigiRecordbox/"+filename);
+			dlLink=getFileLink(filename);
 			while(dlLink==null){};
 			Player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 			try {
@@ -216,12 +216,8 @@ public class FileManager {
 				// TODO Auto-generated catch block
 				return -1;
 			}
-			Player.start();
-			int durration = Player.getDuration();
-			Player.stop();
-			Player.release();
-			Player=null;
-			return durration;
+			
+			return Player.getDuration();
 		}
 	
 	public int getDurationLocal(String filename){
