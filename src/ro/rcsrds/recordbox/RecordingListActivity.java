@@ -11,19 +11,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class RecordingListActivity extends Activity {	
 	
@@ -56,9 +57,8 @@ public class RecordingListActivity extends Activity {
 		   }
 		}).start();
 		
-		
-		loadRecordings();
-		
+		// load the recordings in the list
+		loadRecordings();		
 		list = (ListView) findViewById(R.id.list);
 		searchField = (EditText) findViewById(R.id.searchField);
 	    
@@ -85,6 +85,19 @@ public class RecordingListActivity extends Activity {
 				
 			}
 		});
+		
+		// check for missing files after 500ms so it doesn't crash
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+		  @Override
+		  public void run() {
+			  if(checkFiles()) {
+				 restartActivity();
+			  }
+		  }
+		 
+		}, 500);
+				
 		
     	    
 }
@@ -335,7 +348,7 @@ public class RecordingListActivity extends Activity {
 				}
 				if(!fileInDb) {
 					Recording newRecording = new Recording();
-					newRecording.setName("Untitled import");
+					newRecording.setName("Imported - " + filename.substring(0, filename.length()-4));
 					newRecording.setDescription("");
 					newRecording.setDate(getCurrentFormatedDate());
 					newRecording.setOwner(getSharedPreferences(PREFS_NAME, 0).getString("username", ""));
@@ -373,7 +386,7 @@ public class RecordingListActivity extends Activity {
 				}
 				if(!fileInDb) {
 					Recording newRecording = new Recording();
-					newRecording.setName("Untitled import");
+					newRecording.setName("Imported - " + filename.substring(0, filename.length()-4));
 					newRecording.setDescription("");
 					newRecording.setDate(getCurrentFormatedDate());
 					newRecording.setOwner(getSharedPreferences(PREFS_NAME, 0).getString("username", ""));
@@ -549,15 +562,17 @@ public class RecordingListActivity extends Activity {
 		return totext;
 	}
 	
-	private void checkFiles(){
+	private boolean checkFiles(){
+		boolean filesHaveChanged = false;
 		DatabaseHelper db = new DatabaseHelper(this);
 		List<Recording> recordingList = db.getAllRecordings();
 		ArrayList<String> localFiles = fm.getFileListLocal();
 		
 		for(int i=0;i<recordingList.size();i++){
-			if(!localFiles.contains(recordingList.get(i).getLocalFilename())){
+			if((!localFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnLocal())){
 				recordingList.get(i).setOnLocal(false);
 				db.updateRecording(recordingList.get(i));
+				filesHaveChanged = true;
 			}
 		}
 		
@@ -574,9 +589,10 @@ public class RecordingListActivity extends Activity {
 			looping=null;
 			
 			for(int i=0;i<recordingList.size();i++){
-				if(!onlineFiles.contains(recordingList.get(i).getLocalFilename())){
+				if((!onlineFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnCloud())){
 					recordingList.get(i).setOnCloud(false);
 					db.updateRecording(recordingList.get(i));
+					filesHaveChanged = true;
 				}
 			}
 			
@@ -592,6 +608,7 @@ public class RecordingListActivity extends Activity {
 				recordingList = db.getAllRecordings();
 			}
 		}
-
+		
+		return filesHaveChanged;
 	}
 }
