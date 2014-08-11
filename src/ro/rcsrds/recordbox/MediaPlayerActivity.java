@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +51,7 @@ public class MediaPlayerActivity extends Activity {
 		tvTotalTime = (TextView) findViewById(R.id.totalTime);
 		tvNameContent = (TextView) findViewById(R.id.tv_name_content);
 		tvDescriptionContent = (TextView) findViewById(R.id.tv_description_content);
+		tvDescriptionContent.setMovementMethod(new ScrollingMovementMethod());
 		
 		//Get recording information
 		int id = getIntent().getExtras().getInt("id");
@@ -114,7 +116,8 @@ public class MediaPlayerActivity extends Activity {
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
 		        	sbarPlayer.setProgress(player.getPlayerStatus().getDuration());
-					//finish();
+					///finish();
+		        	
 		        }
 			}			
 		};

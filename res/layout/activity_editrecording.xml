@@ -28,7 +28,8 @@
             android:ems="10"
             android:inputType="text"
             android:maxLength="100"
-            android:text="@string/et_untitled" >
+            android:text="@string/et_untitled"
+            android:selectAllOnFocus="true" >
 
             <requestFocus />
         </EditText>
@@ -51,9 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:maxLength="254"
+            android:gravity="center_vertical|top"
             android:inputType="textMultiLine"
-            android:minLines="5" />
+            android:maxLength="254"
+            android:lines="5" />
 
     </TableRow>
 
