@@ -203,27 +203,27 @@ public class MainActivity extends ActionBarActivity {
 	            needsCancel = false;
 			} else if (v.getId()==R.id.btn_recorder_start) {
 				
-				if(getMBAvailable()>10){	
-				if(recorder.getCanRecord()){
-					freeMbAtStart=getMBAvailable();
-				}
-				recorder.startRecording();
-				filename = recorder.getLastFilename();
-				btnStop.setVisibility(View.VISIBLE);
-	            btnCancel.setVisibility(View.VISIBLE);	  
-	            disableButton();
-	            needsCancel = true;
-	            //switchButtons();
-	            startTimer();
-	            intervalTime=0;
+				if(getMBAvailable()>10) {
+					
+					if(recorder.getCanRecord()){
+						freeMbAtStart=getMBAvailable();
+					}
+					recorder.startRecording();
+					filename = recorder.getLastFilename();
+					btnStop.setVisibility(View.VISIBLE);
+		            btnCancel.setVisibility(View.VISIBLE);	  
+		            disableButton();
+		            needsCancel = true;
+		            //switchButtons();
+		            startTimer();
+		            intervalTime=0;
 	            
-	            }
-				else{					
-					runOnUiThread(new Runnable() {
-			            public void run() {
+	            } else {					
+					//runOnUiThread(new Runnable() {
+			            //public void run() {
 			            	Toast.makeText(getApplicationContext(), R.string.message_no_space_avaible, Toast.LENGTH_SHORT).show();					            	
-			            }
-			        });
+			           // }
+			       // });
 					if(!recorder.getCanRecord()){
 						previousTime = tvRecorderTime.getText().toString();
 						btnStop.setVisibility(View.INVISIBLE);
@@ -371,6 +371,7 @@ public class MainActivity extends ActionBarActivity {
 	
 	private void resetButton() {
 		btnRecord.setBackgroundResource(R.drawable.button_record_big);
+		buttonRecording = true;
 	}
 	
 	private void startIntent(String filename){
@@ -387,7 +388,6 @@ public class MainActivity extends ActionBarActivity {
 	private static float getMBAvailable() {
 	    StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
-			@SuppressWarnings("deprecation")
 			long bytesAvailable = (long)stat.getAvailableBlocksLong() * (long)stat.getBlockSizeLong();
 			return bytesAvailable / (1024.f * 1024.f);
 			} 		
