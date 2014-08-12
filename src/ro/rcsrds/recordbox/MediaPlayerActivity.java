@@ -115,12 +115,14 @@ public class MediaPlayerActivity extends Activity {
 		        {
 		        	//player.pausePlaying();
 		        	//sbarPlayer.setProgress(sbarPlayer.getProgress());
+		        	//player.startPlaying(filename,online);
 		        	sbarPlayer.setProgress(sbarPlayer.getMax());
 		        	player.setCurentPosition(sbarPlayer.getMax());
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
 		        	
-		        	switchButtons();
+		        	btnPlay.setBackgroundResource(R.drawable.button_play_small);
+					buttonPlaying = true;
 					///finish();
 		        	
 		        }
@@ -165,6 +167,7 @@ public class MediaPlayerActivity extends Activity {
 		        		}
 		        		else {
 		        			player.setCurentPosition(sbarPlayer.getProgress());
+		        			player.isPlaying=false;
 		        		}
 	        		}
 	        		
@@ -242,7 +245,11 @@ public class MediaPlayerActivity extends Activity {
 				}
 				else {
 					player.setCurentPosition(sbarPlayer.getProgress());					
-					player.startPlaying(filename,online);					
+					player.startPlaying(filename,online);
+					mHandler.removeCallbacks(playing);
+					mHandler.removeCallbacks(timer);
+					mHandler.post(playing);
+					mHandler.post(timer);
 				}
 				switchButtons();
 			} else if(v.getId()==R.id.btn_player_stop) {

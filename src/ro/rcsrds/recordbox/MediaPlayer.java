@@ -21,7 +21,7 @@ public class MediaPlayer {
 	
 	private SharedPreferences preferences;
 	
-	private boolean isPlaying = false;
+	public boolean isPlaying = false;
 	private boolean canPlay = true;
 	
 	public MediaPlayer(Context context) {
@@ -103,9 +103,11 @@ public class MediaPlayer {
     }
     
     public void pausePlaying(){
+    	if(isPlaying==true){
     	Player.pause();
 		playingPausedAt = Player.getCurrentPosition();
 		isPlaying=false;
+    	}
     }
     
     public void resumePlayingAt(int time){
