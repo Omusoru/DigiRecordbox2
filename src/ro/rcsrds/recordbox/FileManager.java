@@ -36,6 +36,10 @@ public class FileManager {
 		localFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DigiRecordbox/"+username+"/";
 		username = preferences.getString("username", "");
 		password = preferences.getString("password", "");
+		java.io.File folderTest=new java.io.File(localFilePath);
+		if(!folderTest.isDirectory()){
+			folderTest.mkdirs();
+		}		
 	}
 	
 	public void connectToCloud() {
@@ -63,7 +67,7 @@ public class FileManager {
 		
 		try {
 			api.createFolder(mount.getId(), "/", "DigiRecordbox");
-			return true;
+			//return true;
 		} catch (StorageApiException e) {
 			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
@@ -104,8 +108,18 @@ public class FileManager {
 	}
 	
 	public ArrayList<String> getFileListCloud(){
-		try {
-			List<File> localFilesFile=api.listFiles(mount.getId(), "/DigiRecordbox/");
+		/*try {
+			Log.d("FileManager","Ajunge aici");
+			api.createFolder(mount.getId(), "/", "DigiRecordbox");
+			Log.d("FileManager","Ajunge aici");
+			//ArrayList<String> files = null;
+			//return files;
+		} catch (StorageApiException e) {
+			// TODO Auto-generated catch block
+			Log.d("FileManager",e.getMessage());			
+		}//*/
+		try {			
+			List<File> localFilesFile = api.listFiles(mount.getId(), "/DigiRecordbox/");
 			ArrayList<String> files = new ArrayList<String>();
 			for(int i = 0;i<localFilesFile.size();i++){
 				files.add(localFilesFile.get(i).getName().toString());
@@ -118,6 +132,18 @@ public class FileManager {
 			return files;
 		}
 		
+	}
+	
+	public boolean createFolderCloud(String folderName){
+		try {
+			api.createFolder(mount.getId(), "/", folderName);
+			//return true;
+		} catch (StorageApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean deleteLocal(String file){

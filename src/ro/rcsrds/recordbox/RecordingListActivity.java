@@ -53,6 +53,7 @@ public class RecordingListActivity extends Activity {
 			 public void run() {		    	
 			    	if(isNetworkConnected()) {
 			    		fm.connectToCloud();
+			    		fm.createFolderCloud("DigiRecordbox");
 			    	}
 		   }
 		}).start();
@@ -96,7 +97,7 @@ public class RecordingListActivity extends Activity {
 			  }
 		  }
 		 
-		}, 500);
+		}, 3000);//*//
 				
 		
     	    
@@ -578,15 +579,17 @@ public class RecordingListActivity extends Activity {
 		
 		if(isNetworkConnected()){			
 			looping=null;
-			new Thread(new Runnable() {				
+			new Thread(new Runnable() {
 				@Override
 				public void run() {
+					//fm.createFolderCloud("DigiRecordbox");
 					onlineFiles=fm.getFileListCloud();
 					looping="";
 				}
 			}).start();
-			while(looping==null){};
+			while(looping==null){}
 			looping=null;
+			
 			
 			for(int i=0;i<recordingList.size();i++){
 				if((!onlineFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnCloud())){

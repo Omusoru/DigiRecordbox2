@@ -98,7 +98,7 @@ public class MediaPlayerActivity extends Activity {
 		player = new MediaPlayer(this);
 		player.startPlaying(filename,online);
 		sbarPlayer.setMax(player.getPlayerStatus().getDuration());	
-		tvTotalTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()));
+		tvTotalTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()-200));
 		
 		playing = new Runnable() {
 			
@@ -116,6 +116,7 @@ public class MediaPlayerActivity extends Activity {
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
 		        	sbarPlayer.setProgress(player.getPlayerStatus().getDuration());
+		        	switchButtons();
 					///finish();
 		        	
 		        }
