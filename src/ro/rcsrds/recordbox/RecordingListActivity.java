@@ -39,7 +39,7 @@ public class RecordingListActivity extends Activity {
 	//globals
 	private boolean fileExists;
 	private String looping;
-	ArrayList<String> onlineFiles;
+	ArrayList<String> onlineFiles = null;
 	private String duration;
 	
 	@Override
@@ -49,14 +49,18 @@ public class RecordingListActivity extends Activity {
 		
 		
 		fm = new FileManager(RecordingListActivity.this);
+		looping = null;
 		new Thread(new Runnable() {
 			 public void run() {		    	
 			    	if(isNetworkConnected()) {
 			    		fm.connectToCloud();
 			    		fm.createFolderCloud("DigiRecordbox");
+			    		looping = "";
 			    	}
 		   }
 		}).start();
+		while (looping == null) {}
+		looping = null;
 		
 		// load the recordings in the list
 		loadRecordings();		
@@ -87,19 +91,17 @@ public class RecordingListActivity extends Activity {
 			}
 		});
 		
-		// check for missing files after 500ms so it doesn't crash
+		
+		// check for missing files on recording list launch
 		final Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
+		handler.post(new Runnable() {
 		  @Override
 		  public void run() {
 			  if(checkFiles()) {
 				 restartActivity();
 			  }
 		  }
-		 
-		}, 3000);//*//
-				
-		
+		});
     	    
 }
 	
