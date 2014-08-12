@@ -36,6 +36,7 @@ public class MediaPlayerActivity extends Activity {
 	private FileManager fm;
 	private Recording recording;
 	private boolean buttonPlaying;
+	private boolean playingStatus;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,10 +113,13 @@ public class MediaPlayerActivity extends Activity {
 		        Log.d("Mediaplayer",Integer.toString(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()));
 		        if(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()<=200)
 		        {
-		        	//player.stopPlaying();		        
+		        	//player.pausePlaying();
+		        	//sbarPlayer.setProgress(sbarPlayer.getProgress());
+		        	sbarPlayer.setProgress(sbarPlayer.getMax());
+		        	player.setCurentPosition(sbarPlayer.getMax());
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
-		        	sbarPlayer.setProgress(player.getPlayerStatus().getDuration());
+		        	
 		        	switchButtons();
 					///finish();
 		        	
@@ -142,26 +146,44 @@ public class MediaPlayerActivity extends Activity {
 		sbarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 	        @Override
-	        public void onStopTrackingTouch(SeekBar sbarPlayer) {
-	        		player.pausePlaying();
-	        		if(sbarPlayer.getProgress()==player.getPlayerStatus().getDuration()){
-	        		sbarPlayer.setProgress(sbarPlayer.getProgress());
+	        public void onStopTrackingTouch(SeekBar sbarPlayer) {	        		       		
+	        		if(sbarPlayer.getProgress()==sbarPlayer.getMax()){
+	        		//sbarPlayer.setProgress(sbarPlayer.getMax());
+	        		player.setCurentPosition(sbarPlayer.getMax());
+	        		mHandler.post(playing);
+    	        	mHandler.post(timer);
 	        		}
 	        		else{
 	        			sbarPlayer.setProgress(sbarPlayer.getProgress());
-	        		
-                	player.resumePlayingAt(sbarPlayer.getProgress());
-                	player.setCurentPosition(sbarPlayer.getProgress());
-                	tvCurentTime.setText(getTimeFormat(sbarPlayer.getProgress()));
-                	mHandler.post(playing);
-    	        	mHandler.post(timer);
+	                	tvCurentTime.setText(getTimeFormat(sbarPlayer.getProgress()));
+	                	mHandler.post(playing);
+	    	        	mHandler.post(timer);
+	    	        	if(playingStatus==true)
+		        		{
+		        			player.resumePlayingAt(sbarPlayer.getProgress());
+		                	player.setCurentPosition(sbarPlayer.getProgress());        			
+		        		}
+		        		else {
+		        			player.setCurentPosition(sbarPlayer.getProgress());
+		        		}
 	        		}
+	        		
+	        		
 	        }
 
 	        @Override
 	        public void onStartTrackingTouch(SeekBar sbarPlayer) {
 	        	mHandler.removeCallbacks(playing);
-	        	mHandler.removeCallbacks(timer);	        	
+	        	mHandler.removeCallbacks(timer);
+	        	if(!buttonPlaying){
+	        		playingStatus=true;
+	        		//btnPlay.setBackgroundResource(R.drawable.button_pause_small);
+	    			//buttonPlaying = false;
+	        		player.pausePlaying();
+	        	}
+	        	else{ 
+	        		playingStatus=false;	        		
+	        	}
 	        }
 
 	        @Override
@@ -212,7 +234,16 @@ public class MediaPlayerActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_player_play) {
-				player.startPlaying(filename,online);
+				if(sbarPlayer.getProgress()==sbarPlayer.getMax()){
+					player.resumePlayingAt(0);
+					sbarPlayer.setProgress(0);
+					mHandler.post(playing);
+					mHandler.post(timer);
+				}
+				else {
+					player.setCurentPosition(sbarPlayer.getProgress());					
+					player.startPlaying(filename,online);					
+				}
 				switchButtons();
 			} else if(v.getId()==R.id.btn_player_stop) {
 				player.stopPlaying();

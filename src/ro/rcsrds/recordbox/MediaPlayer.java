@@ -98,6 +98,7 @@ public class MediaPlayer {
     }
     
     public void setCurentPosition(int timeorposition){
+    	Player.seekTo(timeorposition);
     	playingPausedAt=timeorposition;
     }
     
