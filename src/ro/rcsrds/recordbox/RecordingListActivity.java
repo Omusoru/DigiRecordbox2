@@ -457,6 +457,7 @@ public class RecordingListActivity extends Activity {
 		}
 		if((recording.isOnCloud()==false)&&(recording.isOnLocal()==false)) {
 			db.deleteRecording(recording);
+			recordingList.remove(position);
 		} else {
 			db.updateRecording(recording);
 		}		
