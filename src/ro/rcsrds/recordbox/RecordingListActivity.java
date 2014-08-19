@@ -7,9 +7,11 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,6 +36,7 @@ public class RecordingListActivity extends Activity {
 	private DatabaseHelper db;
 	private EditText searchField;
 	public static final String PREFS_NAME = "Authentication";
+	private Dialog dlgProgress;
 	
 	//globals
 	private boolean fileExists;
@@ -139,20 +142,6 @@ public class RecordingListActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private boolean isNetworkConnected() {
-		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		  return (cm.getActiveNetworkInfo() != null);
-	 }
-    	   
-	
-	public void loadRecordings() {
-		
-		db = new DatabaseHelper(this);
-		recordingList = new ArrayList<Recording>();
-		recordingList = db.getAllRecordings();
-		
-	}
-	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -194,7 +183,6 @@ public class RecordingListActivity extends Activity {
 	    			Toast.makeText(getApplicationContext(), R.string.message_already_on_cloud, Toast.LENGTH_SHORT).show();
 	    		} else {
 	    			uploadToCloud(info.position);
-	    			adapter.notifyDataSetChanged();
 	    		}
 	    		
 	    	}			
@@ -210,7 +198,6 @@ public class RecordingListActivity extends Activity {
 	    			Toast.makeText(getApplicationContext(), R.string.message_already_on_local, Toast.LENGTH_SHORT).show();
 	    		} else {
 	    			downloadFromCloud(info.position);
-	    			adapter.notifyDataSetChanged();
 	    		}
 	    	}
 			break;
@@ -220,7 +207,6 @@ public class RecordingListActivity extends Activity {
     			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
     		} else {
     			deleteFromLocal(info.position);
-    			adapter.notifyDataSetChanged();
     		}
 			
 			break;
@@ -233,7 +219,6 @@ public class RecordingListActivity extends Activity {
 	    			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
 	    		} else {
 	    			deleteFromCloud(info.position);
-	    			adapter.notifyDataSetChanged();
 	    		}
 	    	}
 			break;
@@ -289,8 +274,121 @@ public class RecordingListActivity extends Activity {
 			}
 			
 		}
+	}
+	
+	private boolean isNetworkConnected() {
+		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		  return (cm.getActiveNetworkInfo() != null);
+	 }
+  	   
+	
+	public void loadRecordings() {
+		db = new DatabaseHelper(this);
+		recordingList = new ArrayList<Recording>();
+		recordingList = db.getAllRecordings();
+	}
+	
+	private void uploadToCloud(final int position) {
+		// upload file
+		if(checkFile("local", recordingList.get(position).getLocalFilename())) {
+			new UploadToCloudTask().execute(recordingList.get(position).getLocalFilename());
+			// update recording database entry on_cloud to True
+			updateEntry("cloud", true, position);
+			adapter.notifyDataSetChanged();
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
+			// update recording database entry on_local to False
+			updateEntry("local", false, position);
+			adapter.notifyDataSetChanged();
+		}		
+	}
+	
+	private class UploadToCloudTask extends AsyncTask<String, Void, Void> {
 		
-			
+		@Override
+		protected void onPreExecute() {
+			dlgProgress = new Dialog(RecordingListActivity.this);
+			dlgProgress.setContentView(R.layout.dialog_progress);
+			dlgProgress.setTitle(getResources().getString(R.string.message_uploading)); 
+			dlgProgress.show();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			fm.upload(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			dlgProgress.dismiss();
+		}
+		
+	}
+	
+	private void downloadFromCloud(final int position) {
+		
+		// download file
+		if(checkFile("cloud", recordingList.get(position).getCloudFilename())) {
+			new DownloadFromCloudTask().execute(recordingList.get(position).getCloudFilename());
+			// update recording database entry on_local to True
+			updateEntry("local",true,position);
+			adapter.notifyDataSetChanged();
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+			// update recording database entry on_cloud to False
+			updateEntry("cloud", false, position);
+			adapter.notifyDataSetChanged();
+		}
+	}
+	
+	private class DownloadFromCloudTask extends AsyncTask<String, Void, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			dlgProgress = new Dialog(RecordingListActivity.this);
+			dlgProgress.setContentView(R.layout.dialog_progress);
+			dlgProgress.setTitle(getResources().getString(R.string.message_downloading)); 
+			dlgProgress.show();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			fm.download(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			dlgProgress.dismiss();
+		}
+		
+	}
+	
+	private void deleteFromCloud(final int position) {
+		// delete cloud file
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm.deleteCloud(recordingList.get(position).getCloudFilename());
+		    }
+		}).start();
+		
+		// update recording database entry on_cloud to False
+		updateEntry("cloud",false,position);
+		adapter.notifyDataSetChanged();
+	}
+	
+	private void deleteFromLocal(final int position) {
+		// delete local file
+		new Thread(new Runnable() {
+		    public void run() {
+		    	fm.deleteLocal(recordingList.get(position).getLocalFilename());
+		    }
+		}).start();
+		
+		// update recording database entry on_local to False
+		updateEntry("local",false,position);
+		adapter.notifyDataSetChanged();
 	}
 	
 	private int importCloudFiles() {
@@ -375,75 +473,6 @@ public class RecordingListActivity extends Activity {
 		
 		return count;
 		
-	}
-	
-	private void uploadToCloud(final int position) {
-		// upload file
-		if(checkFile("local", recordingList.get(position).getLocalFilename())) {
-			new Thread(new Runnable() {
-			    public void run() {
-			    	fm.upload(recordingList.get(position).getLocalFilename());
-			   }
-			}).start();
-			// update recording database entry on_cloud to True
-			updateEntry("cloud", true, position);
-			adapter.notifyDataSetChanged();
-		} else {
-			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
-			// update recording database entry on_local to False
-			updateEntry("local", false, position);
-			adapter.notifyDataSetChanged();
-		}
-		
-		
-		
-	}
-	
-	private void downloadFromCloud(final int position) {
-		
-		// download file
-		if(checkFile("cloud", recordingList.get(position).getCloudFilename())) {
-			new Thread(new Runnable() {
-			    public void run() {
-			    	fm.download(recordingList.get(position).getCloudFilename());
-			    }
-			}).start();
-			// update recording database entry on_local to True
-			updateEntry("local",true,position);
-			adapter.notifyDataSetChanged();
-		} else {
-			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
-			// update recording database entry on_cloud to False
-			updateEntry("cloud", false, position);
-			adapter.notifyDataSetChanged();
-		}
-		
-	}
-	
-	private void deleteFromCloud(final int position) {
-		// delete cloud file
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.deleteCloud(recordingList.get(position).getCloudFilename());
-		    }
-		}).start();
-		
-		// update recording database entry on_cloud to False
-		updateEntry("cloud",false,position);
-		adapter.notifyDataSetChanged();
-	}
-	
-	private void deleteFromLocal(final int position) {
-		// delete local file
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.deleteLocal(recordingList.get(position).getLocalFilename());
-		    }
-		}).start();
-		
-		// update recording database entry on_local to False
-		updateEntry("local",false,position);
-		adapter.notifyDataSetChanged();
 	}
 	
 	private void updateEntry(String location, boolean status, int position) {

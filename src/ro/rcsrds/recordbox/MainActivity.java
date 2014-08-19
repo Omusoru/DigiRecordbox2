@@ -83,33 +83,31 @@ public class MainActivity extends ActionBarActivity {
 		needsCancel = false;
 		buttonRecording = true; 
 		recorder = new AudioRecorder(auth.getUsername());
-		dlgSaving = new Dialog(this);
 		
 		if(isSalvageble())
 			new SalvageRecordingTask().execute(true);	
 	}
 
-	private class StopRecordingTask extends AsyncTask<Object, Object, Object> {
+	private class StopRecordingTask extends AsyncTask<Void, Void, Void> {
 		
 		@Override
 		protected void onPreExecute() {
-			super.onPreExecute();
-			dlgSaving.setContentView(R.layout.dialog_main);
+			dlgSaving = new Dialog(MainActivity.this);
+			dlgSaving.setContentView(R.layout.dialog_progress);
 			dlgSaving.setTitle(getResources().getString(R.string.message_saving)); 
 			dlgSaving.show();
 		}
 
 		@Override
-		protected Object doInBackground(Object... params) {
+		protected Void doInBackground(Void... params) {
 			recorder.stopRecording();
 			return null;
 		}
 		
 		@Override
-		protected void onPostExecute(Object result) {
+		protected void onPostExecute(Void result) {
 			dlgSaving.dismiss();
 			startIntent(filename);			
-			super.onPostExecute(result);
 		}
 		
 	}
@@ -119,7 +117,7 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dlgSaving.setContentView(R.layout.dialog_main);
+			dlgSaving.setContentView(R.layout.dialog_progress);
 			dlgSaving.setTitle(getResources().getString(R.string.message_recovering)); 
 			dlgSaving.show();
 		}
@@ -190,7 +188,7 @@ public class MainActivity extends ActionBarActivity {
 				previousTime = tvRecorderTime.getText().toString();
 				btnStop.setVisibility(View.INVISIBLE);
 	            btnCancel.setVisibility(View.INVISIBLE);
-				new StopRecordingTask().execute(true);
+				new StopRecordingTask().execute();
 	            resetButton();	
 	            stopTimer();
 	            needsCancel = false;
@@ -228,7 +226,7 @@ public class MainActivity extends ActionBarActivity {
 						previousTime = tvRecorderTime.getText().toString();
 						btnStop.setVisibility(View.INVISIBLE);
 			            btnCancel.setVisibility(View.INVISIBLE);
-						new StopRecordingTask().execute(true);
+						new StopRecordingTask().execute();
 			            resetButton();	
 			            stopTimer();
 			            needsCancel = false;
@@ -463,7 +461,7 @@ public class MainActivity extends ActionBarActivity {
 		previousTime = tvRecorderTime.getText().toString();
 		btnStop.setVisibility(View.INVISIBLE);
         btnCancel.setVisibility(View.INVISIBLE);
-		new StopRecordingTask().execute(true);
+		new StopRecordingTask().execute();
         resetButton();	
         stopTimer();
         needsCancel = false;

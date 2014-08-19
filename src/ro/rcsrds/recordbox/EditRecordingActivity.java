@@ -4,10 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -31,6 +33,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	public static final String PREFS_NAME = "Authentication";
 	private Recording recording;
 	private FileManager fm;
+	private Dialog dlgProgress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +167,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 		
 		if(isNetworkConnected()) {
-			uploadToCloud(newFilename);
+			new UploadToCloudTask().execute(newFilename);
 			newRecording.setOnCloud(true);
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
@@ -213,12 +216,28 @@ public class EditRecordingActivity extends ActionBarActivity {
 		recording = null;
 	}
 	
-	private void uploadToCloud(final String filename) {
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.upload(filename);
-		   }
-		}).start();
+	private class UploadToCloudTask extends AsyncTask<String, Void, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			//TODO FIX CRASH BC OF DIALOG
+//			dlgProgress = new Dialog(EditRecordingActivity.this);
+//			dlgProgress.setContentView(R.layout.dialog_progress);
+//			dlgProgress.setTitle(getResources().getString(R.string.message_uploading)); 
+//			dlgProgress.show();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			fm.upload(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+//			dlgProgress.dismiss();
+		}
+		
 	}
 	
 	private void getRecordingInfo() {
