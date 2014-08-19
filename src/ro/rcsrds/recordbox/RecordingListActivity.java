@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -93,15 +92,9 @@ public class RecordingListActivity extends Activity {
 		
 		
 		// check for missing files on recording list launch
-		final Handler handler = new Handler();
-		handler.post(new Runnable() {
-		  @Override
-		  public void run() {
-			  if(checkFiles()) {
-				 restartActivity();
-			  }
-		  }
-		});
+		if(checkFiles()) {
+			adapter.notifyDataSetChanged();
+		}
     	    
 }
 	
@@ -129,18 +122,19 @@ public class RecordingListActivity extends Activity {
 				Toast.makeText(this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
 			} else if (count == 1) {
 				Toast.makeText(this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
-				restartActivity();
+				adapter.notifyDataSetChanged();
 			} else if (count > 1) {
 				Toast.makeText(this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
-				restartActivity();
+				adapter.notifyDataSetChanged();
 			}
 			
 		} else if(item.getItemId()==R.id.option_menu_about) {
 			Intent intent = new Intent(RecordingListActivity.this,AboutActivity.class);
 			startActivity(intent);
 		} else if(item.getItemId()==R.id.option_menu_check_files) {
-			checkFiles();
-			restartActivity();
+			if(checkFiles()) {
+				adapter.notifyDataSetChanged();
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -200,7 +194,7 @@ public class RecordingListActivity extends Activity {
 	    			Toast.makeText(getApplicationContext(), R.string.message_already_on_cloud, Toast.LENGTH_SHORT).show();
 	    		} else {
 	    			uploadToCloud(info.position);
-					restartActivity();
+	    			adapter.notifyDataSetChanged();
 	    		}
 	    		
 	    	}			
@@ -216,7 +210,7 @@ public class RecordingListActivity extends Activity {
 	    			Toast.makeText(getApplicationContext(), R.string.message_already_on_local, Toast.LENGTH_SHORT).show();
 	    		} else {
 	    			downloadFromCloud(info.position);
-					restartActivity();
+	    			adapter.notifyDataSetChanged();
 	    		}
 	    	}
 			break;
@@ -226,7 +220,7 @@ public class RecordingListActivity extends Activity {
     			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
     		} else {
     			deleteFromLocal(info.position);
-    			restartActivity();
+    			adapter.notifyDataSetChanged();
     		}
 			
 			break;
@@ -239,7 +233,7 @@ public class RecordingListActivity extends Activity {
 	    			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
 	    		} else {
 	    			deleteFromCloud(info.position);
-	    			restartActivity();
+	    			adapter.notifyDataSetChanged();
 	    		}
 	    	}
 			break;
@@ -270,7 +264,7 @@ public class RecordingListActivity extends Activity {
 					//update database
 					updateEntry("local", false, position);
 					//refresh list
-					restartActivity();
+					adapter.notifyDataSetChanged();
 				}
 				
 			// check for cloud file
@@ -287,7 +281,7 @@ public class RecordingListActivity extends Activity {
 						//update database
 						updateEntry("cloud", false, position);
 						//refresh list
-						restartActivity();
+						adapter.notifyDataSetChanged();
 					}
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
@@ -297,32 +291,6 @@ public class RecordingListActivity extends Activity {
 		}
 		
 			
-	}
-	
-	@Override
-	public void onBackPressed() {
-		// Overwrite back key function for api level < 11
-		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT)<11) {
-			Intent intent = new Intent(RecordingListActivity.this,MainActivity.class);
-			startActivity(intent);
-		} else {
-			super.onBackPressed();
-		}
-	}
-	
-	@SuppressLint("NewApi")
-	private void restartActivity() {
-		// Restart activity manually on api level < 11
-		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT)<11) {
-			Intent intent = getIntent();
-		    overridePendingTransition(0, 0);
-		    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-		    finish();
-		    overridePendingTransition(0, 0);
-		    startActivity(intent);
-		} else {
-			recreate();
-		}			
 	}
 	
 	private int importCloudFiles() {
@@ -419,12 +387,12 @@ public class RecordingListActivity extends Activity {
 			}).start();
 			// update recording database entry on_cloud to True
 			updateEntry("cloud", true, position);
-			restartActivity();
+			adapter.notifyDataSetChanged();
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
 			// update recording database entry on_local to False
 			updateEntry("local", false, position);
-			restartActivity();
+			adapter.notifyDataSetChanged();
 		}
 		
 		
@@ -442,12 +410,12 @@ public class RecordingListActivity extends Activity {
 			}).start();
 			// update recording database entry on_local to True
 			updateEntry("local",true,position);
-			restartActivity();
+			adapter.notifyDataSetChanged();
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
 			// update recording database entry on_cloud to False
 			updateEntry("cloud", false, position);
-			restartActivity();
+			adapter.notifyDataSetChanged();
 		}
 		
 	}
@@ -462,7 +430,7 @@ public class RecordingListActivity extends Activity {
 		
 		// update recording database entry on_cloud to False
 		updateEntry("cloud",false,position);
-		restartActivity();
+		adapter.notifyDataSetChanged();
 	}
 	
 	private void deleteFromLocal(final int position) {
@@ -475,7 +443,7 @@ public class RecordingListActivity extends Activity {
 		
 		// update recording database entry on_local to False
 		updateEntry("local",false,position);
-		restartActivity();
+		adapter.notifyDataSetChanged();
 	}
 	
 	private void updateEntry(String location, boolean status, int position) {
@@ -507,7 +475,7 @@ public class RecordingListActivity extends Activity {
 			    }
 			}).start();
 			while(looping == null) {}
-			looping = null;//
+			looping = null;
 				    			
 		} else if(location.equalsIgnoreCase("local")) {
 			fileExists =  fm.checkFileLocal(filename);
@@ -568,7 +536,6 @@ public class RecordingListActivity extends Activity {
 	private boolean checkFiles(){
 		boolean filesHaveChanged = false;
 		DatabaseHelper db = new DatabaseHelper(this);
-		List<Recording> recordingList = db.getAllRecordings();
 		ArrayList<String> localFiles = fm.getFileListLocal();
 		
 		for(int i=0;i<recordingList.size();i++){
@@ -584,7 +551,6 @@ public class RecordingListActivity extends Activity {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					//fm.createFolderCloud("DigiRecordbox");
 					onlineFiles=fm.getFileListCloud();
 					looping="";
 				}
