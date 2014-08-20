@@ -436,7 +436,6 @@ public class RecordingListActivity extends Activity {
 		while(looping == null) {}
 		looping = null;//
 		DatabaseHelper db = new DatabaseHelper(this);
-		List<Recording> recordingList = db.getAllRecordings();
 		boolean fileInDb = false;
 		int count = 0;
 		
@@ -461,6 +460,7 @@ public class RecordingListActivity extends Activity {
 					newRecording.setOnLocal(false);
 					newRecording.setOnCloud(true);
 					db.insertRecording(newRecording);
+					recordingList.add(newRecording);
 					count ++;
 				}
 			}
@@ -474,7 +474,6 @@ public class RecordingListActivity extends Activity {
 		
 		ArrayList<String> filenames = fm.getFileListLocal();
 		DatabaseHelper db = new DatabaseHelper(this);
-		List<Recording> recordingList = db.getAllRecordings();
 		boolean fileInDb = false;
 		int count = 0;
 		
@@ -499,6 +498,7 @@ public class RecordingListActivity extends Activity {
 					newRecording.setOnLocal(true);
 					newRecording.setOnCloud(false);
 					db.insertRecording(newRecording);
+					recordingList.add(newRecording);
 					count ++;
 				}
 			}
