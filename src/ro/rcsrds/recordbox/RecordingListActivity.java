@@ -262,7 +262,6 @@ public class RecordingListActivity extends Activity {
 			} else if(recordingList.get(position).isOnCloud()) {
 				Toast.makeText(getApplicationContext(), R.string.message_already_on_cloud, Toast.LENGTH_SHORT).show();
 			} else {
-				//uploadToCloud(info.position);
 				// upload file
 				if(checkFile("local", recordingList.get(position).getLocalFilename())) {
 					new UploadToCloudTask().execute(recordingList.get(position).getLocalFilename());
@@ -355,16 +354,35 @@ public class RecordingListActivity extends Activity {
 			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
 		} else {
 			// delete local file
-			new Thread(new Runnable() {
-			    public void run() {
-			    	fm.deleteLocal(recordingList.get(position).getLocalFilename());
-			    }
-			}).start();
+			new DeleteFromLocalTask().execute(recordingList.get(position).getLocalFilename());
 			
 			// update recording database entry on_local to False
 			updateEntry("local",false,position);
 			adapter.notifyDataSetChanged();
 		}
+	}
+	
+	private class DeleteFromLocalTask extends AsyncTask<String, Void, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			dlgProgress = new ProgressDialog(RecordingListActivity.this,ProgressDialog.STYLE_SPINNER);
+			dlgProgress.setTitle(getResources().getString(R.string.title_deleting)); 
+			dlgProgress.setMessage(getResources().getString(R.string.message_deleting));
+			dlgProgress.show();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			fm.deleteLocal(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			dlgProgress.dismiss();
+		}
+		
 	}
 	
 	private void deleteFromCloud(final int position) {
@@ -375,17 +393,36 @@ public class RecordingListActivity extends Activity {
     			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
     		} else {
     			// delete cloud file
-    			new Thread(new Runnable() {
-    			    public void run() {
-    			    	fm.deleteCloud(recordingList.get(position).getCloudFilename());
-    			    }
-    			}).start();
+    			new DeleteFromCloudTask().execute(recordingList.get(position).getLocalFilename());
     			
     			// update recording database entry on_cloud to False
     			updateEntry("cloud",false,position);
     			adapter.notifyDataSetChanged();
     		}
     	}
+	}
+	
+	private class DeleteFromCloudTask extends AsyncTask<String, Void, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			dlgProgress = new ProgressDialog(RecordingListActivity.this,ProgressDialog.STYLE_SPINNER);
+			dlgProgress.setTitle(getResources().getString(R.string.title_deleting)); 
+			dlgProgress.setMessage(getResources().getString(R.string.message_deleting));
+			dlgProgress.show();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			fm.deleteCloud(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			dlgProgress.dismiss();
+		}
+		
 	}
 	
 	private int importCloudFiles() {

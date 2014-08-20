@@ -41,10 +41,11 @@
     <string name="search">Search&#8230;</string>
     
     <!-- titles -->
-    <string name="title_saving">Saving...</string>
-    <string name="title_uploading">Uploading...</string>
-    <string name="title_downloading">Downloading...</string>
-    <string name="title_recovering">Recovering...</string>
+    <string name="title_saving">Saving&#8230;</string> <!-- &#8230; = ... -->
+    <string name="title_uploading">Uploading&#8230;</string>
+    <string name="title_downloading">Downloading&#8230;</string>
+    <string name="title_recovering">Recovering&#8230;</string>
+    <string name="title_deleting">Deleting&#8230;</string>
         
     <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
@@ -53,6 +54,7 @@
     <string name="message_uploading">Uploading, please wait</string>
     <string name="message_downloading">Downloading, please wait</string>
     <string name="message_recovering">Recovering last recording, please wait</string>
+    <string name="message_deleting">Deleting, please wait</string>
     <string name="message_not_uploaded">Could not upload to cloud. Please check your internet connectivity</string>
     <string name="message_cloud_not_renamed">Could not rename cloud file. Please check your internet connectivity</string>
     <string name="message_already_on_cloud">The file already exists on the cloud</string>

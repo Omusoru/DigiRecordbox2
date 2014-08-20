@@ -41,10 +41,11 @@
     <string name="search">Caută&#8230;</string>
     
     <!-- titles -->
-    <string name="title_saving">Se salvează...</string>
-    <string name="title_uploading">Se încarcă...</string>
-    <string name="title_downloading">Se descarcă...</string>
-    <string name="title_recovering">Se restaurează...</string>
+    <string name="title_saving">Se salvează&#8230;</string> <!-- &#8230; = ... -->
+    <string name="title_uploading">Se încarcă&#8230;</string>
+    <string name="title_downloading">Se descarcă&#8230;</string>
+    <string name="title_recovering">Se restaurează&#8230;</string>
+    <string name="title_deleting">Se șterge&#8230;</string>
         
     <!-- messages -->
     <string name="message_authentication_failed">Autentificare eșuată</string>
@@ -53,6 +54,7 @@
     <string name="message_uploading">Se încarcă, vă rugăm așteptați</string>
     <string name="message_downloading">Se descarcă, vă rugăm așteptați</string>
     <string name="message_recovering">Se restaurează ultima înregistrare, vă rugăm așteptați</string>
+    <string name="message_deleting">Se șterge, vă rugăm așteptați</string>
     <string name="message_not_uploaded">Nu s-a putut încărca pe cloud. Verificați conexiunea la internet</string>
     <string name="message_cloud_not_renamed">Nu s-a putut redenumi fișierul de pe cliud. Verificați conexiunea la internet</string>
     <string name="message_already_on_cloud">Fișierul există deja pe cloud</string>
