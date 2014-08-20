@@ -6,7 +6,6 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,6 +44,7 @@ public class AudioRecorder {
 	private RandomAccessFile randomAccessFile;
 	
 	
+	@SuppressLint("DefaultLocale")
 	public AudioRecorder(String username){
 		username = username.toLowerCase();
 		username = username.replace(".", "DOT");

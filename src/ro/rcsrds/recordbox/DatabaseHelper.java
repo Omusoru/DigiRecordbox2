@@ -8,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 	
@@ -63,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public int insertRecording(Recording recording) {
-		Log.d("Database", "Insert: "+recording.getName());
+		//Log.d("Database", "Insert: "+recording.getName());
 		
 		// get reference to writable DB
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -122,7 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         recording.setOnLocal(Integer.parseInt(cursor.getString(8)) == 1 ? true : false);
         recording.setOnCloud(Integer.parseInt(cursor.getString(9)) == 1 ? true : false);
         
-        Log.d("Database","getRecording("+id+"): "+recording.getName());
+        //Log.d("Database","getRecording("+id+"): "+recording.getName());
 	   
 		return recording;
 	}
@@ -159,9 +158,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 		
         // log
-        for (Recording recordingx : recordings) {
-        	Log.d("Database","getAllRecordings: "+recordingx.getName());
-        }
+//        for (Recording recordingx : recordings) {
+//        	Log.d("Database","getAllRecordings: "+recordingx.getName());
+//        }
 		
 		
 		return recordings;
@@ -194,7 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // close 
         db.close();
         
-        Log.d("Database","updateDatabase: "+recording.getName());
+        //Log.d("Database","updateDatabase: "+recording.getName());
         
         return i;
         
@@ -213,7 +212,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // close
         db.close();
         
-        Log.d("Database","deleteRecording: "+recording.getName());
+        //Log.d("Database","deleteRecording: "+recording.getName());
 		
 	}
 	

@@ -7,7 +7,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -399,6 +398,7 @@ public class MainActivity extends ActionBarActivity {
 	    
 	}
 	
+	@SuppressLint("DefaultLocale")
 	private boolean isSalvageble(){
 		SharedPreferences preferences = MainActivity.this.getSharedPreferences("Authentication", 0);
 		String username = preferences.getString("username", "").toLowerCase();
@@ -424,6 +424,7 @@ public class MainActivity extends ActionBarActivity {
 		else return true;
 	}
 	
+	@SuppressLint("DefaultLocale")
 	private String salvage(){
 		
 		SharedPreferences preferences = MainActivity.this.getSharedPreferences("Authentication", 0);

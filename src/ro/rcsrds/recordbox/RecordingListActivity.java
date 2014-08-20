@@ -598,10 +598,12 @@ public class RecordingListActivity extends Activity {
 	}
 	
 	private boolean checkFiles(){
+		
 		boolean filesHaveChanged = false;
 		DatabaseHelper db = new DatabaseHelper(this);
 		ArrayList<String> localFiles = fm.getFileListLocal();
 		
+		// Search local files
 		for(int i=0;i<recordingList.size();i++){
 			if((!localFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnLocal())){
 				recordingList.get(i).setOnLocal(false);
@@ -610,6 +612,7 @@ public class RecordingListActivity extends Activity {
 			}
 		}
 		
+		// Search cloud files
 		if(isNetworkConnected()){			
 			looping=null;
 			new Thread(new Runnable() {
@@ -631,8 +634,7 @@ public class RecordingListActivity extends Activity {
 				}
 			}
 			
-		}
-		else{
+		} else {
     		Toast.makeText(getApplicationContext(), R.string.message_no_internet_checking, Toast.LENGTH_SHORT).show();
 		}
 		

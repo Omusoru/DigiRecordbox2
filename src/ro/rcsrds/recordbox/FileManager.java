@@ -2,9 +2,7 @@ package ro.rcsrds.recordbox;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import net.koofr.api.v2.DefaultClientFactory;
 import net.koofr.api.v2.StorageApi;
 import net.koofr.api.v2.StorageApiException;
@@ -12,6 +10,7 @@ import net.koofr.api.v2.resources.File;
 import net.koofr.api.v2.resources.Mount;
 import net.koofr.api.v2.transfer.upload.FileUploadData;
 import net.koofr.api.v2.transfer.upload.UploadData;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -28,6 +27,7 @@ public class FileManager {
 	private Mount mount;
 	private StorageApi api;
 	 
+	@SuppressLint("DefaultLocale")
 	public FileManager(Context context){				
 		preferences = context.getSharedPreferences(PREFS_NAME, 0);
 		username = preferences.getString("username", "").toLowerCase();
@@ -47,14 +47,12 @@ public class FileManager {
 		try {
 			api = DefaultClientFactory.create("storage.rcs-rds.ro",username, password);
 		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
 		}
 		try {
 			mount = api.getMounts().get(0);
 			api.getMounts().get(0).toString();
 		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
 		}
 		
@@ -67,9 +65,7 @@ public class FileManager {
 		
 		try {
 			api.createFolder(mount.getId(), "/", "DigiRecordbox");
-			//return true;
 		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
 		}
 		
@@ -78,7 +74,6 @@ public class FileManager {
 			api.filesUpload(mount.getId(), "/DigiRecordbox/", data, new SimpleProgressListener());
 			return true;
 		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
 			return false;
 		}
@@ -90,7 +85,6 @@ public class FileManager {
 			api.filesDownload(mount.getId(), "/DigiRecordbox/"+file, localFilePath, new SimpleProgressListener());
 			return true;
 		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
 			return false;
 		}
@@ -101,7 +95,6 @@ public class FileManager {
 			api.removePath(mount.getId(), "/DigiRecordbox/"+file);
 			return true;
 		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
 			return false;
 		}
@@ -126,7 +119,6 @@ public class FileManager {
 			}
 			return files;
 		} catch (StorageApiException e1) {
-			// TODO Auto-generated catch block
 			Log.d("FileManager",e1.getMessage());
 			ArrayList<String> files = null;
 			return files;
@@ -137,10 +129,8 @@ public class FileManager {
 	public boolean createFolderCloud(String folderName){
 		try {
 			api.createFolder(mount.getId(), "/", folderName);
-			//return true;
 		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d("FileManager",e.getMessage());
 			return false;
 		}
 		return true;
@@ -157,12 +147,9 @@ public class FileManager {
 	
 	public String getFileLink(String file){		
 		try {
-			//Log.d("dltest","AJUNG AICI BAH");
 			//Log.d("dltest",api.getDownloadURL(mount.getId(), "/DigiRecordBox/"+file));
-			//api.get
 			return api.getDownloadURL(mount.getId(), "/DigiRecordBox/"+file);
 		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
 			Log.d("FileManager",e.getMessage());
 			return null;
 		}
@@ -177,7 +164,7 @@ public class FileManager {
 		for( int i=0; i< list.length; i++)
 	    {
 			myList.add( list[i].getName() );
-			Log.d("Files",list[i].getName());
+			//Log.d("Files",list[i].getName());
 	    }		
 		
 		return myList;
@@ -201,7 +188,7 @@ public class FileManager {
 			api.renamePath(mount.getId(),"/DigiRecordbox/"+originalName, newName);
 			return true;
 		} catch (StorageApiException e) {
-			Log.e("Rename",e.getMessage());
+			Log.d("Rename",e.getMessage());
 			return false;
 		}		
 	}
@@ -241,7 +228,6 @@ public class FileManager {
 				Player.prepare();
 			} catch (IllegalArgumentException | SecurityException
 					| IllegalStateException | IOException e) {
-				// TODO Auto-generated catch block
 				return -1;
 			}
 			
