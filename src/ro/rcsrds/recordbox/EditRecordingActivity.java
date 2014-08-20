@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,11 +30,12 @@ public class EditRecordingActivity extends ActionBarActivity {
 	private String owner;
 	private String duration;
 	private int lastRecordingId;
-	private boolean newRecording;
+	private boolean isNewRecording;
+	private boolean willBePlayed;
 	public static final String PREFS_NAME = "Authentication";
 	private Recording recording;
 	private FileManager fm;
-	private Dialog dlgProgress;
+	private ProgressDialog dlgProgress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +61,12 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 		
 		if(getIntent().getExtras().getBoolean("new")) {
-			newRecording = true;
+			isNewRecording = true;
 			// get filename parameter passed from main activity
 			filename = getIntent().getExtras().getString("filename");
 			duration = getIntent().getExtras().getString("duration");
 		} else {			
-			newRecording = false;
+			isNewRecording = false;
 			// get recording id passed from recording list
 			lastRecordingId = getIntent().getExtras().getInt("id");	
 			getRecordingInfo();
@@ -77,7 +79,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	
 	@Override
 	public void onBackPressed() {
-		if(newRecording) {
+		if(isNewRecording) {
 			Toast.makeText(getApplicationContext(), R.string.message_audio_not_inserted, Toast.LENGTH_LONG).show();
 			super.onBackPressed();
 		} else {
@@ -92,32 +94,35 @@ public class EditRecordingActivity extends ActionBarActivity {
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_save) {
 				if(validateFields()) {
-					if(newRecording) {
+					if(isNewRecording) {
 						saveRecording();
+						uploadToCloud();
+						willBePlayed = false;
 					} else {
 						editRecording();
 						Intent intent = new Intent(EditRecordingActivity.this,RecordingListActivity.class);
 						startActivity(intent);
+						finish();
 					}
-					finish();
+					
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();
 				}
-				
-				
-				
 			} else if(v.getId()==R.id.btn_save_play) {
 				if(validateFields()) {
-					if(newRecording) {
+					if(isNewRecording) {
 						saveRecording();
+						uploadToCloud();
+						willBePlayed = true;
 					} else {
 						editRecording();
+						finish();
 					}
-					finish();
-					// Launch media player with filename parameter
-					Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
-					intent.putExtra("id", lastRecordingId);
-					startActivity(intent);
+					
+//					// Launch media player with id parameter
+//					Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
+//					intent.putExtra("id", lastRecordingId);
+//					startActivity(intent);
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();
 				}
@@ -150,7 +155,8 @@ public class EditRecordingActivity extends ActionBarActivity {
 		final String oldFilename = filename;
 		final String newFilename = name+" "+currentDate+".mp4";		
 
-		fm.rename(oldFilename,newFilename);		
+		fm.rename(oldFilename,newFilename);
+		filename = newFilename;
 		
 		// create recording object
 		Recording newRecording = new Recording();
@@ -163,15 +169,6 @@ public class EditRecordingActivity extends ActionBarActivity {
 		newRecording.setDuration(duration);
 		newRecording.setOnLocal(true);
 		newRecording.setOnCloud(false);
-		
-		
-		
-		if(isNetworkConnected()) {
-			new UploadToCloudTask().execute(newFilename);
-			newRecording.setOnCloud(true);
-		} else {
-			Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
-		}
 		
 		// insert recording into database
 		DatabaseHelper db = new DatabaseHelper(this);
@@ -196,6 +193,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 			fm.rename(oldLocalFilename,newFilename);	
 			recording.setLocalFilename(newFilename);
 		}
+		
 		//rename cloud file
 		if(recording.isOnCloud()) {
 			if(isNetworkConnected()) {
@@ -216,15 +214,32 @@ public class EditRecordingActivity extends ActionBarActivity {
 		recording = null;
 	}
 	
+	private void uploadToCloud() {
+		
+		
+		if(isNetworkConnected()) {
+			
+			DatabaseHelper db = new DatabaseHelper(this);
+			Recording recording = db.getRecording(lastRecordingId);
+			
+			new UploadToCloudTask().execute(filename);
+			recording.setOnCloud(true);
+			db.updateRecording(recording);
+			recording = null;
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	
 	private class UploadToCloudTask extends AsyncTask<String, Void, Void> {
 		
 		@Override
 		protected void onPreExecute() {
-			//TODO FIX CRASH BC OF DIALOG
-//			dlgProgress = new Dialog(EditRecordingActivity.this);
-//			dlgProgress.setContentView(R.layout.dialog_progress);
-//			dlgProgress.setTitle(getResources().getString(R.string.message_uploading)); 
-//			dlgProgress.show();
+			dlgProgress = new ProgressDialog(EditRecordingActivity.this,ProgressDialog.STYLE_SPINNER);
+			dlgProgress.setTitle(getResources().getString(R.string.title_uploading));
+			dlgProgress.setMessage(getResources().getString(R.string.message_uploading));
+			dlgProgress.show();
 		}
 
 		@Override
@@ -235,7 +250,14 @@ public class EditRecordingActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(Void result) {
-//			dlgProgress.dismiss();
+			dlgProgress.dismiss();
+			finish();
+			if(willBePlayed) {
+				// Launch media player with id parameter
+				Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
+				intent.putExtra("id", lastRecordingId);
+				startActivity(intent);
+			}
 		}
 		
 	}
