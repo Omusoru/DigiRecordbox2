@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -168,62 +167,20 @@ public class RecordingListActivity extends Activity {
 	
 		switch(menuItemIndex) {
 		case 0: // Edit recording
-			Intent intent = new Intent(RecordingListActivity.this, EditRecordingActivity.class);
-			intent.putExtra("id", recordingList.get(info.position).getId());
-			intent.putExtra("new",false);
-			startActivity(intent);
-			break;
-			
-		case 1: // Upload to cloud
-			if(!isNetworkConnected()) {
-				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
-	    	} else {
-	    		if(!recordingList.get(info.position).isOnLocal()) {
-	    			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
-	    		} else if(recordingList.get(info.position).isOnCloud()) {
-	    			Toast.makeText(getApplicationContext(), R.string.message_already_on_cloud, Toast.LENGTH_SHORT).show();
-	    		} else {
-	    			uploadToCloud(info.position);
-	    		}
-	    		
-	    	}			
+			editRecording(info.position);
 			break;			
-			
+		case 1: // Upload to cloud
+			uploadToCloud(info.position);
+			break;	
 		case 2: // Download from cloud
-			if(!isNetworkConnected()) {
-				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
-	    	} else {
-	    		if(!recordingList.get(info.position).isOnCloud()) {
-	    			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
-	    		} else if(recordingList.get(info.position).isOnLocal()) {
-	    			Toast.makeText(getApplicationContext(), R.string.message_already_on_local, Toast.LENGTH_SHORT).show();
-	    		} else {
-	    			downloadFromCloud(info.position);
-	    		}
-	    	}
+			downloadFromCloud(info.position);
 			break;
-			
 		case 3: // Delete local file
-			if(!recordingList.get(info.position).isOnLocal()) {
-    			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
-    		} else {
-    			deleteFromLocal(info.position);
-    		}
-			
+			deleteFromLocal(info.position);
 			break;
-			
 		case 4: // Delete cloud file
-			if(!isNetworkConnected()) {
-				Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
-	    	} else {
-	    		if(!recordingList.get(info.position).isOnCloud()) {
-	    			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
-	    		} else {
-	    			deleteFromCloud(info.position);
-	    		}
-	    	}
+			deleteFromCloud(info.position);
 			break;
-			
 		default:
 			Log.d("Recordinglist","Nothing");
 		}
@@ -289,19 +246,37 @@ public class RecordingListActivity extends Activity {
 		recordingList = db.getAllRecordings();
 	}
 	
+	private void editRecording(final int position) {
+		Intent intent = new Intent(RecordingListActivity.this, EditRecordingActivity.class);
+		intent.putExtra("id", recordingList.get(position).getId());
+		intent.putExtra("new",false);
+		startActivity(intent);
+	}
+	
 	private void uploadToCloud(final int position) {
-		// upload file
-		if(checkFile("local", recordingList.get(position).getLocalFilename())) {
-			new UploadToCloudTask().execute(recordingList.get(position).getLocalFilename());
-			// update recording database entry on_cloud to True
-			updateEntry("cloud", true, position);
-			adapter.notifyDataSetChanged();
+		if(!isNetworkConnected()) {
+			Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
 		} else {
-			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
-			// update recording database entry on_local to False
-			updateEntry("local", false, position);
-			adapter.notifyDataSetChanged();
-		}		
+			if(!recordingList.get(position).isOnLocal()) {
+				Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
+			} else if(recordingList.get(position).isOnCloud()) {
+				Toast.makeText(getApplicationContext(), R.string.message_already_on_cloud, Toast.LENGTH_SHORT).show();
+			} else {
+				//uploadToCloud(info.position);
+				// upload file
+				if(checkFile("local", recordingList.get(position).getLocalFilename())) {
+					new UploadToCloudTask().execute(recordingList.get(position).getLocalFilename());
+					// update recording database entry on_cloud to True
+					updateEntry("cloud", true, position);
+					adapter.notifyDataSetChanged();
+				} else {
+					Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
+					// update recording database entry on_local to False
+					updateEntry("local", false, position);
+					adapter.notifyDataSetChanged();
+				}		
+			}
+		}	
 	}
 	
 	private class UploadToCloudTask extends AsyncTask<String, Void, Void> {
@@ -328,19 +303,28 @@ public class RecordingListActivity extends Activity {
 	}
 	
 	private void downloadFromCloud(final int position) {
-		
-		// download file
-		if(checkFile("cloud", recordingList.get(position).getCloudFilename())) {
-			new DownloadFromCloudTask().execute(recordingList.get(position).getCloudFilename());
-			// update recording database entry on_local to True
-			updateEntry("local",true,position);
-			adapter.notifyDataSetChanged();
-		} else {
-			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
-			// update recording database entry on_cloud to False
-			updateEntry("cloud", false, position);
-			adapter.notifyDataSetChanged();
-		}
+		if(!isNetworkConnected()) {
+			Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+    	} else {
+    		if(!recordingList.get(position).isOnCloud()) {
+    			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+    		} else if(recordingList.get(position).isOnLocal()) {
+    			Toast.makeText(getApplicationContext(), R.string.message_already_on_local, Toast.LENGTH_SHORT).show();
+    		} else {
+    			// download file
+    			if(checkFile("cloud", recordingList.get(position).getCloudFilename())) {
+    				new DownloadFromCloudTask().execute(recordingList.get(position).getCloudFilename());
+    				// update recording database entry on_local to True
+    				updateEntry("local",true,position);
+    				adapter.notifyDataSetChanged();
+    			} else {
+    				Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+    				// update recording database entry on_cloud to False
+    				updateEntry("cloud", false, position);
+    				adapter.notifyDataSetChanged();
+    			}
+    		}
+    	}		
 	}
 	
 	private class DownloadFromCloudTask extends AsyncTask<String, Void, Void> {
@@ -366,30 +350,42 @@ public class RecordingListActivity extends Activity {
 		
 	}
 	
-	private void deleteFromCloud(final int position) {
-		// delete cloud file
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.deleteCloud(recordingList.get(position).getCloudFilename());
-		    }
-		}).start();
-		
-		// update recording database entry on_cloud to False
-		updateEntry("cloud",false,position);
-		adapter.notifyDataSetChanged();
+	private void deleteFromLocal(final int position) {		
+		if(!recordingList.get(position).isOnLocal()) {
+			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
+		} else {
+			// delete local file
+			new Thread(new Runnable() {
+			    public void run() {
+			    	fm.deleteLocal(recordingList.get(position).getLocalFilename());
+			    }
+			}).start();
+			
+			// update recording database entry on_local to False
+			updateEntry("local",false,position);
+			adapter.notifyDataSetChanged();
+		}
 	}
 	
-	private void deleteFromLocal(final int position) {
-		// delete local file
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.deleteLocal(recordingList.get(position).getLocalFilename());
-		    }
-		}).start();
-		
-		// update recording database entry on_local to False
-		updateEntry("local",false,position);
-		adapter.notifyDataSetChanged();
+	private void deleteFromCloud(final int position) {
+		if(!isNetworkConnected()) {
+			Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+    	} else {
+    		if(!recordingList.get(position).isOnCloud()) {
+    			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+    		} else {
+    			// delete cloud file
+    			new Thread(new Runnable() {
+    			    public void run() {
+    			    	fm.deleteCloud(recordingList.get(position).getCloudFilename());
+    			    }
+    			}).start();
+    			
+    			// update recording database entry on_cloud to False
+    			updateEntry("cloud",false,position);
+    			adapter.notifyDataSetChanged();
+    		}
+    	}
 	}
 	
 	private int importCloudFiles() {
