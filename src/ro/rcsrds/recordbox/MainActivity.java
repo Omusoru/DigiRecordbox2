@@ -94,7 +94,7 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		protected void onPreExecute() {
 			dlgSaving = new ProgressDialog(MainActivity.this,ProgressDialog.STYLE_SPINNER);
-			dlgSaving.setTitle(getResources().getString(R.string.message_saving)); 
+			dlgSaving.setTitle(getResources().getString(R.string.title_saving)); 
 			dlgSaving.setMessage(getResources().getString(R.string.message_saving)); 
 			dlgSaving.show();
 		}
@@ -119,7 +119,7 @@ public class MainActivity extends ActionBarActivity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			dlgSaving = new ProgressDialog(MainActivity.this,ProgressDialog.STYLE_SPINNER);
-			dlgSaving.setTitle(getResources().getString(R.string.message_recovering)); 
+			dlgSaving.setTitle(getResources().getString(R.string.title_recovering)); 
 			dlgSaving.setMessage(getResources().getString(R.string.message_recovering)); 
 			dlgSaving.show();
 		}

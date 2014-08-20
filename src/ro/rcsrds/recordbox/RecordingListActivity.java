@@ -309,7 +309,7 @@ public class RecordingListActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			dlgProgress = new ProgressDialog(RecordingListActivity.this,ProgressDialog.STYLE_SPINNER);
-			dlgProgress.setTitle(getResources().getString(R.string.message_uploading));
+			dlgProgress.setTitle(getResources().getString(R.string.title_uploading));
 			dlgProgress.setMessage(getResources().getString(R.string.message_uploading));
 			dlgProgress.show();
 		}
@@ -348,7 +348,7 @@ public class RecordingListActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			dlgProgress = new ProgressDialog(RecordingListActivity.this,ProgressDialog.STYLE_SPINNER);
-			dlgProgress.setTitle(getResources().getString(R.string.message_downloading)); 
+			dlgProgress.setTitle(getResources().getString(R.string.title_downloading)); 
 			dlgProgress.setMessage(getResources().getString(R.string.message_downloading));
 			dlgProgress.show();
 		}

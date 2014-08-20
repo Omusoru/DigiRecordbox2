@@ -39,6 +39,12 @@
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
     <string name="search">Search&#8230;</string>
+    
+    <!-- titles -->
+    <string name="title_saving">Saving...</string>
+    <string name="title_uploading">Uploading...</string>
+    <string name="title_downloading">Downloading...</string>
+    <string name="title_recovering">Recovering...</string>
         
     <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
