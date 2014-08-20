@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -36,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
 	private AudioRecorder recorder;
 	private Authentication auth;
 	private String filename;
-	private Dialog dlgSaving;
+	private ProgressDialog dlgSaving;
 	private boolean buttonRecording;
 	//private Handler mHandler = new Handler();
 	private boolean needsCancel;
@@ -92,9 +93,9 @@ public class MainActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPreExecute() {
-			dlgSaving = new Dialog(MainActivity.this);
-			dlgSaving.setContentView(R.layout.dialog_progress);
+			dlgSaving = new ProgressDialog(MainActivity.this,ProgressDialog.STYLE_SPINNER);
 			dlgSaving.setTitle(getResources().getString(R.string.message_saving)); 
+			dlgSaving.setMessage(getResources().getString(R.string.message_saving)); 
 			dlgSaving.show();
 		}
 
@@ -117,8 +118,9 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dlgSaving.setContentView(R.layout.dialog_progress);
+			dlgSaving = new ProgressDialog(MainActivity.this,ProgressDialog.STYLE_SPINNER);
 			dlgSaving.setTitle(getResources().getString(R.string.message_recovering)); 
+			dlgSaving.setMessage(getResources().getString(R.string.message_recovering)); 
 			dlgSaving.show();
 		}
 

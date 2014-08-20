@@ -8,6 +8,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -36,7 +37,7 @@ public class RecordingListActivity extends Activity {
 	private DatabaseHelper db;
 	private EditText searchField;
 	public static final String PREFS_NAME = "Authentication";
-	private Dialog dlgProgress;
+	private ProgressDialog dlgProgress;
 	
 	//globals
 	private boolean fileExists;
@@ -307,9 +308,9 @@ public class RecordingListActivity extends Activity {
 		
 		@Override
 		protected void onPreExecute() {
-			dlgProgress = new Dialog(RecordingListActivity.this);
-			dlgProgress.setContentView(R.layout.dialog_progress);
-			dlgProgress.setTitle(getResources().getString(R.string.message_uploading)); 
+			dlgProgress = new ProgressDialog(RecordingListActivity.this,ProgressDialog.STYLE_SPINNER);
+			dlgProgress.setTitle(getResources().getString(R.string.message_uploading));
+			dlgProgress.setMessage(getResources().getString(R.string.message_uploading));
 			dlgProgress.show();
 		}
 
@@ -346,9 +347,9 @@ public class RecordingListActivity extends Activity {
 		
 		@Override
 		protected void onPreExecute() {
-			dlgProgress = new Dialog(RecordingListActivity.this);
-			dlgProgress.setContentView(R.layout.dialog_progress);
+			dlgProgress = new ProgressDialog(RecordingListActivity.this,ProgressDialog.STYLE_SPINNER);
 			dlgProgress.setTitle(getResources().getString(R.string.message_downloading)); 
+			dlgProgress.setMessage(getResources().getString(R.string.message_downloading));
 			dlgProgress.show();
 		}
 
