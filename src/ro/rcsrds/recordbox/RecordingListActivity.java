@@ -73,31 +73,14 @@ public class RecordingListActivity extends Activity {
 		loadRecordings();		
 		list = (ListView) findViewById(R.id.list);
 		searchField = (EditText) findViewById(R.id.searchField);
+		searchField.addTextChangedListener(new SearchTextWatcher());
 	    
 		adapter = new RecordingListAdapter(this, recordingList);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new ListOnClickListener());
 		registerForContextMenu(list);
 		list.setTextFilterEnabled(true);
-	
-		searchField.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence cs, int start, int before, int count) {
-				recordingList=adapter.getRecList(cs);
-
-			}			
-			@Override
-			public void beforeTextChanged(CharSequence cs, int start, int count,int after) {
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				
-			}
-		});
-   
+		
 }
 	
 	@Override
@@ -185,6 +168,21 @@ public class RecordingListActivity extends Activity {
 		}
 		
 		return super.onContextItemSelected(item);
+	}
+	
+	private class SearchTextWatcher implements TextWatcher {
+		
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			recordingList=adapter.getRecList(s);
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+		
+		@Override
+		public void afterTextChanged(Editable s) {}
+		
 	}
 	
 	private class ListOnClickListener implements OnItemClickListener {
