@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -49,22 +50,24 @@ public class RecordingListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recordinglist);
 		
+		fm = new FileManager(RecordingListActivity.this);	
 		
-		fm = new FileManager(RecordingListActivity.this);
-		if(isNetworkConnected()) {
-			looping = null;
-			new Thread(new Runnable() {
-				 public void run() {		    	
-		    		fm.connectToCloud();
+		final Handler handler = new Handler();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if(isNetworkConnected()) {
+					fm.connectToCloud();
 		    		fm.createFolderCloud("DigiRecordbox");
-		    		looping = "";
-			   }
-			}).start();
-			while (looping == null) {}
-			looping = null;
-		}	
-		
-		
+				}
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						checkFiles();
+					}
+				});
+			}
+		}).start();
 		
 		// load the recordings in the list
 		loadRecordings();		
@@ -94,13 +97,7 @@ public class RecordingListActivity extends Activity {
 				
 			}
 		});
-		
-		
-		// check for missing files on recording list launch
-		if(checkFiles()) {
-			adapter.notifyDataSetChanged();
-		}
-    	    
+   
 }
 	
 	@Override
