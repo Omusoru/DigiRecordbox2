@@ -301,6 +301,8 @@ public class MainActivity extends ActionBarActivity {
 	private void periodicSave() {
 		
         btnRecord.setEnabled(false);
+        btnStop.setEnabled(false);
+        btnCancel.setEnabled(false);
 		setEnabledButtons(false);		
 
 		Timer buttonTimer = new Timer();
@@ -312,6 +314,8 @@ public class MainActivity extends ActionBarActivity {
 		            public void run() {			            	
 		            	btnRecord.setEnabled(true);
 		            	setEnabledButtons(true);
+		            	btnStop.setEnabled(true);
+		                btnCancel.setEnabled(true);
 		            	//switchButtons();		            	
 		            }
 		        });
@@ -322,6 +326,8 @@ public class MainActivity extends ActionBarActivity {
 	private void disableButton() {
 		
         btnRecord.setEnabled(false);
+        btnStop.setEnabled(false);
+        btnCancel.setEnabled(false);
 		setEnabledButtons(false);		
 
 		Timer buttonTimer = new Timer();
@@ -332,6 +338,8 @@ public class MainActivity extends ActionBarActivity {
 		        runOnUiThread(new Runnable() {
 		            public void run() {			            	
 		            	btnRecord.setEnabled(true);
+		            	btnStop.setEnabled(true);
+		                btnCancel.setEnabled(true);
 		            	setEnabledButtons(true);
 		            	switchButtons();		            	
 		            }
@@ -347,12 +355,16 @@ public class MainActivity extends ActionBarActivity {
 			} else if(!buttonRecording) {
 				btnRecord.setBackgroundResource(R.drawable.button_pause_big);				
 			}
+			btnStop.setBackgroundResource(R.drawable.button_stop_small);
+			btnCancel.setBackgroundResource(R.drawable.button_cancel_small);
 		} else {
 			if(buttonRecording) {
 				btnRecord.setBackgroundResource(R.drawable.button_record_big_disabled);				
 			} else if(!buttonRecording) {
 				btnRecord.setBackgroundResource(R.drawable.button_pause_big_disabled);
 			}
+			btnStop.setBackgroundResource(R.drawable.button_stop_small_disabled);
+			btnCancel.setBackgroundResource(R.drawable.button_cancel_small_disabled);
 		}
 		
 	}
