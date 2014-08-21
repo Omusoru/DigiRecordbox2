@@ -51,18 +51,20 @@ public class RecordingListActivity extends Activity {
 		
 		
 		fm = new FileManager(RecordingListActivity.this);
-		looping = null;
-		new Thread(new Runnable() {
-			 public void run() {		    	
-			    	if(isNetworkConnected()) {
-			    		fm.connectToCloud();
-			    		fm.createFolderCloud("DigiRecordbox");
-			    		looping = "";
-			    	}
-		   }
-		}).start();
-		while (looping == null) {}
-		looping = null;
+		if(isNetworkConnected()) {
+			looping = null;
+			new Thread(new Runnable() {
+				 public void run() {		    	
+		    		fm.connectToCloud();
+		    		fm.createFolderCloud("DigiRecordbox");
+		    		looping = "";
+			   }
+			}).start();
+			while (looping == null) {}
+			looping = null;
+		}	
+		
+		
 		
 		// load the recordings in the list
 		loadRecordings();		

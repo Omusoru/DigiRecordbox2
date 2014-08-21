@@ -2,9 +2,7 @@ package ro.rcsrds.recordbox;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-@SuppressLint("SimpleDateFormat")
 public class EditRecordingActivity extends ActionBarActivity {
 	
 	private EditText etName;
@@ -56,9 +53,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 			    		fm.connectToCloud();
 			    	}
 		   }
-		}).start();
-		
-		
+		}).start();		
 		
 		if(getIntent().getExtras().getBoolean("new")) {
 			isNewRecording = true;
@@ -118,11 +113,6 @@ public class EditRecordingActivity extends ActionBarActivity {
 						editRecording();
 						finish();
 					}
-					
-//					// Launch media player with id parameter
-//					Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
-//					intent.putExtra("id", lastRecordingId);
-//					startActivity(intent);
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();
 				}
@@ -136,7 +126,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	private boolean isNetworkConnected() {
 		  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		  return (cm.getActiveNetworkInfo() != null);
-	 }
+	}
 	
 	private boolean validateFields() {
 		
@@ -270,7 +260,8 @@ public class EditRecordingActivity extends ActionBarActivity {
 		etDescription.setText(recording.getDescription());
 	}
 	
-	private String getCurrentFormatedDate() {
+	@SuppressLint("SimpleDateFormat")
+	private static String getCurrentFormatedDate() {
 		
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
