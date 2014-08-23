@@ -439,19 +439,10 @@ public class RecordingListActivity extends Activity {
 	}
 	
 	private int importCloudFiles() {
-		
-		looping = null;
-		new Thread(new Runnable() {
-		    public void run() {
-		    	fm.connectToCloud();
-				fm.createFolderCloud("DigiRecordBox");
-		    	onlineFiles = fm.getFileListCloud();
-		    	looping = "";
-		    }
-		}).start();
-		while(looping == null) {}
-		looping = null;//
-		
+		fm.connectToCloud();
+		fm.createFolderCloud("DigiRecordBox");
+    	
+		onlineFiles = fm.getFileListCloud();
 		DatabaseHelper db = new DatabaseHelper(this);
 		boolean fileInDb = false;
 		int count = 0;
@@ -643,17 +634,7 @@ public class RecordingListActivity extends Activity {
 			if(isNetworkConnected()){	
 				fm.connectToCloud();
 				fm.createFolderCloud("DigiRecordBox");
-				looping=null;
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						onlineFiles=fm.getFileListCloud();
-						looping="";
-					}
-				}).start();
-				while(looping==null){}
-				looping=null;
-				
+				onlineFiles=fm.getFileListCloud();
 				
 				for(int i=0;i<recordingList.size();i++){
 					if((!onlineFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnCloud())){
