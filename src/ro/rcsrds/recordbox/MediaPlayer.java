@@ -104,8 +104,8 @@ public class MediaPlayer {
     
     public void pausePlaying(){
     	if(isPlaying==true){
-    	Player.pause();
-		playingPausedAt = Player.getCurrentPosition();
+    	playingPausedAt = Player.getCurrentPosition();
+    	Player.pause();		
 		isPlaying=false;
     	}
     }
@@ -115,5 +115,13 @@ public class MediaPlayer {
 		Player.start();    		
 		isPlaying=true;
     }
+    
+    public void resumePlaying(){
+    	if(isPlaying==false){
+    		Player.seekTo(playingPausedAt);
+    		Player.start();    		
+    		isPlaying=true;
+    	}
+    }    
     
 }
