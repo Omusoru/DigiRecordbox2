@@ -153,7 +153,8 @@ public class MediaPlayerActivity extends Activity {
 	        		if(sbarPlayer.getProgress()==sbarPlayer.getMax()){
 	        		
 	        		player.setCurentPosition(sbarPlayer.getMax());
-	        		
+	        		mHandler.post(playing);
+    	        	mHandler.post(timer);
 	        		}
 	        		else{
 	        			sbarPlayer.setProgress(sbarPlayer.getProgress());
