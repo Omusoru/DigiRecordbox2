@@ -628,8 +628,6 @@ public class RecordingListActivity extends Activity {
 		protected Boolean doInBackground(Context... contexts) {
 			boolean filesHaveChanged = false;
 			DatabaseHelper db = new DatabaseHelper(contexts[0]);
-			fm.connectToCloud();
-			fm.createFolderCloud("DigiRecordBox");
 			ArrayList<String> localFiles = fm.getFileListLocal();
 			
 			// Search local files
@@ -642,7 +640,9 @@ public class RecordingListActivity extends Activity {
 			}
 			
 			// Search cloud files
-			if(isNetworkConnected()){			
+			if(isNetworkConnected()){	
+				fm.connectToCloud();
+				fm.createFolderCloud("DigiRecordBox");
 				looping=null;
 				new Thread(new Runnable() {
 					@Override
