@@ -64,26 +64,7 @@ public class RecordingListActivity extends Activity {
 		registerForContextMenu(list);
 		list.setTextFilterEnabled(true);
 		
-//		final Handler handler = new Handler();
-//		new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				if(isNetworkConnected()) {
-//					fm.connectToCloud();
-//		    		fm.createFolderCloud("DigiRecordbox");
-//				}
-//				handler.post(new Runnable() {
-//					@Override
-//					public void run() {
-////						if(checkFiles()) {
-////							adapter.notifyDataSetChanged();
-////						}
-//						new CheckFilesTask().execute(RecordingListActivity.this);
-//					}
-//				});
-//				
-//			}
-//		}).start();
+		// check for missing files
 		new CheckFilesTask().execute(RecordingListActivity.this);
 }
 	
@@ -102,22 +83,6 @@ public class RecordingListActivity extends Activity {
 				startActivity(recorder);
 				break;
 			case R.id.option_menu_import_files:
-				/*int count = 0;
-				count += importLocalFiles();
-				if(isNetworkConnected()) {
-					count += importCloudFiles();
-				} else {
-					Toast.makeText(getApplicationContext(), R.string.message_cloud_not_imported, Toast.LENGTH_SHORT).show();
-				}
-				if(count == 0) {
-					Toast.makeText(this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
-				} else if (count == 1) {
-					Toast.makeText(this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
-					adapter.notifyDataSetChanged();
-				} else if (count > 1) {
-					Toast.makeText(this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
-					adapter.notifyDataSetChanged();
-				}*/
 				new ImportFilesTask().execute();
 				break;
 			case R.id.option_menu_check_files:
