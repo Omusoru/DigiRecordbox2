@@ -99,11 +99,17 @@ public class EditRecordingActivity extends ActionBarActivity {
 				if(validateFields()) {
 					if(isNewRecording) {
 						saveRecording();
-						if(allowAutoUpload) 
-							uploadToCloud(); // finish() is called after upload is done
-						else 
+						if(allowAutoUpload) {
+							if(isNetworkConnected()) {
+								willBePlayed = false;
+								uploadToCloud(); // finish() is called after upload is done
+							} else {
+								Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
+								finish();
+							}
+						} else {
 							finish();
-						willBePlayed = false;
+						}
 					} else {
 						editRecording();
 						Intent intent = new Intent(EditRecordingActivity.this,RecordingListActivity.class);
@@ -118,11 +124,20 @@ public class EditRecordingActivity extends ActionBarActivity {
 				if(validateFields()) {
 					if(isNewRecording) {
 						saveRecording();
-						if(allowAutoUpload) 
-							uploadToCloud(); // finish() is called after upload is done
-						else 
+						if(allowAutoUpload) {
+							if(isNetworkConnected()) {
+								willBePlayed = true;
+								uploadToCloud(); // finish() and launchMediaPlayer() is called after upload is done
+							} else {
+								Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
+								finish();
+								launchMediaPlayer();
+							}
+						} else {
 							finish();
-						willBePlayed = true;
+							launchMediaPlayer();
+						}
+						
 					} else {
 						editRecording();
 						finish();
@@ -220,8 +235,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	
 	private void uploadToCloud() {
 		
-		
-		if(isNetworkConnected()) {
+		/*if(isNetworkConnected()) {
 			
 			DatabaseHelper db = new DatabaseHelper(this);
 			Recording recording = db.getRecording(lastRecordingId);
@@ -232,7 +246,15 @@ public class EditRecordingActivity extends ActionBarActivity {
 			recording = null;
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
-		}
+		}*/
+		
+		DatabaseHelper db = new DatabaseHelper(this);
+		Recording recording = db.getRecording(lastRecordingId);
+		
+		new UploadToCloudTask().execute(filename);
+		recording.setOnCloud(true);
+		db.updateRecording(recording);
+		recording = null;
 		
 	}
 	
@@ -257,13 +279,17 @@ public class EditRecordingActivity extends ActionBarActivity {
 			dlgProgress.dismiss();
 			finish();
 			if(willBePlayed) {
-				// Launch media player with id parameter
-				Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
-				intent.putExtra("id", lastRecordingId);
-				startActivity(intent);
+				launchMediaPlayer();
 			}
 		}
 		
+	}
+	
+	private void launchMediaPlayer() {
+		// Launch media player with id parameter
+		Intent intent = new Intent(EditRecordingActivity.this,MediaPlayerActivity.class);
+		intent.putExtra("id", lastRecordingId);
+		startActivity(intent);
 	}
 	
 	private void getRecordingInfo() {
