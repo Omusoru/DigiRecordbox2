@@ -52,22 +52,7 @@ public class RecordingListActivity extends Activity {
 		
 		fm = new FileManager(RecordingListActivity.this);	
 		
-		final Handler handler = new Handler();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				if(isNetworkConnected()) {
-					fm.connectToCloud();
-		    		fm.createFolderCloud("DigiRecordbox");
-				}
-				handler.post(new Runnable() {
-					@Override
-					public void run() {
-						checkFiles();
-					}
-				});
-			}
-		}).start();
+		
 		
 		// load the recordings in the list
 		loadRecordings();		
@@ -80,6 +65,25 @@ public class RecordingListActivity extends Activity {
 		list.setOnItemClickListener(new ListOnClickListener());
 		registerForContextMenu(list);
 		list.setTextFilterEnabled(true);
+		
+		final Handler handler = new Handler();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if(isNetworkConnected()) {
+					fm.connectToCloud();
+		    		fm.createFolderCloud("DigiRecordbox");
+				}
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						if(checkFiles()) {
+							adapter.notifyDataSetChanged();
+						}
+					}
+				});
+			}
+		}).start();
 		
 }
 	
@@ -644,8 +648,8 @@ public class RecordingListActivity extends Activity {
 		for(int i=0;i<recordingList.size();i++){
 			if((recordingList.get(i).isOnCloud()==false)&&(recordingList.get(i).isOnLocal()==false)) {
 				db.deleteRecording(recordingList.get(i));
+				recordingList.remove(i);
 				i--;
-				recordingList = db.getAllRecordings();
 			}
 		}
 		
