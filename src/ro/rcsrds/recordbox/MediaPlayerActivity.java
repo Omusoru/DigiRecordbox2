@@ -118,10 +118,10 @@ public class MediaPlayerActivity extends Activity {
 		        	//player.startPlaying(filename,online);
 		        	sbarPlayer.setProgress(sbarPlayer.getMax());
 		        	player.setCurentPosition(sbarPlayer.getMax());
-		        	player.pausePlaying();
+		        	player.pausePlaying();	        	
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
-		        	
+		        	tvCurentTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()-200));
 		        	btnPlay.setBackgroundResource(R.drawable.button_play_small);
 					buttonPlaying = true;
 					///finish();
