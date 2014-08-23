@@ -158,13 +158,13 @@ public class MediaPlayerActivity extends Activity {
 	        		}
 	        		else{
 	        			sbarPlayer.setProgress(sbarPlayer.getProgress());
-	                	tvCurentTime.setText(getTimeFormat(sbarPlayer.getProgress()));
-	                	mHandler.post(playing);
-	    	        	mHandler.post(timer);
+	                	tvCurentTime.setText(getTimeFormat(sbarPlayer.getProgress()));	                	
 	    	        	if(playingStatus==true)
 		        		{
 		        			player.resumePlayingAt(sbarPlayer.getProgress());
-		                	player.setCurentPosition(sbarPlayer.getProgress());        			
+		                	player.setCurentPosition(sbarPlayer.getProgress());
+		                	mHandler.post(playing);
+		    	        	mHandler.post(timer);
 		        		}
 		        		else {
 		        			player.setCurentPosition(sbarPlayer.getProgress());
