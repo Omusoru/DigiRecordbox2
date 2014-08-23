@@ -115,7 +115,7 @@ public class MediaPlayerActivity extends Activity {
 		        {
 		        	//player.pausePlaying();
 		        	//sbarPlayer.setProgress(sbarPlayer.getProgress());
-		        	//player.startPlaying(filename,online);
+		        	//player.startPlaying(filename,online); 
 		        	sbarPlayer.setProgress(sbarPlayer.getMax());
 		        	player.setCurentPosition(sbarPlayer.getMax());
 		        	player.pausePlaying();	        	
