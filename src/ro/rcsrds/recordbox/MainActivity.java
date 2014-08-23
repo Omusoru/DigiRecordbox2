@@ -85,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
 		recorder = new AudioRecorder(auth.getUsername());
 		
 		if(isSalvageble())
-			new SalvageRecordingTask().execute(true);	
+			new SalvageRecordingTask().execute();	
 	}
 
 	private class StopRecordingTask extends AsyncTask<Void, Void, Void> {
@@ -112,11 +112,10 @@ public class MainActivity extends ActionBarActivity {
 		
 	}
 	
-	private class SalvageRecordingTask extends AsyncTask<Object, Object, Object> {
+	private class SalvageRecordingTask extends AsyncTask<Void, Void, Void> {
 		
 		@Override
 		protected void onPreExecute() {
-			super.onPreExecute();
 			dlgSaving = new ProgressDialog(MainActivity.this,ProgressDialog.STYLE_SPINNER);
 			dlgSaving.setTitle(getResources().getString(R.string.title_recovering)); 
 			dlgSaving.setMessage(getResources().getString(R.string.message_recovering)); 
@@ -124,16 +123,15 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		@Override
-		protected Object doInBackground(Object... params) {
+		protected Void doInBackground(Void... params) {
 			filename=salvage();
 			return null;
 		}
 		
 		@Override
-		protected void onPostExecute(Object result) {
+		protected void onPostExecute(Void result) {
 			dlgSaving.dismiss();
 			startIntent(filename);			
-			super.onPostExecute(result);
 		}
 		
 	}
