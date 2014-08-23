@@ -151,10 +151,9 @@ public class MediaPlayerActivity extends Activity {
 	        @Override
 	        public void onStopTrackingTouch(SeekBar sbarPlayer) {	        		       		
 	        		if(sbarPlayer.getProgress()==sbarPlayer.getMax()){
-	        		//sbarPlayer.setProgress(sbarPlayer.getMax());
+	        		
 	        		player.setCurentPosition(sbarPlayer.getMax());
-	        		mHandler.post(playing);
-    	        	mHandler.post(timer);
+	        		
 	        		}
 	        		else{
 	        			sbarPlayer.setProgress(sbarPlayer.getProgress());
