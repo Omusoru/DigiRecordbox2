@@ -6,6 +6,7 @@
     <item android:id="@+id/option_menu_recorder" android:title="@string/option_menu_recorder" />
     <item android:id="@+id/option_menu_import_files" android:title="@string/option_menu_import_files" />
     <item android:id="@+id/option_menu_check_files" android:title="@string/option_menu_check_files" />
+    <item android:id="@+id/option_menu_settings" android:title="@string/option_menu_settings" />
     <item android:id="@+id/option_menu_about" android:title="@string/option_menu_about" />    
 
 </menu>

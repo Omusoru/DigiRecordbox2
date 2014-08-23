@@ -92,34 +92,42 @@ public class RecordingListActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId()==R.id.option_menu_recorder) {
-			Intent mediaPlayer = new Intent(RecordingListActivity.this,MainActivity.class);
-			startActivity(mediaPlayer);
-		} else if(item.getItemId()==R.id.option_menu_import_files) {
-			int count = 0;
-			count += importLocalFiles();
-			if(isNetworkConnected()) {
-				count += importCloudFiles();
-			} else {
-				Toast.makeText(getApplicationContext(), R.string.message_cloud_not_imported, Toast.LENGTH_SHORT).show();
-			}
-			if(count == 0) {
-				Toast.makeText(this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
-			} else if (count == 1) {
-				Toast.makeText(this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
-				adapter.notifyDataSetChanged();
-			} else if (count > 1) {
-				Toast.makeText(this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
-				adapter.notifyDataSetChanged();
-			}
-			
-		} else if(item.getItemId()==R.id.option_menu_about) {
-			Intent intent = new Intent(RecordingListActivity.this,AboutActivity.class);
-			startActivity(intent);
-		} else if(item.getItemId()==R.id.option_menu_check_files) {
-			if(checkFiles()) {
-				adapter.notifyDataSetChanged();
-			}
+		switch(item.getItemId()) {
+			case R.id.option_menu_recorder:
+				Intent recorder = new Intent(RecordingListActivity.this,MainActivity.class);
+				startActivity(recorder);
+				break;
+			case R.id.option_menu_import_files:
+				int count = 0;
+				count += importLocalFiles();
+				if(isNetworkConnected()) {
+					count += importCloudFiles();
+				} else {
+					Toast.makeText(getApplicationContext(), R.string.message_cloud_not_imported, Toast.LENGTH_SHORT).show();
+				}
+				if(count == 0) {
+					Toast.makeText(this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
+				} else if (count == 1) {
+					Toast.makeText(this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
+					adapter.notifyDataSetChanged();
+				} else if (count > 1) {
+					Toast.makeText(this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
+					adapter.notifyDataSetChanged();
+				}
+				break;
+			case R.id.option_menu_check_files:
+				if(checkFiles()) {
+					adapter.notifyDataSetChanged();
+				}
+				break;
+			case R.id.option_menu_settings:
+				Intent settings = new Intent(RecordingListActivity.this,SettingsActivity.class);
+				startActivity(settings);
+				break;
+			case R.id.option_menu_about:
+				Intent about = new Intent(RecordingListActivity.this,AboutActivity.class);
+				startActivity(about);
+				break; 
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -163,8 +171,6 @@ public class RecordingListActivity extends Activity {
 		case 4: // Delete cloud file
 			deleteFromCloud(info.position);
 			break;
-		default:
-			Log.d("Recordinglist","Nothing");
 		}
 		
 		return super.onContextItemSelected(item);

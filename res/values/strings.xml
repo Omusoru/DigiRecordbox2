@@ -8,6 +8,7 @@
     <string name="title_recordinglist">Recording list</string>
     <string name="title_editrecording">Edit recording</string>
     <string name="title_about">About</string>
+    <string name="title_settings">Settings</string>
 
     <!-- main activity -->
     <string name="tv_recorder_time">00:00</string>
@@ -20,6 +21,7 @@
     <string name="option_menu_import_files">Import audio files</string>
     <string name="option_menu_about">About</string>
     <string name="option_menu_check_files">Check missing files</string>
+    <string name="option_menu_settings">Settings</string>
 
     <!-- login activity -->
     <string name="btn_login">Log in</string>
@@ -39,6 +41,10 @@
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
     <string name="search">Search&#8230;</string>
+    
+    <!-- settings activity -->
+    <string name="pref_title_auto_upload">Auto upload</string>
+    <string name="pref_summary_auto_upload">Upload recordings automatically after saving</string>
     
     <!-- titles -->
     <string name="title_saving">Saving&#8230;</string> <!-- &#8230; = ... -->

@@ -22,12 +22,19 @@ public class AboutActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId()==R.id.option_menu_list) {
-			Intent mediaPlayer = new Intent(AboutActivity.this,RecordingListActivity.class);
-			startActivity(mediaPlayer);
-		} else if(item.getItemId()==R.id.option_menu_recorder) {
-			Intent mediaPlayer = new Intent(AboutActivity.this,MainActivity.class);
-			startActivity(mediaPlayer);
+		switch(item.getItemId()) {
+			case R.id.option_menu_recorder:
+				Intent recorder = new Intent(AboutActivity.this,MainActivity.class);
+				startActivity(recorder);
+				break;
+			case R.id.option_menu_list:
+				Intent recordingList = new Intent(AboutActivity.this,RecordingListActivity.class);
+				startActivity(recordingList);
+				break;
+			case R.id.option_menu_settings:
+				Intent settings = new Intent(AboutActivity.this,SettingsActivity.class);
+				startActivity(settings);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

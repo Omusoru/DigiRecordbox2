@@ -2,6 +2,7 @@ package ro.rcsrds.recordbox;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,7 +11,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,6 +32,7 @@ public class EditRecordingActivity extends ActionBarActivity {
 	private int lastRecordingId;
 	private boolean isNewRecording;
 	private boolean willBePlayed;
+	private boolean allowAutoUpload;
 	public static final String PREFS_NAME = "Authentication";
 	private Recording recording;
 	private FileManager fm;
@@ -70,6 +74,10 @@ public class EditRecordingActivity extends ActionBarActivity {
 		// get logged in username
 		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
 		owner = preferences.getString("username", "no owner");
+		
+		// get application settings
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		allowAutoUpload = settings.getBoolean("pref_key_auto_upload", true) ? true : false; 
 	}
 	
 	@Override
@@ -91,7 +99,10 @@ public class EditRecordingActivity extends ActionBarActivity {
 				if(validateFields()) {
 					if(isNewRecording) {
 						saveRecording();
-						uploadToCloud();
+						if(allowAutoUpload) 
+							uploadToCloud(); // finish() is called after upload is done
+						else 
+							finish();
 						willBePlayed = false;
 					} else {
 						editRecording();
@@ -107,7 +118,10 @@ public class EditRecordingActivity extends ActionBarActivity {
 				if(validateFields()) {
 					if(isNewRecording) {
 						saveRecording();
-						uploadToCloud();
+						if(allowAutoUpload) 
+							uploadToCloud(); // finish() is called after upload is done
+						else 
+							finish();
 						willBePlayed = true;
 					} else {
 						editRecording();

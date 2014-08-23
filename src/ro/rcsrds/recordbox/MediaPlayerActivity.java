@@ -210,15 +210,23 @@ public class MediaPlayerActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId()==R.id.option_menu_list) {
-			Intent mediaPlayer = new Intent(MediaPlayerActivity.this,RecordingListActivity.class);
-			startActivity(mediaPlayer);
-		} else if(item.getItemId()==R.id.option_menu_recorder) {
-			Intent mediaPlayer = new Intent(MediaPlayerActivity.this,MainActivity.class);
-			startActivity(mediaPlayer);
-		} else if(item.getItemId()==R.id.option_menu_about) {
-			Intent intent = new Intent(MediaPlayerActivity.this,AboutActivity.class);
-			startActivity(intent);
+		switch(item.getItemId()) {
+			case R.id.option_menu_recorder:
+				Intent recorder = new Intent(MediaPlayerActivity.this,MainActivity.class);
+				startActivity(recorder);
+				break;
+			case R.id.option_menu_list:
+				Intent recordingList = new Intent(MediaPlayerActivity.this,RecordingListActivity.class);
+				startActivity(recordingList);
+				break;
+			case R.id.option_menu_settings:
+				Intent settings = new Intent(MediaPlayerActivity.this,SettingsActivity.class);
+				startActivity(settings);
+				break;
+			case R.id.option_menu_about:
+				Intent about = new Intent(MediaPlayerActivity.this,AboutActivity.class);
+				startActivity(about);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

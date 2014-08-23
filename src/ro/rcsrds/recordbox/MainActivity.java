@@ -162,22 +162,26 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId()==R.id.option_menu_logout) {
-			auth.logOut();	
-		    //Close main activity so user can't bypass login screen
-			finish();
-			//Start login activity
-			Intent login = new Intent(MainActivity.this,LoginActivity.class);
-			startActivity(login);	
-		} else if(item.getItemId()==R.id.option_menu_list) {
-			Intent mediaPlayer = new Intent(MainActivity.this,RecordingListActivity.class);
-			startActivity(mediaPlayer);
-		} else if(item.getItemId()==R.id.option_menu_about) {
-			Intent intent = new Intent(MainActivity.this,AboutActivity.class);
-			startActivity(intent);
-		} /*else if(item.getItemId()==R.id.debug_crash) {
-			 throw new RuntimeException("This is a crash");
-		}*/
+		switch(item.getItemId()) {
+			case R.id.option_menu_list:
+				Intent mediaPlayer = new Intent(MainActivity.this,RecordingListActivity.class);
+				startActivity(mediaPlayer);
+				break;
+			case R.id.option_menu_settings:
+				Intent settings = new Intent(MainActivity.this,SettingsActivity.class);
+				startActivity(settings);
+				break;
+			case R.id.option_menu_about:
+				Intent about = new Intent(MainActivity.this,AboutActivity.class);
+				startActivity(about);
+				break;
+			case R.id.option_menu_logout:
+				auth.logOut();	
+				finish(); // Close main activity so that the user can't bypass login screen
+				Intent login = new Intent(MainActivity.this,LoginActivity.class);
+				startActivity(login);	
+				break;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 	
