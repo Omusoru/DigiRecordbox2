@@ -50,9 +50,7 @@ public class RecordingListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recordinglist);
 		
-		fm = new FileManager(RecordingListActivity.this);	
-		
-		
+		fm = new FileManager(RecordingListActivity.this);
 		
 		// load the recordings in the list
 		loadRecordings();		
@@ -66,25 +64,27 @@ public class RecordingListActivity extends Activity {
 		registerForContextMenu(list);
 		list.setTextFilterEnabled(true);
 		
-		final Handler handler = new Handler();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				if(isNetworkConnected()) {
-					fm.connectToCloud();
-		    		fm.createFolderCloud("DigiRecordbox");
-				}
-				handler.post(new Runnable() {
-					@Override
-					public void run() {
-						if(checkFiles()) {
-							adapter.notifyDataSetChanged();
-						}
-					}
-				});
-			}
-		}).start();
-		
+//		final Handler handler = new Handler();
+//		new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				if(isNetworkConnected()) {
+//					fm.connectToCloud();
+//		    		fm.createFolderCloud("DigiRecordbox");
+//				}
+//				handler.post(new Runnable() {
+//					@Override
+//					public void run() {
+////						if(checkFiles()) {
+////							adapter.notifyDataSetChanged();
+////						}
+//						new CheckFilesTask().execute(RecordingListActivity.this);
+//					}
+//				});
+//				
+//			}
+//		}).start();
+		new CheckFilesTask().execute(RecordingListActivity.this);
 }
 	
 	@Override
@@ -102,7 +102,7 @@ public class RecordingListActivity extends Activity {
 				startActivity(recorder);
 				break;
 			case R.id.option_menu_import_files:
-				int count = 0;
+				/*int count = 0;
 				count += importLocalFiles();
 				if(isNetworkConnected()) {
 					count += importCloudFiles();
@@ -117,12 +117,11 @@ public class RecordingListActivity extends Activity {
 				} else if (count > 1) {
 					Toast.makeText(this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
 					adapter.notifyDataSetChanged();
-				}
+				}*/
+				new ImportFilesTask().execute();
 				break;
 			case R.id.option_menu_check_files:
-				if(checkFiles()) {
-					adapter.notifyDataSetChanged();
-				}
+				new CheckFilesTask().execute(this);
 				break;
 			case R.id.option_menu_settings:
 				Intent settings = new Intent(RecordingListActivity.this,SettingsActivity.class);
@@ -297,6 +296,8 @@ public class RecordingListActivity extends Activity {
 
 		@Override
 		protected Void doInBackground(String... params) {
+			fm.connectToCloud();
+			fm.createFolderCloud("DigiRecordBox");
 			fm.upload(params[0]);
 			return null;
 		}
@@ -345,6 +346,8 @@ public class RecordingListActivity extends Activity {
 
 		@Override
 		protected Void doInBackground(String... params) {
+			fm.connectToCloud();
+			fm.createFolderCloud("DigiRecordBox");
 			fm.download(params[0]);
 			return null;
 		}
@@ -421,6 +424,8 @@ public class RecordingListActivity extends Activity {
 
 		@Override
 		protected Void doInBackground(String... params) {
+			fm.connectToCloud();
+			fm.createFolderCloud("DigiRecordBox");
 			fm.deleteCloud(params[0]);
 			return null;
 		}
@@ -432,16 +437,56 @@ public class RecordingListActivity extends Activity {
 		
 	}
 	
+	private class ImportFilesTask extends AsyncTask<Void, Void, Integer> {
+
+		@Override
+		protected void onPreExecute() {
+			dlgProgress = new ProgressDialog(RecordingListActivity.this,ProgressDialog.STYLE_SPINNER);
+			dlgProgress.setTitle(getResources().getString(R.string.title_importing)); 
+			dlgProgress.setMessage(getResources().getString(R.string.message_importing));
+			dlgProgress.show();
+		}
+		
+		@Override
+		protected Integer doInBackground(Void... params) {
+			int count = 0;
+			count += importLocalFiles();
+			if(isNetworkConnected()) {
+				count += importCloudFiles();
+			}
+			return count;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer count) {
+			dlgProgress.dismiss();
+			if(count == 0) {
+				Toast.makeText(RecordingListActivity.this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
+			} else if (count == 1) {
+				Toast.makeText(RecordingListActivity.this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
+				adapter.notifyDataSetChanged();
+			} else if (count > 1) {
+				Toast.makeText(RecordingListActivity.this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
+				adapter.notifyDataSetChanged();
+			}
+		}
+		
+	}
+	
 	private int importCloudFiles() {
+		
 		looping = null;
 		new Thread(new Runnable() {
 		    public void run() {
+		    	fm.connectToCloud();
+				fm.createFolderCloud("DigiRecordBox");
 		    	onlineFiles = fm.getFileListCloud();
 		    	looping = "";
 		    }
 		}).start();
 		while(looping == null) {}
 		looping = null;//
+		
 		DatabaseHelper db = new DatabaseHelper(this);
 		boolean fileInDb = false;
 		int count = 0;
@@ -604,55 +649,74 @@ public class RecordingListActivity extends Activity {
 		return totext;
 	}
 	
-	private boolean checkFiles(){
-		
-		boolean filesHaveChanged = false;
-		DatabaseHelper db = new DatabaseHelper(this);
-		ArrayList<String> localFiles = fm.getFileListLocal();
-		
-		// Search local files
-		for(int i=0;i<recordingList.size();i++){
-			if((!localFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnLocal())){
-				recordingList.get(i).setOnLocal(false);
-				db.updateRecording(recordingList.get(i));
-				filesHaveChanged = true;
-			}
+	private class CheckFilesTask extends AsyncTask<Context, Void, Boolean> {
+
+		@Override
+		protected void onPreExecute() {
+			dlgProgress = new ProgressDialog(RecordingListActivity.this,ProgressDialog.STYLE_SPINNER);
+			dlgProgress.setTitle(getResources().getString(R.string.title_checking_files)); 
+			dlgProgress.setMessage(getResources().getString(R.string.message_checking_files));
+			dlgProgress.show();
 		}
 		
-		// Search cloud files
-		if(isNetworkConnected()){			
-			looping=null;
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					onlineFiles=fm.getFileListCloud();
-					looping="";
-				}
-			}).start();
-			while(looping==null){}
-			looping=null;
+		@Override
+		protected Boolean doInBackground(Context... contexts) {
+			boolean filesHaveChanged = false;
+			DatabaseHelper db = new DatabaseHelper(contexts[0]);
+			fm.connectToCloud();
+			fm.createFolderCloud("DigiRecordBox");
+			ArrayList<String> localFiles = fm.getFileListLocal();
 			
-			
+			// Search local files
 			for(int i=0;i<recordingList.size();i++){
-				if((!onlineFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnCloud())){
-					recordingList.get(i).setOnCloud(false);
+				if((!localFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnLocal())){
+					recordingList.get(i).setOnLocal(false);
 					db.updateRecording(recordingList.get(i));
 					filesHaveChanged = true;
 				}
 			}
 			
-		} else {
-    		Toast.makeText(getApplicationContext(), R.string.message_no_internet_checking, Toast.LENGTH_SHORT).show();
+			// Search cloud files
+			if(isNetworkConnected()){			
+				looping=null;
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						onlineFiles=fm.getFileListCloud();
+						looping="";
+					}
+				}).start();
+				while(looping==null){}
+				looping=null;
+				
+				
+				for(int i=0;i<recordingList.size();i++){
+					if((!onlineFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnCloud())){
+						recordingList.get(i).setOnCloud(false);
+						db.updateRecording(recordingList.get(i));
+						filesHaveChanged = true;
+					}
+				}
+			}	
+			
+			for(int i=0;i<recordingList.size();i++){
+				if((recordingList.get(i).isOnCloud()==false)&&(recordingList.get(i).isOnLocal()==false)) {
+					db.deleteRecording(recordingList.get(i));
+					recordingList.remove(i);
+					i--;
+				}
+			}
+			
+			return filesHaveChanged;
 		}
 		
-		for(int i=0;i<recordingList.size();i++){
-			if((recordingList.get(i).isOnCloud()==false)&&(recordingList.get(i).isOnLocal()==false)) {
-				db.deleteRecording(recordingList.get(i));
-				recordingList.remove(i);
-				i--;
+		@Override
+		protected void onPostExecute(Boolean filesHaveChanged) {
+			dlgProgress.dismiss();
+			if(filesHaveChanged) {
+				adapter.notifyDataSetChanged();
 			}
 		}
 		
-		return filesHaveChanged;
 	}
 }

@@ -52,6 +52,8 @@
     <string name="title_downloading">Downloading&#8230;</string>
     <string name="title_recovering">Recovering&#8230;</string>
     <string name="title_deleting">Deleting&#8230;</string>
+    <string name="title_checking_files">Checking files&#8230;</string>
+    <string name="title_importing">Importing&#8230;</string>
         
     <!-- messages -->
     <string name="message_authentication_failed">Authentication failed</string>
@@ -61,6 +63,8 @@
     <string name="message_downloading">Downloading, please wait</string>
     <string name="message_recovering">Recovering last recording, please wait</string>
     <string name="message_deleting">Deleting, please wait</string>
+    <string name="message_checking_files">Checking files, please wait</string>
+    <string name="message_importing">Importing, please wait</string>
     <string name="message_not_uploaded">Could not upload to cloud. Please check your internet connectivity</string>
     <string name="message_cloud_not_renamed">Could not rename cloud file. Please check your internet connectivity</string>
     <string name="message_already_on_cloud">The file already exists on the cloud</string>
