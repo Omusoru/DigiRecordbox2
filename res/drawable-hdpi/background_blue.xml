@@ -4,15 +4,22 @@
     
     <!--  android:centerColor="1" -->
     
-    <gradient
-        android:angle="-90"
-        android:centerX="0"
-        android:centerY="0"       
-        android:endColor="@color/digi_darkblue"
-        android:gradientRadius="0"
-        android:startColor="@color/digi_lightblue"
-        android:type="linear"
-        android:useLevel="false" />
-    
+    <!-- <gradient
+		android:type="radial"
+		android:centerX="50%"
+		android:centerY="50%"
+		android:startColor="@color/digi_purple_light"
+		android:centerColor="@color/digi_purple_dark"
+		android:endColor="@color/digi_blue_dark"
+		android:gradientRadius="50"/>
+	 -->
+	 
+	 <gradient
+		android:type="linear"
+		android:centerX="55%"
+		android:startColor="#FF241e7b"
+		android:centerColor="#FF221e51"
+		android:endColor="#FF040041"
+		android:angle="270"/>   
 
 </shape>

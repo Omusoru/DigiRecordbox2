@@ -5,12 +5,12 @@
     <color name="gray">#808080</color>
     <color name="red">#FF0000</color>
     <color name="green">#00FF00</color>
-    <color name="blue">#4285F4</color>
+    <color name="blue">#0000FF</color>
+    <color name="white">#FFFFFF</color>
     
-    <color name="digi_lightblue">#00a6ff</color>
-    <color name="digi_darkblue">#0056b9</color>
-    <color name="digi_lightgray">#ededed</color>
-    <color name="digi_blueish">#D9DFE3</color>
-    <color name="digi_semidark">#D8DEE2</color>
+    <color name="digi_purple_light">#241e7b</color>
+    <color name="digi_purple_dark">#221e51</color>
+    <color name="digi_blue_dark">#040041</color>
+    
     
 </resources>
