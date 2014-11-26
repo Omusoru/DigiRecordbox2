@@ -34,7 +34,7 @@
                 android:id="@+id/btn_recorder_stop"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:background="@drawable/button_stop_small" />
+                android:background="@drawable/button_recorder_stop" />
 
             <Button
                 android:id="@+id/btn_recorder_cancel"
@@ -42,7 +42,7 @@
                 android:layout_height="75dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:background="@drawable/button_cancel_small" />
+                android:background="@drawable/button_recorder_cancel" />
 
         </RelativeLayout>
 
@@ -55,7 +55,7 @@
         android:layout_alignBottom="@+id/linearLayout1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="109dp"
-        android:background="@drawable/button_record_big" />
+        android:background="@drawable/button_recorder_start" />
 
     <ProgressBar
         android:id="@+id/spinner"

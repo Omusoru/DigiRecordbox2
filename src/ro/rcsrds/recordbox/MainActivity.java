@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 	private ProgressDialog dlgSaving;
 	private boolean buttonRecording;
 	//private Handler mHandler = new Handler();
-	private boolean needsCancel;
+	private boolean needsCancel; 
 	
 	//Timer
 	private long startTime = 0L;
@@ -354,20 +354,20 @@ public class MainActivity extends Activity {
 	private void setEnabledButtons(boolean enable) {
 		if(enable) {
 			if(buttonRecording) {
-				btnRecord.setBackgroundResource(R.drawable.button_record_big);
+				btnRecord.setBackgroundResource(R.drawable.button_recorder_start);
 			} else if(!buttonRecording) {
-				btnRecord.setBackgroundResource(R.drawable.button_pause_big);				
+				btnRecord.setBackgroundResource(R.drawable.button_recorder_pause);				
 			}
-			btnStop.setBackgroundResource(R.drawable.button_stop_small);
-			btnCancel.setBackgroundResource(R.drawable.button_cancel_small);
+			btnStop.setBackgroundResource(R.drawable.button_recorder_stop);
+			btnCancel.setBackgroundResource(R.drawable.button_recorder_cancel);
 		} else {
 			if(buttonRecording) {
-				btnRecord.setBackgroundResource(R.drawable.button_record_big_disabled);				
+				btnRecord.setBackgroundResource(R.drawable.button_recorder_start_disabled);				
 			} else if(!buttonRecording) {
-				btnRecord.setBackgroundResource(R.drawable.button_pause_big_disabled);
+				btnRecord.setBackgroundResource(R.drawable.button_recorder_pause_disabled);
 			}
-			btnStop.setBackgroundResource(R.drawable.button_stop_small_disabled);
-			btnCancel.setBackgroundResource(R.drawable.button_cancel_small_disabled);
+			btnStop.setBackgroundResource(R.drawable.button_recorder_stop_disabled);
+			btnCancel.setBackgroundResource(R.drawable.button_recorder_cancel_disabled);
 		}
 		
 	}
@@ -375,16 +375,16 @@ public class MainActivity extends Activity {
 	
 	private void switchButtons() {
 		if(buttonRecording) {
-			btnRecord.setBackgroundResource(R.drawable.button_pause_big);
+			btnRecord.setBackgroundResource(R.drawable.button_recorder_pause);
 			buttonRecording = false;
 		} else if(!buttonRecording) {
-			btnRecord.setBackgroundResource(R.drawable.button_record_big);
+			btnRecord.setBackgroundResource(R.drawable.button_recorder_start);
 			buttonRecording = true;
 		}
 	}
 	
 	private void resetButton() {
-		btnRecord.setBackgroundResource(R.drawable.button_record_big);
+		btnRecord.setBackgroundResource(R.drawable.button_recorder_start);
 		buttonRecording = true;
 	}
 	

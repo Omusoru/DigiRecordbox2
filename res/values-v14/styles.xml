@@ -6,7 +6,19 @@
         res/values-v11/styles.xml on API 14+ devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- API 14 theme customizations can go here. -->          
+        <!-- API 14 theme customizations can go here. -->       
+    </style>
+    
+    <!-- Edit text style holo -->
+    <style name="DigiEditTextHolo" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/edit_text_holo_light_white</item>
+        <item name="android:textCursorDrawable">@null</item> <!-- makes cursor use text color instead -->
+    </style>
+    
+    <!-- Edit text style -->
+    <style name="DigiEditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/bg_edit_text</item>
+       	<item name="android:textCursorDrawable">@null</item> <!-- makes cursor use text color instead -->
     </style>
 
 </resources>

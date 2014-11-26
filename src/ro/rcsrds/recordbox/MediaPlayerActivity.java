@@ -122,7 +122,7 @@ public class MediaPlayerActivity extends Activity {
 		        	mHandler.removeCallbacks(this);
 		        	mHandler.removeCallbacks(timer);
 		        	tvCurentTime.setText(getTimeFormat(player.getPlayerStatus().getDuration()-200));
-		        	btnPlay.setBackgroundResource(R.drawable.button_play_small);
+		        	btnPlay.setBackgroundResource(R.drawable.button_player_start);
 					buttonPlaying = true;
 					///finish();
 		        	
@@ -144,7 +144,7 @@ public class MediaPlayerActivity extends Activity {
 		timer.run();
 		
 		buttonPlaying = false;
-		btnPlay.setBackgroundResource(R.drawable.button_pause_small);
+		btnPlay.setBackgroundResource(R.drawable.button_player_pause);
 		
 		sbarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -285,10 +285,10 @@ public class MediaPlayerActivity extends Activity {
 	
 	public void switchButtons() {
 		if(buttonPlaying) {
-			btnPlay.setBackgroundResource(R.drawable.button_pause_small);
+			btnPlay.setBackgroundResource(R.drawable.button_player_pause);
 			buttonPlaying = false;
 		} else if(!buttonPlaying) {
-			btnPlay.setBackgroundResource(R.drawable.button_play_small);
+			btnPlay.setBackgroundResource(R.drawable.button_player_start);
 			buttonPlaying = true;
 		}
 	}

@@ -14,25 +14,57 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. --> 
-        <item name="android:windowBackground">@drawable/background_blue</item>  
-        <item name="android:textColor">@color/white</item>   
+        
+        <!-- Button styles -->
+		<item name="android:buttonStyle">@style/DigiButton</item>
+        
+        <!-- Text styles -->
+        <item name="android:textColorPrimary">@color/white</item>  
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorTertiary">@color/white</item>
+        
+         <!-- Widget styles  --> 
+        <item name="android:editTextStyle">@style/DigiEditText</item>
+        <item name="android:listViewStyle">@style/DigiListView</item>      
+        
+        <!-- Window attributes -->
+        <item name="android:windowBackground">@drawable/bg</item>           
         <item name="android:windowNoTitle">true</item>
     </style>
     
-    <!--
-    <style name="AppTheme.Login">        
-         <item name="android:windowBackground">@color/light</item> 
-        <item name="android:windowNoTitle">true</item>         
+    <!-- Login activity theme -->
+    <style name="AppTheme.LoginActivity">     
+        
+        <!-- Widget styles  --> 
+        <item name="android:editTextStyle">@style/DigiEditTextHolo</item>   
+        
+        <!-- Window attributes -->    
+        <item name="android:windowBackground">@drawable/bg_login</item>        
     </style>
     
-     <style name="AppTheme.LoginButton">        
-        <item name="android:background">@drawable/button</item>
-        <item name="android:textColor">@color/gray</item>        
+    <!-- Button style -->
+    <style name="DigiButton" parent="@android:style/Widget.Button">
+        <item name="android:background">@color/digi_blue_light</item>
+        <item name="android:textColor">@color/white</item>
     </style>
     
-    <style name="AppTheme.LoginTextView">
-        <item name="android:textColor">@color/gray</item>
-        <item name="android:textSize">12sp</item> 
-    </style>-->
+    <!-- Edit text style holo -->
+    <style name="DigiEditTextHolo" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/edit_text_holo_light_white</item>
+        <item name="android:textColor">@color/white</item> <!--  for api <= 10 -->
+    </style>
+    
+    <!-- Edit text style -->
+    <style name="DigiEditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/bg_edit_text</item>
+        <item name="android:textColor">@color/white</item> <!--  for api <= 10 -->
+    </style>
+    
+    <!-- List view style -->
+    <style name="DigiListView" parent="@android:style/Widget.ListView">
+         <item name="android:listSelector">@android:color/transparent</item>
+         <!-- background color for each row is set in rowlayout_recordinglist.xml -->
+    </style>
+    
 
 </resources>

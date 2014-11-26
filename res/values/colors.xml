@@ -8,9 +8,8 @@
     <color name="blue">#0000FF</color>
     <color name="white">#FFFFFF</color>
     
-    <color name="digi_purple_light">#241e7b</color>
-    <color name="digi_purple_dark">#221e51</color>
-    <color name="digi_blue_dark">#040041</color>
+    <color name="digi_purple_light">#3d396e</color>
+    <color name="digi_blue_light">#00a6ff</color>
     
     
 </resources>
