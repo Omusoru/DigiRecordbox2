@@ -7,8 +7,10 @@
     <color name="green">#00FF00</color>
     <color name="blue">#0000FF</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     
     <color name="digi_purple_light">#3d396e</color>
+    <color name="digi_purple_bright">#5b569b</color>
     <color name="digi_blue_light">#00a6ff</color>
     
     
