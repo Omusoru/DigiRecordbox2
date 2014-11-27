@@ -9,6 +9,9 @@
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here. -->
+            
+            <!-- Window attributes -->
+            <item name="android:windowNoTitle">true</item>
     </style>
 
     <!-- Application theme. -->
@@ -23,14 +26,14 @@
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:textColorTertiary">@color/white</item>
         
-         <!-- Widget styles  --> 
+        <!-- Widget styles  --> 
         <item name="android:editTextStyle">@style/DigiEditText</item>
         <item name="android:listViewStyle">@style/DigiListView</item>
         <item name="android:seekBarStyle">@style/DigiSeekBar</item>
         
         <!-- Window attributes -->
         <item name="android:windowBackground">@drawable/bg</item>           
-        <item name="android:windowNoTitle">true</item>
+        <!--  <item name="android:windowNoTitle">true</item>-->
     </style>
     
     <!-- Login activity theme -->
