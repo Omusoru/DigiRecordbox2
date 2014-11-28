@@ -24,9 +24,9 @@
     <string name="option_menu_settings">Settings</string>
 
     <!-- login activity -->
-    <string name="btn_login">Log in</string>
-    <string name="tv_email">E-mail:</string>
-    <string name="tv_password">Password:</string>
+    <string name="btn_login">OK</string>
+    <string name="tv_email">Enter username:</string>
+    <string name="tv_password">Enter password:</string>
 
     <!-- edit recording activity -->
     <string name="tv_name">Name:</string>

@@ -13,5 +13,9 @@
     <color name="digi_purple_bright">#5b569b</color>
     <color name="digi_blue_light">#00a6ff</color>
     
+    <color name="status_cloud">#0057ba</color>
+    <color name="status_local">#48980e</color>
+    <color name="status_none">#ffffff</color>
+    
     
 </resources>

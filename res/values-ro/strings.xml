@@ -24,9 +24,9 @@
     <string name="option_menu_settings">Setări</string>
 
     <!-- login activity -->
-    <string name="btn_login">Logare</string>
-    <string name="tv_email">E-mail:</string>
-    <string name="tv_password">Parolă:</string>
+    <string name="btn_login">OK</string>
+    <string name="tv_email">Introduceți utilizator:</string>
+    <string name="tv_password">Introduceți parola:</string>
 
     <!-- edit recording activity -->
     <string name="tv_name">Nume:</string>
