@@ -54,6 +54,7 @@
     <string name="title_deleting">Se șterge&#8230;</string>
     <string name="title_checking_files">Se verifică fișierele&#8230;</string>
     <string name="title_importing">Se importă&#8230;</string>
+    <string name="title_logging_in">Se intră în cont&#8230;</string>
         
     <!-- messages -->
     <string name="message_authentication_failed">Autentificare eșuată</string>
@@ -65,6 +66,7 @@
     <string name="message_deleting">Se șterge, vă rugăm așteptați</string>
     <string name="message_checking_files">Se verifică fișierele, vă rugăm așteptați</string>
     <string name="message_importing">Se importă, vă rugăm așteptați</string>
+    <string name="message_logging_in">Se intră în cont, vă rugăm așteptați</string>
     <string name="message_not_uploaded">Nu s-a putut încărca pe cloud. Verificați conexiunea la internet</string>
     <string name="message_cloud_not_renamed">Nu s-a putut redenumi fișierul de pe cliud. Verificați conexiunea la internet</string>
     <string name="message_already_on_cloud">Fișierul există deja pe cloud</string>

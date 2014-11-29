@@ -38,6 +38,7 @@ public class Authentication {
 	}
 	
 	public boolean logIn(String username, String password) {
+		
 		this.loggedIn = true;
 		try {
 			DefaultClientFactory.create(this.host,username, password);
