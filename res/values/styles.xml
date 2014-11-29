@@ -23,6 +23,11 @@
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:textColorTertiary">@color/white</item>
         
+        <item name="android:textAppearance">@style/DigiTextAppearance</item>
+        <item name="android:textAppearanceLarge">@style/DigiTextAppearance.Large</item>
+		<item name="android:textAppearanceMedium">@style/DigiTextAppearance.Medium</item>
+		<item name="android:textAppearanceSmall">@style/DigiTextAppearance.Small</item>
+        
         <!-- Widget styles  --> 
         <item name="android:editTextStyle">@style/DigiEditText</item>
         <item name="android:listViewStyle">@style/DigiListView</item>
@@ -73,7 +78,32 @@
 		<item name="android:progressDrawable">@drawable/seek_bar_progress</item>
 		<item name="android:minHeight">3dip</item>
 		<item name="android:maxHeight">3dip</item>
-    </style> 
+    </style>
+    
+    <!-- Text styles -->
+    <style name="DigiTextAppearance" parent="@android:style/TextAppearance">        
+        <item name="android:textSize">16sp</item> <!-- default size -->
+    </style>
+    
+    <style name="DigiTextAppearance.Large">
+        <item name="android:textSize">28sp</item>
+    </style>
+    
+    <style name="DigiTextAppearance.Medium">
+    </style>
+    
+    <style name="DigiTextAppearance.Small">
+    </style>
+    
+    <!-- Text View styles -->
+    <style name="DigiTextViewTimer" parent="@android:style/Widget.TextView">
+        <item name="android:background">@drawable/bg_recorder_timer</item>
+        <item name="android:textAppearance">@style/DigiTextAppearance.Large</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingLeft">7dp</item>
+        <item name="android:paddingRight">7dp</item>
+    </style>
     
 
 </resources>

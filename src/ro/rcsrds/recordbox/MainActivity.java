@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +35,12 @@ public class MainActivity extends Activity {
 	private Button btnStop;
 	private Button btnCancel;
 	private TextView tvRecorderTime;
+	private LinearLayout llRecorderContainer;
 	private AudioRecorder recorder;
 	private Authentication auth;
 	private String filename;
 	private ProgressDialog dlgSaving;
 	private boolean buttonRecording;
-	//private Handler mHandler = new Handler();
 	private boolean needsCancel; 
 	
 	//Timer
@@ -75,11 +76,11 @@ public class MainActivity extends Activity {
 		btnRecord.setOnClickListener(new ButtonClickListener());
 		btnStop = (Button) findViewById(R.id.btn_recorder_stop);
 		btnStop.setOnClickListener(new ButtonClickListener());
-		btnStop.setVisibility(View.INVISIBLE);
 		btnCancel = (Button) findViewById(R.id.btn_recorder_cancel);
 		btnCancel.setOnClickListener(new ButtonClickListener());
-		btnCancel.setVisibility(View.INVISIBLE);
 		tvRecorderTime = (TextView) findViewById(R.id.tv_recorder_time);
+		llRecorderContainer = (LinearLayout) findViewById(R.id.layout_recorder_container);
+		llRecorderContainer.setVisibility(View.INVISIBLE);
 		
 		needsCancel = false;
 		buttonRecording = true; 
@@ -142,8 +143,7 @@ public class MainActivity extends Activity {
 		super.onPause();
 		if(needsCancel) {
 			recorder.cancelRecording();
-		    btnStop.setVisibility(View.INVISIBLE);
-	        btnCancel.setVisibility(View.INVISIBLE);
+			llRecorderContainer.setVisibility(View.INVISIBLE);
 	        resetButton();
 	        stopTimer();
 	        Toast.makeText(this, R.string.message_recording_canceled, Toast.LENGTH_SHORT).show();
@@ -190,16 +190,14 @@ public class MainActivity extends Activity {
 			
 			if (v.getId()==R.id.btn_recorder_stop) {			
 				previousTime = tvRecorderTime.getText().toString();
-				btnStop.setVisibility(View.INVISIBLE);
-	            btnCancel.setVisibility(View.INVISIBLE);
+				llRecorderContainer.setVisibility(View.INVISIBLE);
 				new StopRecordingTask().execute();
 	            resetButton();	
 	            stopTimer();
 	            needsCancel = false;
 			} else if (v.getId()==R.id.btn_recorder_cancel) {
 				recorder.cancelRecording();
-				btnStop.setVisibility(View.INVISIBLE);
-	            btnCancel.setVisibility(View.INVISIBLE);
+				llRecorderContainer.setVisibility(View.INVISIBLE);
 	            resetButton();
 	            stopTimer();
 	            needsCancel = false;
@@ -212,24 +210,17 @@ public class MainActivity extends Activity {
 					}
 					recorder.startRecording();
 					filename = recorder.getLastFilename();
-					btnStop.setVisibility(View.VISIBLE);
-		            btnCancel.setVisibility(View.VISIBLE);	  
+					llRecorderContainer.setVisibility(View.VISIBLE);
 		            disableButton();
 		            needsCancel = true;
-		            //switchButtons();
 		            startTimer();
 		            intervalTime=0;
 	            
 	            } else {					
-					//runOnUiThread(new Runnable() {
-			            //public void run() {
-			            	Toast.makeText(getApplicationContext(), R.string.message_no_space_avaible, Toast.LENGTH_SHORT).show();					            	
-			           // }
-			       // });
+			            Toast.makeText(getApplicationContext(), R.string.message_no_space_avaible, Toast.LENGTH_SHORT).show();					            	
 					if(!recorder.getCanRecord()){
 						previousTime = tvRecorderTime.getText().toString();
-						btnStop.setVisibility(View.INVISIBLE);
-			            btnCancel.setVisibility(View.INVISIBLE);
+						llRecorderContainer.setVisibility(View.INVISIBLE);
 						new StopRecordingTask().execute();
 			            resetButton();	
 			            stopTimer();
@@ -318,8 +309,7 @@ public class MainActivity extends Activity {
 		            	btnRecord.setEnabled(true);
 		            	setEnabledButtons(true);
 		            	btnStop.setEnabled(true);
-		                btnCancel.setEnabled(true);
-		            	//switchButtons();		            	
+		                btnCancel.setEnabled(true);	            	
 		            }
 		        });
 		    }
@@ -466,8 +456,7 @@ public class MainActivity extends Activity {
 		try {
 			fileLocation=tempRec.mergeAudio(myList);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace(); 
+			Log.d("Salvage",e.toString());
 		}
 		while(fileLocation==null){}
 		tempRec.deleteDirectory(localFileFolder);
@@ -477,8 +466,7 @@ public class MainActivity extends Activity {
 	
 	public void stopRecording(){
 		previousTime = tvRecorderTime.getText().toString();
-		btnStop.setVisibility(View.INVISIBLE);
-        btnCancel.setVisibility(View.INVISIBLE);
+		llRecorderContainer.setVisibility(View.INVISIBLE);
 		new StopRecordingTask().execute();
         resetButton();	
         stopTimer();

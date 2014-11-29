@@ -1,78 +1,61 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="top|center_horizontal"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ro.rcsrds.recordbox.MainActivity" >
-
-    <TextView
-        android:id="@+id/Status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/Status"
-        android:layout_marginTop="59dp" >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
-
-            <Button
-                android:id="@+id/btn_recorder_stop"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:background="@drawable/button_recorder_stop" />
-
-            <Button
-                android:id="@+id/btn_recorder_cancel"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/button_recorder_cancel" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
+    
+    <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="180dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/digirecordbox" />
+    
     <Button
         android:id="@+id/btn_recorder_start"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_alignBottom="@+id/linearLayout1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="109dp"
         android:background="@drawable/button_recorder_start" />
 
-    <ProgressBar
-        android:id="@+id/spinner"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_recorder_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/Status"
-        android:layout_marginBottom="24dp"
-        android:layout_toRightOf="@+id/linearLayout1" />
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal"
+        android:background = "@drawable/bg_recorder_buttons_bmp" >
+        
+        <Button
+            android:id="@+id/btn_recorder_cancel"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/button_recorder_cancel"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp" />
+        
+         <TextView
+             android:id="@+id/tv_recorder_time"
+             style="@style/DigiTextViewTimer"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/tv_recorder_time" />
+        
+        <Button
+            android:id="@+id/btn_recorder_stop"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/button_recorder_stop"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"  />
+        
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_recorder_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_recorder_start"
-        android:layout_centerHorizontal="true"
-        android:text="@string/tv_recorder_time"
-        android:textSize="40sp"
-        android:textStyle="bold" />
-
-</RelativeLayout>
+</LinearLayout>
