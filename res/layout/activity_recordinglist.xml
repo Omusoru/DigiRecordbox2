@@ -16,7 +16,6 @@
         android:ems="10"
         android:hint="@string/hint_search"
         android:inputType="textVisiblePassword">
-
     </EditText>
 
     <TextView
@@ -30,9 +29,7 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="10dp"
-        android:divider="@android:color/transparent" >
+        android:layout_height="match_parent" >
     </ListView>
  
 </LinearLayout>

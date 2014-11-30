@@ -17,6 +17,10 @@
         
         <!-- Button styles -->
 		<item name="android:buttonStyle">@style/DigiButton</item>
+		
+		<!-- Preference styles 
+		<item name="android:preferenceStyle">@style/DigiPreference</item>
+		<item name="android:checkBoxPreferenceStyle">@style/DigiPreference.CheckBox</item> -->
         
         <!-- Text styles -->
         <item name="android:textColorPrimary">@color/white</item>  
@@ -86,6 +90,8 @@
     <!-- List view style -->
     <style name="DigiListView" parent="@android:style/Widget.ListView">
 	    <item name="android:listSelector">@android:color/transparent</item>
+	    <item name="android:divider">@android:color/transparent</item>
+	    <item name="android:dividerHeight">10dp</item>
 	    <!-- background color for each row is set in rowlayout_recordinglist.xml -->      
     </style>
     
