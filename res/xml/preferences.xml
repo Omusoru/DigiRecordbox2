@@ -6,5 +6,11 @@
 	    android:summary="@string/pref_summary_auto_upload"
 	    android:title="@string/pref_title_auto_upload"
 	    android:defaultValue="true"/>
+    
+    <CheckBoxPreference
+	    android:key="pref_key_device_name"
+	    android:summary="@string/pref_summary_device_name"
+	    android:title="@string/pref_title_device_name"
+	    android:defaultValue="true"/>
 
 </PreferenceScreen>

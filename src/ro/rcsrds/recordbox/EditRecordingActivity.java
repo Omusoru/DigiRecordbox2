@@ -6,6 +6,7 @@ import java.util.Calendar;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +33,7 @@ public class EditRecordingActivity extends Activity {
 	private boolean isNewRecording;
 	private boolean willBePlayed;
 	private boolean allowAutoUpload;
+	private boolean useDeviceName;
 	public static final String PREFS_NAME = "Authentication";
 	private Recording recording;
 	private FileManager fm;
@@ -77,6 +79,7 @@ public class EditRecordingActivity extends Activity {
 		// get application settings
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		allowAutoUpload = settings.getBoolean("pref_key_auto_upload", true) ? true : false; 
+		useDeviceName = settings.getBoolean("pref_key_device_name", true) ? true : false; 
 	}
 	
 	@Override
@@ -167,11 +170,18 @@ public class EditRecordingActivity extends Activity {
 	
 	private void saveRecording() {
 		
-		//rename file		
-		final String currentDate = getCurrentFormatedDate();
-		final String name = etName.getText().toString();
-		final String oldFilename = filename;
-		final String newFilename = name+" "+currentDate+".mp4";		
+		String currentDate = getCurrentFormatedDate();
+		String name = etName.getText().toString();		
+		String oldFilename = filename;
+		String newFilename;
+		
+		if(useDeviceName) {
+			BluetoothAdapter myDevice = BluetoothAdapter.getDefaultAdapter();
+			String deviceName = sanitizeDeviceName(myDevice.getName());
+			newFilename = name+" "+currentDate+" "+deviceName+".mp4";	
+		} else {
+			newFilename = name+" "+currentDate+".mp4";
+		}
 
 		fm.rename(oldFilename,newFilename);
 		filename = newFilename;
@@ -200,11 +210,21 @@ public class EditRecordingActivity extends Activity {
 		recording.setName(etName.getText().toString());
 		recording.setDescription(etDescription.getText().toString());
 		
-		final String currentDate = getCurrentFormatedDate();
-		final String name = etName.getText().toString();
-		final String oldLocalFilename = recording.getLocalFilename();
+		String currentDate = getCurrentFormatedDate();
+		String name = etName.getText().toString();
+		String oldLocalFilename = recording.getLocalFilename();
 		final String oldCloudFilename = recording.getCloudFilename();
-		final String newFilename = name+" "+currentDate+".mp4";
+		String newFilename;
+		
+		if(useDeviceName) {
+			BluetoothAdapter myDevice = BluetoothAdapter.getDefaultAdapter();
+			String deviceName = sanitizeDeviceName(myDevice.getName());
+			newFilename = name+" "+currentDate+" "+deviceName+".mp4";	
+		} else {
+			newFilename = name+" "+currentDate+".mp4";
+		}
+		
+		final String newFilenameForCloud = newFilename;
 		
 		//rename local file
 		if(recording.isOnLocal()) {
@@ -217,7 +237,7 @@ public class EditRecordingActivity extends Activity {
 			if(isNetworkConnected()) {
 				new Thread(new Runnable() {
 				    public void run() {
-				    	fm.renameCloud(oldCloudFilename, newFilename);
+				    	fm.renameCloud(oldCloudFilename, newFilenameForCloud);
 				   }
 				}).start();				
 				recording.setCloudFilename(newFilename);
@@ -233,19 +253,6 @@ public class EditRecordingActivity extends Activity {
 	}
 	
 	private void uploadToCloud() {
-		
-		/*if(isNetworkConnected()) {
-			
-			DatabaseHelper db = new DatabaseHelper(this);
-			Recording recording = db.getRecording(lastRecordingId);
-			
-			new UploadToCloudTask().execute(filename);
-			recording.setOnCloud(true);
-			db.updateRecording(recording);
-			recording = null;
-		} else {
-			Toast.makeText(getApplicationContext(), R.string.message_not_uploaded, Toast.LENGTH_SHORT).show();
-		}*/
 		
 		DatabaseHelper db = new DatabaseHelper(this);
 		Recording recording = db.getRecording(lastRecordingId);
@@ -305,6 +312,24 @@ public class EditRecordingActivity extends Activity {
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 		return df.format(c.getTime());
+		
+	}
+	
+	private static String sanitizeDeviceName(String deviceName) {
+		
+		if(deviceName == null) {
+			return new String("");
+		}
+		
+		char cleanName[] = deviceName.toCharArray();
+		
+		for(int i=0;i<deviceName.length();i++) {
+			if(!Character.isLetter(cleanName[i]) && !Character.isDigit(cleanName[i])) {
+				cleanName[i] = '_';
+			}
+		}
+		
+		return new String(cleanName);
 		
 	}
 	

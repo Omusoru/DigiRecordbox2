@@ -48,6 +48,8 @@
     <!-- settings activity -->
     <string name="pref_title_auto_upload">Urcare automată</string>
     <string name="pref_summary_auto_upload">Urcă înregistrările automat după salvare</string>
+    <string name="pref_title_device_name">Folosește nume dispozitiv</string>
+    <string name="pref_summary_device_name">Folosește numele dispozitivului în numele fișierului</string>
     
     <!-- dialogs -->
     <string name="title_saving">Se salvează&#8230;</string> <!-- &#8230; = ... -->
