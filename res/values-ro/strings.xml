@@ -21,6 +21,7 @@
     <string name="option_menu_recorder">Înregistrator</string>
     <string name="option_menu_import_files">Importă fișiere audio</string>
     <string name="option_menu_about">Despre</string>
+    <string name="option_menu_help">Ajutor</string>
     <string name="option_menu_check_files">Verifică starea fișierelor</string>
     <string name="option_menu_settings">Setări</string>
 
@@ -85,25 +86,18 @@
      
       <!-- about activity -->
     <string name="about_title1">
-		Despre Digi Recordbox\n
+		Despre Digi Recordbox
 	</string>
 	<string name="about_content1">
 	    Digi Recordbox permite înregistrarea notițelor audio ce sunt apoi urcate și stocate pe serviciul de cloud storage Digi.\n
 	    După urcarea primei înregistrări, un nou director numit "Digi Recordbox" va fi creat în directorul rădăcină existent "Digi cloud"
 	    asociat contului dumneavoastră de utilizator Digi Storage.\n
-		Notițele audio pot fi apoi redate, fie direct din memoria locală a dispozitivului, fie prin streaming de pe cloud. \n\n
+		Notițele audio pot fi apoi redate, fie direct din memoria locală a dispozitivului, fie prin streaming de pe cloud. \n
 	</string>
 	<string name="about_title2">
-	    Dezvoltatori\n
+	    Instrucțiuni
 	</string>
 	<string name="about_content2">
-	    Răzvan Mandache - razvan.mandache@gmail.com\n
-		Tiberiu Omușoru - tiberiu.omusoru@gmail.com\n\n
-	</string>
-	<string name="about_title3">
-	    Instrucțiuni\n
-	</string>
-	<string name="about_content3">
 	    - Începe să înregistrezi prin apăsarea butonului de înregistrare din ecranul principal. \n
 		- Poți pune pauză și reporni înregistrarea prin apăsarea aceluiași buton.\n
 		- Când ai terminat de înregistrat, apăsarea butonului de stop va deschide un nou ecran

@@ -21,6 +21,7 @@
     <string name="option_menu_recorder">Recorder</string>
     <string name="option_menu_import_files">Import audio files</string>
     <string name="option_menu_about">About</string>
+    <string name="option_menu_help">Help</string>
     <string name="option_menu_check_files">Check missing files</string>
     <string name="option_menu_settings">Settings</string>
 
@@ -85,25 +86,18 @@
     
       <!-- about activity -->
     <string name="about_title1">
-		About Digi Recordbox\n
+		About Digi Recordbox
 	</string>
 	<string name="about_content1">
 	    Digi Recordbox allows the recording of audio notes which are then uploaded and stored on the Digi Storage cloud service. \n
 	    After uploading the first recording, a new folder named "Digi Recordbox" will be created in the existing root folder "Digi cloud"
 	    associated with your Digi Storage account.\n
-		The audio notes can then be played back, either directly from the device\'s local storage, or by streaming them from the cloud. \n\n
+		The audio notes can then be played back, either directly from the device\'s local storage, or by streaming them from the cloud. \n
 	</string>
 	<string name="about_title2">
-	    Developers\n
+	    Instructions
 	</string>
 	<string name="about_content2">
-	    Răzvan Mandache - razvan.mandache@gmail.com\n
-		Tiberiu Omușoru - tiberiu.omusoru@gmail.com\n\n
-	</string>
-	<string name="about_title3">
-	    Instructions\n
-	</string>
-	<string name="about_content3">
 	    - Start recording by pressing the record button in the main screen.\n
 		- You can pause and resume recording by pressing the same button.\n
 		- When you are done recording, pressing the stop button will present you a new screen 

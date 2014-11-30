@@ -50,9 +50,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".AboutActivity"
+            android:name=".HelpActivity"
             android:label="@string/title_about"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait" 
+            android:theme ="@style/AppTheme.HelpActivity">
         </activity>
         <activity 
          	android:name=".SettingsActivity"

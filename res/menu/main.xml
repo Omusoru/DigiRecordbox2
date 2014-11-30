@@ -6,7 +6,7 @@
    
     <item android:id="@+id/option_menu_list" android:title="@string/option_menu_list" />
     <item android:id="@+id/option_menu_settings" android:title="@string/option_menu_settings" />
-    <item android:id="@+id/option_menu_about" android:title="@string/option_menu_about" />
+    <item android:id="@+id/option_menu_help" android:title="@string/option_menu_help" />
     <item android:id="@+id/option_menu_logout" android:title="@string/option_menu_logout" />
     
 </menu>

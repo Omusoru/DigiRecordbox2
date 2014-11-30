@@ -223,8 +223,8 @@ public class MediaPlayerActivity extends Activity {
 				Intent settings = new Intent(MediaPlayerActivity.this,SettingsActivity.class);
 				startActivity(settings);
 				break;
-			case R.id.option_menu_about:
-				Intent about = new Intent(MediaPlayerActivity.this,AboutActivity.class);
+			case R.id.option_menu_help:
+				Intent about = new Intent(MediaPlayerActivity.this,HelpActivity.class);
 				startActivity(about);
 				break;
 		}

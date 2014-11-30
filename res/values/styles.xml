@@ -52,6 +52,12 @@
         <item name="android:windowBackground">@drawable/bg_login</item>        
     </style>
     
+    <!-- Help activity theme -->
+    <style name="AppTheme.HelpActivity">     
+        <!-- Window attributes -->    
+        <item name="android:windowBackground">@drawable/bg_help</item>   
+    </style>
+    
     <!-- Button style -->
     <style name="DigiButton" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/bg_button_blue</item>

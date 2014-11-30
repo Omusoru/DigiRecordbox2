@@ -170,8 +170,8 @@ public class MainActivity extends Activity {
 				Intent settings = new Intent(MainActivity.this,SettingsActivity.class);
 				startActivity(settings);
 				break;
-			case R.id.option_menu_about:
-				Intent about = new Intent(MainActivity.this,AboutActivity.class);
+			case R.id.option_menu_help:
+				Intent about = new Intent(MainActivity.this,HelpActivity.class);
 				startActivity(about);
 				break;
 			case R.id.option_menu_logout:

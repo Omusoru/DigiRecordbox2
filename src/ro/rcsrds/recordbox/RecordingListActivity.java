@@ -90,8 +90,8 @@ public class RecordingListActivity extends Activity {
 				Intent settings = new Intent(RecordingListActivity.this,SettingsActivity.class);
 				startActivity(settings);
 				break;
-			case R.id.option_menu_about:
-				Intent about = new Intent(RecordingListActivity.this,AboutActivity.class);
+			case R.id.option_menu_help:
+				Intent about = new Intent(RecordingListActivity.this,HelpActivity.class);
 				startActivity(about);
 				break; 
 		}
