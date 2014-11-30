@@ -27,23 +27,25 @@
         android:layout_alignParentEnd="true"
         android:text="@string/ph_duration" />
 
-    <ImageView
+    <ImageView        
         android:id="@+id/iv_status_local"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tv_date"
         android:layout_alignLeft="@+id/tv_duration"
         android:layout_alignStart="@+id/tv_duration"
-        android:background="@drawable/status_none" />
+        android:background="@drawable/status_none"
+        android:contentDescription="@string/img_content_local" />
 
-    <ImageView
+    <ImageView        
         android:id="@+id/iv_status_cloud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/tv_duration"
         android:layout_alignEnd="@+id/tv_duration"
         android:layout_alignTop="@+id/iv_status_local"
-        android:background="@drawable/status_none" />
+        android:background="@drawable/status_none"
+        android:contentDescription="@string/img_content_cloud" />
 
     <TextView
         android:id="@+id/tv_name"

@@ -44,6 +44,8 @@
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
     <string name="hint_search">Search&#8230;</string>
+    <string name="img_content_local">Located on local storage</string>
+    <string name="img_content_cloud">Located on cloud storage</string>
     
     <!-- settings activity -->
     <string name="pref_title_auto_upload">Auto upload</string>

@@ -121,6 +121,7 @@ public class AudioRecorder {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void stopRecording(){
 		if(Recorder!=null){
 			Recorder.stop();
