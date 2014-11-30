@@ -6,17 +6,17 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MediaPlayerActivity extends Activity {
 	
@@ -30,8 +30,8 @@ public class MediaPlayerActivity extends Activity {
 	private Runnable timer;
 	private TextView tvCurentTime;
 	private TextView tvTotalTime;	
-	private TextView tvNameContent;
-	private TextView tvDescriptionContent;
+	private EditText etName;
+	private EditText etDescription;
 	private boolean online;
 	private FileManager fm;
 	private Recording recording;
@@ -50,9 +50,9 @@ public class MediaPlayerActivity extends Activity {
 		sbarPlayer = (SeekBar) findViewById(R.id.sk_bar_player);
 		tvCurentTime = (TextView) findViewById(R.id.curentTime);
 		tvTotalTime = (TextView) findViewById(R.id.totalTime);
-		tvNameContent = (TextView) findViewById(R.id.tv_name_content);
-		tvDescriptionContent = (TextView) findViewById(R.id.tv_description_content);
-		tvDescriptionContent.setMovementMethod(new ScrollingMovementMethod());
+		etName = (EditText) findViewById(R.id.et_name);
+		etDescription = (EditText) findViewById(R.id.et_description);
+		//tvDescriptionContent.setMovementMethod(new ScrollingMovementMethod());
 		
 		//Get recording information
 		int id = getIntent().getExtras().getInt("id");
@@ -93,8 +93,8 @@ public class MediaPlayerActivity extends Activity {
 				finish();
 			}
 		}
-		tvNameContent.setText(recording.getName());
-		tvDescriptionContent.setText(recording.getDescription());
+		etName.setText(recording.getName());
+		etDescription.setText(recording.getDescription());
 	
 		player = new MediaPlayer(this);
 		player.startPlaying(filename,online);

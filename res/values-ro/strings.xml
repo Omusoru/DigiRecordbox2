@@ -12,6 +12,7 @@
 
     <!-- main activity -->
     <string name="tv_recorder_time">00:00</string>
+    <string name="tv_recorder_separator">/</string>
 
     <!-- options menu -->
     <string name="option_menu_logout">Delogare</string>
@@ -46,7 +47,7 @@
     <string name="pref_title_auto_upload">Urcare automată</string>
     <string name="pref_summary_auto_upload">Urcă înregistrările automat după salvare</string>
     
-    <!-- titles -->
+    <!-- dialogs -->
     <string name="title_saving">Se salvează&#8230;</string> <!-- &#8230; = ... -->
     <string name="title_uploading">Se încarcă&#8230;</string>
     <string name="title_downloading">Se descarcă&#8230;</string>
@@ -55,10 +56,6 @@
     <string name="title_checking_files">Se verifică fișierele&#8230;</string>
     <string name="title_importing">Se importă&#8230;</string>
     <string name="title_logging_in">Se intră în cont&#8230;</string>
-        
-    <!-- messages -->
-    <string name="message_authentication_failed">Autentificare eșuată</string>
-    <string name="message_no_internet">Nu există conexiune la internet</string>
     <string name="message_saving">Se salvează, vă rugăm așteptați</string>
     <string name="message_uploading">Se încarcă, vă rugăm așteptați</string>
     <string name="message_downloading">Se descarcă, vă rugăm așteptați</string>
@@ -67,6 +64,10 @@
     <string name="message_checking_files">Se verifică fișierele, vă rugăm așteptați</string>
     <string name="message_importing">Se importă, vă rugăm așteptați</string>
     <string name="message_logging_in">Se intră în cont, vă rugăm așteptați</string>
+        
+    <!-- toasts -->
+    <string name="message_authentication_failed">Autentificare eșuată</string>
+    <string name="message_no_internet">Nu există conexiune la internet</string>    
     <string name="message_not_uploaded">Nu s-a putut încărca pe cloud. Verificați conexiunea la internet</string>
     <string name="message_cloud_not_renamed">Nu s-a putut redenumi fișierul de pe cliud. Verificați conexiunea la internet</string>
     <string name="message_already_on_cloud">Fișierul există deja pe cloud</string>

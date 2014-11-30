@@ -19,6 +19,7 @@
     <style name="DigiEditText" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/bg_edit_text</item>
        	<item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
+       	<item name="android:padding">7dp</item>
     </style>
 
 </resources>

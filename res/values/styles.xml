@@ -64,6 +64,7 @@
     <style name="DigiEditText" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/bg_edit_text</item>
         <item name="android:textColor">@color/white</item> <!--  for api <= 10 -->
+        <item name="android:padding">7dp</item> 
     </style>
     
     <!-- List view style -->
@@ -76,8 +77,9 @@
     <style name="DigiSeekBar" parent="@android:style/Widget.SeekBar">
 		<item name="android:thumb">@drawable/seek_bar_thumb</item>
 		<item name="android:progressDrawable">@drawable/seek_bar_progress</item>
-		<item name="android:minHeight">3dip</item>
-		<item name="android:maxHeight">3dip</item>
+		<item name="android:minHeight">3dp</item>
+		<item name="android:maxHeight">3dp</item>
+		<item name="android:thumbOffset">-0.5dp</item>
     </style>
     
     <!-- Text styles -->
@@ -90,9 +92,11 @@
     </style>
     
     <style name="DigiTextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
     </style>
     
     <style name="DigiTextAppearance.Small">
+        <item name="android:textSize">14sp</item>
     </style>
     
     <!-- Text View styles -->
