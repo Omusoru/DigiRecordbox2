@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -162,7 +163,12 @@ public class RecordingListActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
+			
+			Log.d("RecList", "crash test 1");
 			Recording recording = recordingList.get((int)id);
+			Log.d("RecList", "nume "+ recording.getName());
+			Log.d("RecList", "id "+ recording.getId());
+			Log.d("RecList", "crash test 2");
 			// check for local file
 			if(recording.isOnLocal()) {
 				if(checkFile("local",recording.getLocalFilename())) {
@@ -465,7 +471,8 @@ public class RecordingListActivity extends Activity {
 					newRecording.setDuration(getDuration("cloud",filename));
 					newRecording.setOnLocal(false);
 					newRecording.setOnCloud(true);
-					db.insertRecording(newRecording);
+					int lastId = db.insertRecording(newRecording);
+					newRecording.setId(lastId);
 					recordingList.add(newRecording);
 					count ++;
 				}
@@ -503,7 +510,8 @@ public class RecordingListActivity extends Activity {
 					newRecording.setDuration(getDuration("local",filename));
 					newRecording.setOnLocal(true);
 					newRecording.setOnCloud(false);
-					db.insertRecording(newRecording);
+					int lastId = db.insertRecording(newRecording);
+					newRecording.setId(lastId);
 					recordingList.add(newRecording);
 					count ++;
 				}
