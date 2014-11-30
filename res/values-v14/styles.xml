@@ -9,17 +9,17 @@
         <!-- API 14 theme customizations can go here. -->       
     </style>
     
-    <!-- Edit text style holo -->
-    <style name="DigiEditTextHolo" parent="@android:style/Widget.EditText">
-        <item name="android:background">@drawable/edit_text_holo_light_white</item>
-        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
-    </style>
-    
     <!-- Edit text style -->
     <style name="DigiEditText" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/bg_edit_text</item>
        	<item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
        	<item name="android:padding">7dp</item>
+    </style>
+    
+    <!-- Edit text style holo -->
+    <style name="DigiEditText.Holo">
+        <item name="android:background">@drawable/edit_text_holo_light_white</item>
+        <item name="android:padding">0dp</item>
     </style>
 
 </resources>

@@ -39,10 +39,13 @@
     </style>
     
     <!-- Login activity theme -->
-    <style name="AppTheme.LoginActivity">     
+    <style name="AppTheme.LoginActivity"> 
+        
+        <!-- Button styles -->
+		<item name="android:buttonStyle">@style/DigiButton.Login</item>
         
         <!-- Widget styles  --> 
-        <item name="android:editTextStyle">@style/DigiEditTextHolo</item>   
+        <item name="android:editTextStyle">@style/DigiEditText.Holo</item>   
         
         <!-- Window attributes -->    
         <item name="android:windowBackground">@drawable/bg_login</item>        
@@ -50,14 +53,14 @@
     
     <!-- Button style -->
     <style name="DigiButton" parent="@android:style/Widget.Button">
-        <item name="android:background">@color/digi_blue_light</item>
+        <item name="android:background">@drawable/bg_button_blue</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:padding">5dp</item>
     </style>
     
-    <!-- Edit text style holo -->
-    <style name="DigiEditTextHolo" parent="@android:style/Widget.EditText">
-        <item name="android:background">@drawable/edit_text_holo_light_white</item>
-        <item name="android:textColor">@color/white</item> <!--  for api <= 10 -->
+    <!-- Button style square -->
+    <style name="DigiButton.Login">
+        <item name="android:background">@color/digi_blue_light</item>
     </style>
     
     <!-- Edit text style -->
@@ -65,6 +68,12 @@
         <item name="android:background">@drawable/bg_edit_text</item>
         <item name="android:textColor">@color/white</item> <!--  for api <= 10 -->
         <item name="android:padding">7dp</item> 
+    </style>
+    
+    <!-- Edit text style holo -->
+    <style name="DigiEditText.Holo">
+        <item name="android:background">@drawable/edit_text_holo_light_white</item>
+        <item name="android:padding">0dp</item> 
     </style>
     
     <!-- List view style -->
