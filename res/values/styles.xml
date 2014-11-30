@@ -22,6 +22,7 @@
         <item name="android:textColorPrimary">@color/white</item>  
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:textColorTertiary">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
         
         <item name="android:textAppearance">@style/DigiTextAppearance</item>
         <item name="android:textAppearanceLarge">@style/DigiTextAppearance.Large</item>

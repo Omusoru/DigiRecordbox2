@@ -41,7 +41,7 @@
     <string name="ph_date">date</string>
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
-    <string name="search">Search&#8230;</string>
+    <string name="hint_search">Search&#8230;</string>
     
     <!-- settings activity -->
     <string name="pref_title_auto_upload">Auto upload</string>
