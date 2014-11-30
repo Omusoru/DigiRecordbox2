@@ -84,7 +84,6 @@
     <!-- Edit text style holo -->
     <style name="DigiEditText.Holo">
         <item name="android:background">@drawable/edit_text_holo_light_white</item>
-        <item name="android:padding">0dp</item> 
     </style>
     
     <!-- List view style -->
