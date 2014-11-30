@@ -99,6 +99,8 @@ public class EditRecordingActivity extends Activity {
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_save) {
 				if(validateFields()) {
+					btnSave.setEnabled(false);
+					btnSavePlay.setEnabled(false);
 					if(isNewRecording) {
 						saveRecording();
 						if(allowAutoUpload) {
@@ -124,6 +126,8 @@ public class EditRecordingActivity extends Activity {
 				}
 			} else if(v.getId()==R.id.btn_save_play) {
 				if(validateFields()) {
+					btnSave.setEnabled(false);
+					btnSavePlay.setEnabled(false);
 					if(isNewRecording) {
 						saveRecording();
 						if(allowAutoUpload) {
