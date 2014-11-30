@@ -7,6 +7,7 @@
     <string name="title_mediaplayer">Media player</string>
     <string name="title_recordinglist">Recording list</string>
     <string name="title_editrecording">Edit recording</string>
+    <string name="title_help">Help</string>
     <string name="title_about">About</string>
     <string name="title_settings">Settings</string>
 
@@ -84,20 +85,20 @@
    	    The audio file has not been added to the recording list. You can import it later by accessing the \'Import audio files\' option
   	</string>
     
-      <!-- about activity -->
-    <string name="about_title1">
-		About Digi Recordbox
+    <!-- help activity -->
+    <string name="help_title1">
+		What is Digi Recordbox?
 	</string>
-	<string name="about_content1">
+	<string name="help_content1">
 	    Digi Recordbox allows the recording of audio notes which are then uploaded and stored on the Digi Storage cloud service. \n
 	    After uploading the first recording, a new folder named "Digi Recordbox" will be created in the existing root folder "Digi cloud"
 	    associated with your Digi Storage account.\n
 		The audio notes can then be played back, either directly from the device\'s local storage, or by streaming them from the cloud. \n
 	</string>
-	<string name="about_title2">
+	<string name="help_title2">
 	    Instructions
 	</string>
-	<string name="about_content2">
+	<string name="help_content2">
 	    - Start recording by pressing the record button in the main screen.\n
 		- You can pause and resume recording by pressing the same button.\n
 		- When you are done recording, pressing the stop button will present you a new screen 
@@ -115,5 +116,20 @@
 		- Long pressing on the audio note will open up a context menu from where you can perform
 		 different actions like deleting and uploading recordings.\n
 	</string>
+	
+	<!-- about activity -->
+	<string name="about_content1">
+	    Version 1.0\n
+	    digistorage@rcs-rds.ro\n
+	</string>
+	<string name="about_content2">
+	    Project developed by:\n
+	    Răzvan Mandache\n
+	    Tiberiu Omușoru\n
+	</string>
+	<string name="about_content3">
+	    Design APP: WEB_MKT
+	</string>	
+	<string name="btn_tos">Terms of service</string>
 
 </resources>

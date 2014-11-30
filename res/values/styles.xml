@@ -115,6 +115,10 @@
         <item name="android:textSize">14sp</item>
     </style>
     
+    <style name="DigiTextAppearance.Smallest">
+        <item name="android:textSize">12sp</item>
+    </style>
+    
     <!-- Text View styles -->
     <style name="DigiTextViewTimer" parent="@android:style/Widget.TextView">
         <item name="android:background">@drawable/bg_recorder_timer</item>

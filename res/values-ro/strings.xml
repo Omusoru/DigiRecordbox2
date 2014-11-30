@@ -7,6 +7,7 @@
     <string name="title_mediaplayer">Player media</string>
     <string name="title_recordinglist">Listă înregistrări</string>
     <string name="title_editrecording">Modificare înregistrare</string>
+    <string name="title_help">Ajutor</string>
     <string name="title_about">Despre</string>
     <string name="title_settings">Setări</string>
 
@@ -84,20 +85,20 @@
    	    Fișierul audio nu a fost adăugat în lista de înregistrări. Îl puteți importa ulterior accesând opțiunea \'Importă fișiere audio\'
   	</string>
      
-      <!-- about activity -->
-    <string name="about_title1">
-		Despre Digi Recordbox
+    <!-- help activity -->
+    <string name="help_title1">
+		Ce este Digi Recordbox?
 	</string>
-	<string name="about_content1">
+	<string name="help_content1">
 	    Digi Recordbox permite înregistrarea notițelor audio ce sunt apoi urcate și stocate pe serviciul de cloud storage Digi.\n
 	    După urcarea primei înregistrări, un nou director numit "Digi Recordbox" va fi creat în directorul rădăcină existent "Digi cloud"
 	    asociat contului dumneavoastră de utilizator Digi Storage.\n
 		Notițele audio pot fi apoi redate, fie direct din memoria locală a dispozitivului, fie prin streaming de pe cloud. \n
 	</string>
-	<string name="about_title2">
+	<string name="help_title2">
 	    Instrucțiuni
 	</string>
-	<string name="about_content2">
+	<string name="help_content2">
 	    - Începe să înregistrezi prin apăsarea butonului de înregistrare din ecranul principal. \n
 		- Poți pune pauză și reporni înregistrarea prin apăsarea aceluiași buton.\n
 		- Când ai terminat de înregistrat, apăsarea butonului de stop va deschide un nou ecran
@@ -114,5 +115,20 @@
 		- Efectuarea unei apăsări lungi pe notița audio va deschide un meniu de context de unde
 		poți accesa diferite acțiuni precum ștergerea și urcarea înregistrărilor. \n
 	</string>
+	
+	<!-- about activity -->
+	<string name="about_content1">
+	    Versiunea 1.0\n
+	    digistorage@rcs-rds.ro\n
+	</string>
+	<string name="about_content2">
+	    Proiect dezvoltat de:\n
+	    Răzvan Mandache\n
+	    Tiberiu Omușoru\n
+	</string>
+	<string name="about_content3">
+	    Design APP: WEB_MKT
+	</string>
+	<string name="btn_tos">Termeni de utilizare</string>
 
 </resources>

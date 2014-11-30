@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ro.rcsrds.recordbox.AboutActivity" >
+
+   	<item android:id="@+id/option_menu_recorder" android:title="@string/option_menu_recorder" />
+    <item android:id="@+id/option_menu_list" android:title="@string/option_menu_list" />
+    <item android:id="@+id/option_menu_settings" android:title="@string/option_menu_settings" />
+
+</menu>

@@ -30,30 +30,30 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_about_title1"
+            android:id="@+id/tv_help_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/about_title1"
+            android:text="@string/help_title1"
             android:textAppearance="@style/DigiTextAppearance.Medium" />
 
         <TextView
-            android:id="@+id/tv_about_content1"
+            android:id="@+id/tv_help_content1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/about_content1" />
+            android:text="@string/help_content1" />
 
         <TextView
-            android:id="@+id/tv_about_title2"
+            android:id="@+id/tv_help_title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/about_title2"
+            android:text="@string/help_title2"
             android:textAppearance="@style/DigiTextAppearance.Medium" />
 
         <TextView
-            android:id="@+id/tv_about_content2"
+            android:id="@+id/tv_help_content2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/about_content2" />
+            android:text="@string/help_content2" />
 
     </LinearLayout>
     

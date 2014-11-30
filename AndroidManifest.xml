@@ -51,9 +51,14 @@
         </activity>
         <activity
             android:name=".HelpActivity"
-            android:label="@string/title_about"
+            android:label="@string/title_help"
             android:screenOrientation="portrait" 
             android:theme ="@style/AppTheme.HelpActivity">
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_about"
+            android:screenOrientation="portrait" >
         </activity>
         <activity 
          	android:name=".SettingsActivity"

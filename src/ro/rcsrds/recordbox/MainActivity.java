@@ -171,7 +171,11 @@ public class MainActivity extends Activity {
 				startActivity(settings);
 				break;
 			case R.id.option_menu_help:
-				Intent about = new Intent(MainActivity.this,HelpActivity.class);
+				Intent help = new Intent(MainActivity.this,HelpActivity.class);
+				startActivity(help);
+				break;
+			case R.id.option_menu_about:
+				Intent about = new Intent(MainActivity.this,AboutActivity.class);
 				startActivity(about);
 				break;
 			case R.id.option_menu_logout:
