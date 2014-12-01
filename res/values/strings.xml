@@ -80,7 +80,8 @@
     <string name="message_already_on_local">The file already exists on the local storage</string>
     <string name="message_not_on_local">The file does not exist on the local storage</string>
     <string name="message_not_on_cloud">The file does not exist on the cloud</string>
-    <string name="message_name_validation">Invalid characters in name field. Only letters, numbers, spaces and _ &#8211; allowed </string>
+    <string name="message_name_validation1">Invalid characters in name field. Only letters, numbers, spaces and _ &#8211; allowed </string>
+    <string name="message_name_validation2">Name cannot be empty</string>
     <string name="message_recording_canceled">Recording has been canceled</string>
     <string name="message_no_internet_checking">Cannot get status for online files. Unable to connect to the internet</string>
     <string name="message_no_space_avaible">The application needs at least 10MB of internal storage to run. Please free up space.</string>

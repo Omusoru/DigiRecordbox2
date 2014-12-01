@@ -98,7 +98,7 @@ public class EditRecordingActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			if(v.getId()==R.id.btn_save) {
-				if(validateFields()) {
+				if(validateFields()==0) {
 					btnSave.setEnabled(false);
 					btnSavePlay.setEnabled(false);
 					if(isNewRecording) {
@@ -122,11 +122,13 @@ public class EditRecordingActivity extends Activity {
 						finish();
 					}
 					
-				} else {
-					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();
+				} else if(validateFields()==1) {
+					Toast.makeText(getApplicationContext(), R.string.message_name_validation1, Toast.LENGTH_LONG).show();
+				} else if(validateFields()==2) {
+					Toast.makeText(getApplicationContext(), R.string.message_name_validation2, Toast.LENGTH_LONG).show();
 				}
 			} else if(v.getId()==R.id.btn_save_play) {
-				if(validateFields()) {
+				if(validateFields()==0) {
 					btnSave.setEnabled(false);
 					btnSavePlay.setEnabled(false);
 					if(isNewRecording) {
@@ -150,8 +152,10 @@ public class EditRecordingActivity extends Activity {
 						finish();
 						launchMediaPlayer();
 					}
-				} else {
-					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();
+				} else if(validateFields()==1) {
+					Toast.makeText(getApplicationContext(), R.string.message_name_validation1, Toast.LENGTH_LONG).show();
+				} else if(validateFields()==2) {
+					Toast.makeText(getApplicationContext(), R.string.message_name_validation2, Toast.LENGTH_LONG).show();
 				}
 				
 			} else if (v.getId()==R.id.btn_more) {
@@ -167,12 +171,13 @@ public class EditRecordingActivity extends Activity {
 		  return (cm.getActiveNetworkInfo() != null);
 	}
 	
-	private boolean validateFields() {
+	private int validateFields() {
 		
 		String content = etName.getText().toString();
+		if(content.equals("")) return 2;
 		String regex = "[a-zA-Z0-9 _-]*";
-		if(content.matches(regex)) return true;
-		else return false;
+		if(content.matches(regex)) return 0;
+		else return 1;
 		
 	}
 	
