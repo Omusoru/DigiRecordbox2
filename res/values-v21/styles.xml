@@ -5,8 +5,25 @@
         AppBaseTheme from res/values/styles.xml, res/values-v11/styles.xml 
         and res/values-v14/styles.xml on API 21+ devices. 
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- API 21 theme customizations can go here. -->       
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <!-- API 21 theme customizations can go here. -->  
+        
+        <!-- Action bar styles -->
+        <item name="android:actionBarStyle">@style/DigiActionBar</item>
+        
+        <!-- Widget styles  -->
+        <item name="android:popupMenuStyle">@style/DigiPopupMenu</item>  
+
+    </style>
+    
+    <!-- Action bar styles -->
+    <style name="DigiActionBar" parent="@android:style/Widget.ActionBar">
+        <item name="android:background">@color/digi_blue_light</item>
+    </style>    
+    
+    <!-- Widget styles  -->
+    <style name="DigiPopupMenu" parent="@android:style/Widget.Holo.Light.PopupMenu">
+        <item name="android:popupBackground">@color/digi_blue_light</item>
     </style>
 
 </resources>
