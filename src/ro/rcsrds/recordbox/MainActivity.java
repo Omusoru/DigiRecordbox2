@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -36,6 +37,7 @@ public class MainActivity extends Activity {
 	private Button btnCancel;
 	private TextView tvRecorderTime;
 	private LinearLayout llRecorderContainer;
+	private Button btnMore;
 	private AudioRecorder recorder;
 	private Authentication auth;
 	private String filename;
@@ -55,6 +57,7 @@ public class MainActivity extends Activity {
 	private long intervalTime = 0;
 	private float freeMbAtStart = 0;
 	
+	@SuppressLint("NewApi")
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,6 +84,14 @@ public class MainActivity extends Activity {
 		tvRecorderTime = (TextView) findViewById(R.id.tv_recorder_time);
 		llRecorderContainer = (LinearLayout) findViewById(R.id.layout_recorder_container);
 		llRecorderContainer.setVisibility(View.INVISIBLE);
+		
+		//more button
+		btnMore = (Button) findViewById(R.id.btn_more);
+		btnMore.setOnClickListener(new ButtonClickListener());
+		btnMore.setVisibility(View.INVISIBLE);				
+		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
+			btnMore.setVisibility(View.VISIBLE);
+		}
 		
 		needsCancel = false;
 		buttonRecording = true; 
@@ -234,6 +245,8 @@ public class MainActivity extends Activity {
 					
 				}
 				
+			} else if (v.getId()==R.id.btn_more) {
+				openOptionsMenu();
 			}
 			
 		}		

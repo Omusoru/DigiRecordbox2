@@ -152,6 +152,8 @@ public class EditRecordingActivity extends Activity {
 					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();
 				}
 				
+			} else if (v.getId()==R.id.btn_more) {
+				openOptionsMenu();
 			}
 			
 		}

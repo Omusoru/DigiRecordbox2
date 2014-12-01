@@ -21,8 +21,11 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -35,6 +38,7 @@ public class RecordingListActivity extends Activity {
 	private FileManager fm;
 	private DatabaseHelper db;
 	private EditText searchField;
+	private Button btnMore;
 	public static final String PREFS_NAME = "Authentication";
 	private ProgressDialog dlgProgress;
 	
@@ -44,6 +48,7 @@ public class RecordingListActivity extends Activity {
 	ArrayList<String> onlineFiles = null;
 	private String duration;
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +61,14 @@ public class RecordingListActivity extends Activity {
 		list = (ListView) findViewById(R.id.list);
 		searchField = (EditText) findViewById(R.id.searchField);
 		searchField.addTextChangedListener(new SearchTextWatcher());
+		
+		//more button
+		btnMore = (Button) findViewById(R.id.btn_more);
+		btnMore.setOnClickListener(new ButtonOnClickListener());
+		btnMore.setVisibility(View.GONE);				
+		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
+			btnMore.setVisibility(View.VISIBLE);
+		}
 	    
 		adapter = new RecordingListAdapter(this, recordingList);
 		list.setAdapter(adapter);
@@ -155,6 +168,18 @@ public class RecordingListActivity extends Activity {
 		
 		@Override
 		public void afterTextChanged(Editable s) {}
+		
+	}
+	
+	private class ButtonOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			if (v.getId()==R.id.btn_more) {
+				openOptionsMenu();
+			}			
+		}
+		
 		
 	}
 	

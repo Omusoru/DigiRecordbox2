@@ -1,5 +1,6 @@
 package ro.rcsrds.recordbox;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -22,6 +24,7 @@ public class MediaPlayerActivity extends Activity {
 	
 	private Button btnPlay;
 	private Button btnStop;
+	private Button btnMore;
 	private MediaPlayer player;
 	private String filename = null;
 	private SeekBar sbarPlayer;
@@ -38,6 +41,7 @@ public class MediaPlayerActivity extends Activity {
 	private boolean buttonPlaying;
 	private boolean playingStatus;
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -52,7 +56,14 @@ public class MediaPlayerActivity extends Activity {
 		tvTotalTime = (TextView) findViewById(R.id.totalTime);
 		etName = (EditText) findViewById(R.id.et_name);
 		etDescription = (EditText) findViewById(R.id.et_description);
-		//tvDescriptionContent.setMovementMethod(new ScrollingMovementMethod());
+		
+		//more button
+		btnMore = (Button) findViewById(R.id.btn_more);
+		btnMore.setOnClickListener(new ButtonOnClickListener());
+		btnMore.setVisibility(View.GONE);				
+		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
+			btnMore.setVisibility(View.VISIBLE);
+		}
 		
 		//Get recording information
 		int id = getIntent().getExtras().getInt("id");
@@ -277,6 +288,8 @@ public class MediaPlayerActivity extends Activity {
 				mHandler.removeCallbacks(playing);
 				mHandler.removeCallbacks(timer);
 				finish();	
+			} else if (v.getId()==R.id.btn_more) {
+				openOptionsMenu();
 			}
 					
 		}

@@ -1,5 +1,6 @@
 package ro.rcsrds.recordbox;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,12 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 
 public class AboutActivity extends Activity {
 	
+	private Button btnMore;
 	private Button btnTos;
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,6 +25,14 @@ public class AboutActivity extends Activity {
 		
 		btnTos = (Button) findViewById(R.id.btn_tos);
 		btnTos.setOnClickListener(new ButtonClickListener());
+		
+		//more button
+		btnMore = (Button) findViewById(R.id.btn_more);
+		btnMore.setOnClickListener(new ButtonClickListener());
+		btnMore.setVisibility(View.GONE);				
+		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
+			btnMore.setVisibility(View.VISIBLE);
+		}
 		
 	}
 
@@ -56,6 +68,8 @@ public class AboutActivity extends Activity {
 			if(v.getId() == R.id.btn_tos) {
 				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://storage.rcs-rds.ro/legal/tos"));
 				startActivity(browserIntent);
+			} else if (v.getId()==R.id.btn_more) {
+				openOptionsMenu();
 			}
 		}
 		
