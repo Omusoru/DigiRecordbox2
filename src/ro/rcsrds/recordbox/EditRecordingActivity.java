@@ -116,8 +116,9 @@ public class EditRecordingActivity extends Activity {
 						}
 					} else {
 						editRecording();
-						Intent intent = new Intent(EditRecordingActivity.this,RecordingListActivity.class);
-						startActivity(intent);
+						//Intent intent = new Intent(EditRecordingActivity.this,RecordingListActivity.class);
+						//startActivity(intent);
+						//RecordingListActivity.getAdapter().notifyDataSetChanged();
 						finish();
 					}
 					
@@ -147,6 +148,7 @@ public class EditRecordingActivity extends Activity {
 					} else {
 						editRecording();
 						finish();
+						launchMediaPlayer();
 					}
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.message_name_validation, Toast.LENGTH_LONG).show();

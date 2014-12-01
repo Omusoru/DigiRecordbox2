@@ -15,7 +15,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -57,8 +56,15 @@ public class RecordingListActivity extends Activity {
 		fm = new FileManager(RecordingListActivity.this);
 		
 		// load the recordings in the list
-		loadRecordings();		
-		list = (ListView) findViewById(R.id.list);
+		loadRecordings();
+		adapter = new RecordingListAdapter(this, recordingList);
+		
+		list = (ListView) findViewById(R.id.list);		
+		list.setAdapter(adapter);
+		list.setOnItemClickListener(new ListOnClickListener());
+		registerForContextMenu(list);
+		list.setTextFilterEnabled(true);
+		
 		searchField = (EditText) findViewById(R.id.searchField);
 		searchField.addTextChangedListener(new SearchTextWatcher());
 		
@@ -70,13 +76,7 @@ public class RecordingListActivity extends Activity {
 			if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
 				btnMore.setVisibility(View.VISIBLE);
 			}
-		}
-	    
-		adapter = new RecordingListAdapter(this, recordingList);
-		list.setAdapter(adapter);
-		list.setOnItemClickListener(new ListOnClickListener());
-		registerForContextMenu(list);
-		list.setTextFilterEnabled(true);
+		}		
 		
 		// check for missing files
 		new CheckFilesTask().execute(RecordingListActivity.this);
@@ -112,6 +112,15 @@ public class RecordingListActivity extends Activity {
 				break; 
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onResume() {	
+		// refresh the list. usually happens when returning from edit activity
+		recordingList = db.getAllRecordings();
+		adapter = new RecordingListAdapter(RecordingListActivity.this, recordingList);
+		list.setAdapter(adapter);
+		super.onResume();
 	}
 	
 	@Override
@@ -178,7 +187,7 @@ public class RecordingListActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			if (v.getId()==R.id.btn_more) {
-				openOptionsMenu();
+				openOptionsMenu();				
 			}			
 		}
 		
@@ -191,11 +200,7 @@ public class RecordingListActivity extends Activity {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			
-			Log.d("RecList", "crash test 1");
 			Recording recording = recordingList.get((int)id);
-			Log.d("RecList", "nume "+ recording.getName());
-			Log.d("RecList", "id "+ recording.getId());
-			Log.d("RecList", "crash test 2");
 			// check for local file
 			if(recording.isOnLocal()) {
 				if(checkFile("local",recording.getLocalFilename())) {
@@ -697,5 +702,7 @@ public class RecordingListActivity extends Activity {
 			}
 		}
 		
+		
 	}
+	
 }
