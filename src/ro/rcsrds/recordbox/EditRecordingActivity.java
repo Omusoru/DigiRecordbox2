@@ -116,9 +116,6 @@ public class EditRecordingActivity extends Activity {
 						}
 					} else {
 						editRecording();
-						//Intent intent = new Intent(EditRecordingActivity.this,RecordingListActivity.class);
-						//startActivity(intent);
-						//RecordingListActivity.getAdapter().notifyDataSetChanged();
 						finish();
 					}
 					

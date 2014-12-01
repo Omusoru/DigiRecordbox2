@@ -675,7 +675,7 @@ public class RecordingListActivity extends Activity {
 				onlineFiles=fm.getFileListCloud();
 				
 				for(int i=0;i<recordingList.size();i++){
-					if((!onlineFiles.contains(recordingList.get(i).getLocalFilename()))&&(recordingList.get(i).isOnCloud())){
+					if((!onlineFiles.contains(recordingList.get(i).getCloudFilename()))&&(recordingList.get(i).isOnCloud())){
 						recordingList.get(i).setOnCloud(false);
 						db.updateRecording(recordingList.get(i));
 						filesHaveChanged = true;
