@@ -88,10 +88,13 @@ public class MainActivity extends Activity {
 		//more button
 		btnMore = (Button) findViewById(R.id.btn_more);
 		btnMore.setOnClickListener(new ButtonClickListener());
-		btnMore.setVisibility(View.INVISIBLE);				
-		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
-			btnMore.setVisibility(View.VISIBLE);
+		btnMore.setVisibility(View.INVISIBLE);	
+		if(android.os.Build.VERSION.SDK_INT >= 14) {
+			if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
+				btnMore.setVisibility(View.VISIBLE);
+			}
 		}
+		
 		
 		needsCancel = false;
 		buttonRecording = true; 

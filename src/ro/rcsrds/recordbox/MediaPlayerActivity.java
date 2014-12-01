@@ -61,8 +61,10 @@ public class MediaPlayerActivity extends Activity {
 		btnMore = (Button) findViewById(R.id.btn_more);
 		btnMore.setOnClickListener(new ButtonOnClickListener());
 		btnMore.setVisibility(View.GONE);				
-		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
-			btnMore.setVisibility(View.VISIBLE);
+		if(android.os.Build.VERSION.SDK_INT >= 14) {
+			if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
+				btnMore.setVisibility(View.VISIBLE);
+			}
 		}
 		
 		//Get recording information
@@ -86,7 +88,6 @@ public class MediaPlayerActivity extends Activity {
 				    		online = true;
 				    		filename = fm.getFileLink(recording.getCloudFilename());				    		
 				    	} else {
-				    		//TODO toast
 				    		Log.d("Connection","Not network connected");
 				    		online = false;
 				    		filename = "a";
@@ -121,7 +122,7 @@ public class MediaPlayerActivity extends Activity {
 		            sbarPlayer.setProgress(mCurrentPosition);
 		        }
 		        mHandler.postDelayed(this, 100);
-		        Log.d("Mediaplayer",Integer.toString(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()));
+		        //Log.d("Mediaplayer",Integer.toString(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()));
 		        if(player.getPlayerStatus().getDuration()-player.getPlayerStatus().getCurrentPosition()<=200)
 		        {
 		        	//player.pausePlaying();
@@ -192,8 +193,6 @@ public class MediaPlayerActivity extends Activity {
 	        	mHandler.removeCallbacks(timer);
 	        	if(!buttonPlaying){
 	        		playingStatus=true;
-	        		//btnPlay.setBackgroundResource(R.drawable.button_pause_small);
-	    			//buttonPlaying = false;
 	        		player.pausePlaying();
 	        	}
 	        	else{ 
@@ -206,7 +205,7 @@ public class MediaPlayerActivity extends Activity {
 	            	if(player.getPlayerStatus() != null && fromUser){
 	            		sbarPlayer.setProgress(progress);
 	                    tvCurentTime.setText(getTimeFormat(progress));
-	                    Log.d("SeekBar",Integer.toString(player.getPlayerStatus().getDuration()-progress));
+	                    //Log.d("SeekBar",Integer.toString(player.getPlayerStatus().getDuration()-progress));
 	                }
 	        }
 	    });		

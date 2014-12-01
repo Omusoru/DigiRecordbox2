@@ -30,8 +30,10 @@ public class AboutActivity extends Activity {
 		btnMore = (Button) findViewById(R.id.btn_more);
 		btnMore.setOnClickListener(new ButtonClickListener());
 		btnMore.setVisibility(View.GONE);				
-		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
-			btnMore.setVisibility(View.VISIBLE);
+		if(android.os.Build.VERSION.SDK_INT >= 14) {
+			if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
+				btnMore.setVisibility(View.VISIBLE);
+			}
 		}
 		
 	}

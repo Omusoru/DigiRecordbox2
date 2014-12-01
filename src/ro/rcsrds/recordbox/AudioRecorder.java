@@ -134,7 +134,6 @@ public class AudioRecorder {
         	tempAudio=new ArrayList<String>();
         	deleteDirectory(new File(filePath+"Temp"));
         	isMerging=false;
-        	//Log.d("Test Tibi","intra aici ?");
         }
         else{
         	merger= new Runnable() {
@@ -143,8 +142,7 @@ public class AudioRecorder {
 						try {
 							mergeAudio(tempAudio);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							Log.d("Merge",e.getMessage());
 						}
 						isMerging=false;
 						deleteDirectory(new File(filePath+"Temp"));

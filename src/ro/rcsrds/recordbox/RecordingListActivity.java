@@ -66,8 +66,10 @@ public class RecordingListActivity extends Activity {
 		btnMore = (Button) findViewById(R.id.btn_more);
 		btnMore.setOnClickListener(new ButtonOnClickListener());
 		btnMore.setVisibility(View.GONE);				
-		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
-			btnMore.setVisibility(View.VISIBLE);
+		if(android.os.Build.VERSION.SDK_INT >= 14) {
+			if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey()) {
+				btnMore.setVisibility(View.VISIBLE);
+			}
 		}
 	    
 		adapter = new RecordingListAdapter(this, recordingList);
