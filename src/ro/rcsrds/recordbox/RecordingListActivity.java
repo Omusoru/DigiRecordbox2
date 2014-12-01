@@ -212,7 +212,7 @@ public class RecordingListActivity extends Activity {
 					//show message
 					Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
 					//update database
-					updateEntry("local", false, position);
+					updateEntry("local", false, position, "");
 					//refresh list
 					adapter.notifyDataSetChanged();
 				}
@@ -229,7 +229,7 @@ public class RecordingListActivity extends Activity {
 						//show message
 						Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
 						//update database
-						updateEntry("cloud", false, position);
+						updateEntry("cloud", false, position, "");
 						//refresh list
 						adapter.notifyDataSetChanged();
 					}
@@ -273,12 +273,12 @@ public class RecordingListActivity extends Activity {
 				if(checkFile("local", recordingList.get(position).getLocalFilename())) {
 					new UploadToCloudTask().execute(recordingList.get(position).getLocalFilename());
 					// update recording database entry on_cloud to True
-					updateEntry("cloud", true, position);
+					updateEntry("cloud", true, position, recordingList.get(position).getLocalFilename());
 					adapter.notifyDataSetChanged();
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
 					// update recording database entry on_local to False
-					updateEntry("local", false, position);
+					updateEntry("local", false, position, "");
 					adapter.notifyDataSetChanged();
 				}		
 			}
@@ -323,12 +323,12 @@ public class RecordingListActivity extends Activity {
     			if(checkFile("cloud", recordingList.get(position).getCloudFilename())) {
     				new DownloadFromCloudTask().execute(recordingList.get(position).getCloudFilename());
     				// update recording database entry on_local to True
-    				updateEntry("local",true,position);
+    				updateEntry("local",true,position, recordingList.get(position).getCloudFilename());
     				adapter.notifyDataSetChanged();
     			} else {
     				Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
     				// update recording database entry on_cloud to False
-    				updateEntry("cloud", false, position);
+    				updateEntry("cloud", false, position, "");
     				adapter.notifyDataSetChanged();
     			}
     		}
@@ -368,7 +368,7 @@ public class RecordingListActivity extends Activity {
 			new DeleteFromLocalTask().execute(recordingList.get(position).getLocalFilename());
 			
 			// update recording database entry on_local to False
-			updateEntry("local",false,position);
+			updateEntry("local",false,position, "");
 			adapter.notifyDataSetChanged();
 		}
 	}
@@ -407,7 +407,7 @@ public class RecordingListActivity extends Activity {
     			new DeleteFromCloudTask().execute(recordingList.get(position).getLocalFilename());
     			
     			// update recording database entry on_cloud to False
-    			updateEntry("cloud",false,position);
+    			updateEntry("cloud",false,position, "");
     			adapter.notifyDataSetChanged();
     		}
     	}
@@ -555,14 +555,16 @@ public class RecordingListActivity extends Activity {
 		
 	}
 	
-	private void updateEntry(String location, boolean status, int position) {
+	private void updateEntry(String location, boolean status, int position, String newName) {
 		
 		Recording recording = new Recording();
 		recording = recordingList.get(position);
 		if(location.equalsIgnoreCase("cloud")) {
-			recording.setOnCloud(status);			
+			recording.setOnCloud(status);	
+			recording.setCloudFilename(newName);
 		} else if(location.equalsIgnoreCase("local")) {
 			recording.setOnLocal(status);
+			recording.setLocalFilename(newName);
 		}
 		if((recording.isOnCloud()==false)&&(recording.isOnLocal()==false)) {
 			db.deleteRecording(recording);
