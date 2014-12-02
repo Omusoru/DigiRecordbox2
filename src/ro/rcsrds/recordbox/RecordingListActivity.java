@@ -44,8 +44,9 @@ public class RecordingListActivity extends Activity {
 	//globals
 	private boolean fileExists;
 	private String looping;
-	ArrayList<String> onlineFiles = null;
+	ArrayList<String> onlineFiles;
 	private String duration;
+	private boolean allowPlay;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -80,6 +81,10 @@ public class RecordingListActivity extends Activity {
 		
 		// check for missing files
 		new CheckFilesTask().execute(RecordingListActivity.this);
+		
+		//initialize globals
+		allowPlay = true;
+		onlineFiles = null;
 }
 	
 	@Override
@@ -115,7 +120,8 @@ public class RecordingListActivity extends Activity {
 	}
 	
 	@Override
-	protected void onResume() {	
+	protected void onResume() {
+		allowPlay = true; // prevents multiple play requests
 		// refresh the list. usually happens when returning from edit activity
 		recordingList = db.getAllRecordings();
 		adapter = new RecordingListAdapter(RecordingListActivity.this, recordingList);
@@ -200,43 +206,51 @@ public class RecordingListActivity extends Activity {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			
-			Recording recording = recordingList.get((int)id);
-			// check for local file
-			if(recording.isOnLocal()) {
-				if(checkFile("local",recording.getLocalFilename())) {
-					// if file exists start media player
-					Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
-					intent.putExtra("id", recording.getId());
-					startActivity(intent);
-				} else {
-					//show message
-					Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
-					//update database
-					updateEntry("local", false, position, "");
-					//refresh list
-					adapter.notifyDataSetChanged();
-				}
+			if(allowPlay) { // prevents multiple play requests
 				
-			// check for cloud file
-			} else if(recording.isOnCloud()) {
-				if(isNetworkConnected()) {
-					if(checkFile("cloud",recording.getCloudFilename())) {
+				Recording recording = recordingList.get((int)id);
+				// check for local file
+				if(recording.isOnLocal()) {
+					if(checkFile("local",recording.getLocalFilename())) {
 						// if file exists start media player
 						Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
 						intent.putExtra("id", recording.getId());
 						startActivity(intent);
+						allowPlay = false;
 					} else {
 						//show message
-						Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
 						//update database
-						updateEntry("cloud", false, position, "");
+						updateEntry("local", false, position, "");
 						//refresh list
 						adapter.notifyDataSetChanged();
 					}
-				} else {
-					Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+					
+				// check for cloud file
+				} else if(recording.isOnCloud()) {
+					if(isNetworkConnected()) {
+						if(checkFile("cloud",recording.getCloudFilename())) {
+							// if file exists start media player
+							Intent intent = new Intent(RecordingListActivity.this,MediaPlayerActivity.class);
+							intent.putExtra("id", recording.getId());
+							startActivity(intent);
+							allowPlay = false;
+						} else {
+							//show message
+							Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
+							//update database
+							updateEntry("cloud", false, position, "");
+							//refresh list
+							adapter.notifyDataSetChanged();
+						}
+					} else {
+						Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+					}
 				}
+				
 			}
+			
+			
 			
 		}
 	}
