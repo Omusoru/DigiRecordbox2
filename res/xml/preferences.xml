@@ -8,9 +8,16 @@
 	    android:defaultValue="true"/>
     
     <CheckBoxPreference
-	    android:key="pref_key_device_name"
-	    android:summary="@string/pref_summary_device_name"
-	    android:title="@string/pref_title_device_name"
+	    android:key="pref_key_use_device_name"
+	    android:summary="@string/pref_summary_use_device_name"
+	    android:title="@string/pref_title_use_device_name"
 	    android:defaultValue="true"/>
+    
+    <EditTextPreference
+        android:key="pref_key_device_name"
+        android:title="@string/pref_title_device_name"
+        android:summary="@string/pref_summary_device_name"
+        android:dialogTitle="@string/pref_title_device_name"
+        android:dependency="pref_key_use_device_name" />
 
 </PreferenceScreen>

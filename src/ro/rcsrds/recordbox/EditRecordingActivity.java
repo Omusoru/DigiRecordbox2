@@ -6,12 +6,12 @@ import java.util.Calendar;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -29,6 +29,7 @@ public class EditRecordingActivity extends Activity {
 	private String filename;
 	private String owner;
 	private String duration;
+	private String deviceName;
 	private int lastRecordingId;
 	private boolean isNewRecording;
 	private boolean willBePlayed;
@@ -78,8 +79,17 @@ public class EditRecordingActivity extends Activity {
 		
 		// get application settings
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		allowAutoUpload = settings.getBoolean("pref_key_auto_upload", true) ? true : false; 
-		useDeviceName = settings.getBoolean("pref_key_device_name", true) ? true : false; 
+		allowAutoUpload = settings.getBoolean("pref_key_auto_upload", true);
+		useDeviceName = settings.getBoolean("pref_key_use_device_name", true);
+		
+		deviceName = settings.getString("pref_key_device_name", "");
+		if(deviceName.equals("") || deviceName.isEmpty()) {
+			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+			editor.putString("pref_key_device_name", Build.MODEL);
+			editor.apply();
+			deviceName = settings.getString("pref_key_device_name", "");
+		}
+		
 	}
 	
 	@Override
@@ -186,8 +196,7 @@ public class EditRecordingActivity extends Activity {
 		String newFilename;
 		
 		if(useDeviceName) {
-			BluetoothAdapter myDevice = BluetoothAdapter.getDefaultAdapter();
-			String deviceName = sanitizeDeviceName(myDevice.getName());
+			deviceName = sanitizeDeviceName(deviceName);
 			newFilename = name+" "+currentDate+" "+deviceName+".mp4";	
 		} else {
 			newFilename = name+" "+currentDate+".mp4";
@@ -227,8 +236,7 @@ public class EditRecordingActivity extends Activity {
 		String newFilename;
 		
 		if(useDeviceName) {
-			BluetoothAdapter myDevice = BluetoothAdapter.getDefaultAdapter();
-			String deviceName = sanitizeDeviceName(myDevice.getName());
+			deviceName = sanitizeDeviceName(deviceName);
 			newFilename = name+" "+currentDate+" "+deviceName+".mp4";	
 		} else {
 			newFilename = name+" "+currentDate+".mp4";

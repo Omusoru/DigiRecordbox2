@@ -50,8 +50,10 @@
     <!-- settings activity -->
     <string name="pref_title_auto_upload">Auto upload</string>
     <string name="pref_summary_auto_upload">Upload recordings automatically after saving</string>
-    <string name="pref_title_device_name">Use device name</string>
-    <string name="pref_summary_device_name">Use device name in the file name</string>
+    <string name="pref_title_use_device_name">Use device name</string>
+    <string name="pref_summary_use_device_name">Use device name in the filename</string>
+    <string name="pref_title_device_name">Device name&#8230;</string>
+    <string name="pref_summary_device_name">Device name used in filename</string>
     
     <!-- dialogs -->
     <string name="title_saving">Saving&#8230;</string> <!-- &#8230; = ... -->
