@@ -44,6 +44,8 @@
     <string name="ph_duration">duration</string>
     <string name="ph_description">description</string>
     <string name="hint_search">Caută&#8230;</string>
+    <string name="img_content_local">Aflat în memorie</string>
+    <string name="img_content_cloud">Aflat în cloud</string>
     
     <!-- settings activity -->
     <string name="pref_title_auto_upload">Urcare automată</string>
@@ -89,6 +91,12 @@
     <string name="message_audio_not_inserted">
    	    Fișierul audio nu a fost adăugat în lista de înregistrări. Îl puteți importa ulterior accesând opțiunea \'Importă fișiere audio\'
   	</string>
+  	<string name="message_download_success">Descărcarea a avut succes</string>
+  	<string name="message_download_fail">Descărcarea a eșuat</string>
+  	<string name="message_upload_success">Urcarea a avut succes</string>
+  	<string name="message_upload_fail">Urcarea a eșuat</string>
+  	<string name="message_deletion_success">Ștergerea a avut succes</string>
+  	<string name="message_deletion_fail">Ștergerea a eșuat</string>
      
     <!-- help activity -->
     <string name="help_title1">
@@ -109,7 +117,8 @@
 		- Când ai terminat de înregistrat, apăsarea butonului de stop va deschide un nou ecran
 		 unde poți introduce un nume și o descriere pentru notița audio.\n
 		- După introducerea numelui și a descrierii, poți ori doar să salvezi și să revi
-		 la ecranul principal, ori poți salva și reda imediat notița audio în player-ul media.\n
+		 la ecranul principal, ori poți salva și reda imediat notița audio în 
+		 player-ul media.\n
 		- Poți accesa lista de notițe audio salvate local sau/și pe cloud prin apăsarea butonului de 
 		 meniu al dispozitivului(dacă dispozitivul nu dispune de un buton de meniu fizic, o iconiță
 		 de meniu va apărea sus în bara de acțiuni) și selectarea opțiunii "Listă înregistrari".\n

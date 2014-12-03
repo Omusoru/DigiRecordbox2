@@ -91,6 +91,12 @@
    	<string name="message_audio_not_inserted">
    	    The audio file has not been added to the recording list. You can import it later by accessing the \'Import audio files\' option
   	</string>
+  	<string name="message_download_success">Download was successful</string>
+  	<string name="message_download_fail">Download has failed</string>
+  	<string name="message_upload_success">Upload was successful</string>
+  	<string name="message_upload_fail">Upload has failed</string>
+  	<string name="message_deletion_success">Deletion was successful</string>
+  	<string name="message_deletion_fail">Download has failed</string>
     
     <!-- help activity -->
     <string name="help_title1">

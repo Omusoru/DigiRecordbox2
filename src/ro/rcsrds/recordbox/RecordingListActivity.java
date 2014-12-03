@@ -47,6 +47,7 @@ public class RecordingListActivity extends Activity {
 	ArrayList<String> onlineFiles;
 	private String duration;
 	private boolean allowPlay;
+	private int currentRecordingPos;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -286,9 +287,7 @@ public class RecordingListActivity extends Activity {
 				// upload file
 				if(checkFile("local", recordingList.get(position).getLocalFilename())) {
 					new UploadToCloudTask().execute(recordingList.get(position).getLocalFilename());
-					// update recording database entry on_cloud to True
-					updateEntry("cloud", true, position, recordingList.get(position).getLocalFilename());
-					adapter.notifyDataSetChanged();
+					currentRecordingPos = position;
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
 					// update recording database entry on_local to False
@@ -299,7 +298,7 @@ public class RecordingListActivity extends Activity {
 		}	
 	}
 	
-	private class UploadToCloudTask extends AsyncTask<String, Void, Void> {
+	private class UploadToCloudTask extends AsyncTask<String, Boolean, Boolean> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -310,16 +309,22 @@ public class RecordingListActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Boolean doInBackground(String... params) {
 			fm.connectToCloud();
 			fm.createFolderCloud("DigiRecordBox");
-			fm.upload(params[0]);
-			return null;
+			return fm.upload(params[0]);
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Boolean succeded) {
 			dlgProgress.dismiss();
+			if(succeded) {
+				updateEntry("cloud", true, currentRecordingPos, recordingList.get(currentRecordingPos).getLocalFilename());
+				adapter.notifyDataSetChanged();
+				Toast.makeText(getApplicationContext(), R.string.message_upload_success, Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.message_upload_fail, Toast.LENGTH_LONG).show();
+			}
 		}
 		
 	}
@@ -335,10 +340,8 @@ public class RecordingListActivity extends Activity {
     		} else {
     			// download file
     			if(checkFile("cloud", recordingList.get(position).getCloudFilename())) {
+    				currentRecordingPos = position;
     				new DownloadFromCloudTask().execute(recordingList.get(position).getCloudFilename());
-    				// update recording database entry on_local to True
-    				updateEntry("local",true,position, recordingList.get(position).getCloudFilename());
-    				adapter.notifyDataSetChanged();
     			} else {
     				Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
     				// update recording database entry on_cloud to False
@@ -349,7 +352,7 @@ public class RecordingListActivity extends Activity {
     	}		
 	}
 	
-	private class DownloadFromCloudTask extends AsyncTask<String, Void, Void> {
+	private class DownloadFromCloudTask extends AsyncTask<String, Void, Boolean> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -360,16 +363,22 @@ public class RecordingListActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Boolean doInBackground(String... params) {
 			fm.connectToCloud();
 			fm.createFolderCloud("DigiRecordBox");
-			fm.download(params[0]);
-			return null;
+			return fm.download(params[0]);			
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Boolean succeded) {
 			dlgProgress.dismiss();
+			if(succeded) {
+				updateEntry("local",true,currentRecordingPos, recordingList.get(currentRecordingPos).getCloudFilename());
+				adapter.notifyDataSetChanged();	
+				Toast.makeText(getApplicationContext(), R.string.message_download_success, Toast.LENGTH_LONG).show();				
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.message_download_fail, Toast.LENGTH_LONG).show();
+			}
 		}
 		
 	}
@@ -379,15 +388,12 @@ public class RecordingListActivity extends Activity {
 			Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
 		} else {
 			// delete local file
+			currentRecordingPos = position;
 			new DeleteFromLocalTask().execute(recordingList.get(position).getLocalFilename());
-			
-			// update recording database entry on_local to False
-			updateEntry("local",false,position, "");
-			adapter.notifyDataSetChanged();
 		}
 	}
 	
-	private class DeleteFromLocalTask extends AsyncTask<String, Void, Void> {
+	private class DeleteFromLocalTask extends AsyncTask<String, Boolean, Boolean> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -398,14 +404,20 @@ public class RecordingListActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
-			fm.deleteLocal(params[0]);
-			return null;
+		protected Boolean doInBackground(String... params) {
+			return fm.deleteLocal(params[0]);
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Boolean succeded) {
 			dlgProgress.dismiss();
+			if(succeded) {
+				updateEntry("local",false,currentRecordingPos, "");
+				adapter.notifyDataSetChanged();
+				Toast.makeText(getApplicationContext(), R.string.message_deletion_success, Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.message_deletion_fail, Toast.LENGTH_LONG).show();
+			}
 		}
 		
 	}
@@ -418,16 +430,13 @@ public class RecordingListActivity extends Activity {
     			Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
     		} else {
     			// delete cloud file
+    			currentRecordingPos = position;
     			new DeleteFromCloudTask().execute(recordingList.get(position).getLocalFilename());
-    			
-    			// update recording database entry on_cloud to False
-    			updateEntry("cloud",false,position, "");
-    			adapter.notifyDataSetChanged();
     		}
     	}
 	}
 	
-	private class DeleteFromCloudTask extends AsyncTask<String, Void, Void> {
+	private class DeleteFromCloudTask extends AsyncTask<String, Boolean, Boolean> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -438,16 +447,22 @@ public class RecordingListActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Boolean doInBackground(String... params) {
 			fm.connectToCloud();
 			fm.createFolderCloud("DigiRecordBox");
-			fm.deleteCloud(params[0]);
-			return null;
+			return fm.deleteCloud(params[0]);
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Boolean succeded) {
 			dlgProgress.dismiss();
+			if(succeded) {
+    			updateEntry("cloud",false,currentRecordingPos, "");
+    			adapter.notifyDataSetChanged();
+				Toast.makeText(getApplicationContext(), R.string.message_deletion_success, Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.message_deletion_fail, Toast.LENGTH_LONG).show();
+			}
 		}
 		
 	}
