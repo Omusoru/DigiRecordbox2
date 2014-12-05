@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -48,6 +49,11 @@ public class RecordingListActivity extends Activity {
 	private String duration;
 	private boolean allowPlay;
 	private int currentRecordingPos;
+	
+	//tasks
+	private DownloadFromCloudTask downloadTask;
+	private UploadToCloudTask uploadTask;
+	private SimpleProgressListener uploadListener;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -275,6 +281,31 @@ public class RecordingListActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	final Handler timerHandler = new Handler();
+	Runnable timerRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			/*
+			if(isNetworkConnected()) {
+				Log.d("CONN","Connection is alive");
+				timerHandler.postDelayed(this,100);
+			} else {					
+				Log.d("CONN","Connection is dead");
+				//downloadTask.cancel(true);
+				//if(!uploadListener.isCanceled()) {
+					//uploadListener.cancel();
+				//}
+				//uploadTask.cancel(true);
+				timerHandler.removeCallbacks(this);				
+			}*/
+			
+			
+			
+		}
+		
+	};
+	
 	private void uploadToCloud(final int position) {
 		if(!isNetworkConnected()) {
 			Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
@@ -286,7 +317,8 @@ public class RecordingListActivity extends Activity {
 			} else {
 				// upload file
 				if(checkFile("local", recordingList.get(position).getLocalFilename())) {
-					new UploadToCloudTask().execute(recordingList.get(position).getLocalFilename());
+					uploadTask = new UploadToCloudTask();
+					uploadTask.execute(recordingList.get(position).getLocalFilename());
 					currentRecordingPos = position;
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.message_not_on_local, Toast.LENGTH_SHORT).show();
@@ -312,7 +344,9 @@ public class RecordingListActivity extends Activity {
 		protected Boolean doInBackground(String... params) {
 			fm.connectToCloud();
 			fm.createFolderCloud("DigiRecordBox");
-			return fm.upload(params[0]);
+			uploadListener = new SimpleProgressListener();
+			boolean succeded = fm.upload(params[0], uploadListener);
+			return succeded; 
 		}
 		
 		@Override
@@ -341,7 +375,9 @@ public class RecordingListActivity extends Activity {
     			// download file
     			if(checkFile("cloud", recordingList.get(position).getCloudFilename())) {
     				currentRecordingPos = position;
-    				new DownloadFromCloudTask().execute(recordingList.get(position).getCloudFilename());
+    				//new DownloadFromCloudTask().execute(recordingList.get(position).getCloudFilename());
+    				downloadTask = new DownloadFromCloudTask();
+    				downloadTask.execute(recordingList.get(position).getCloudFilename());
     			} else {
     				Toast.makeText(getApplicationContext(), R.string.message_not_on_cloud, Toast.LENGTH_SHORT).show();
     				// update recording database entry on_cloud to False
@@ -363,10 +399,11 @@ public class RecordingListActivity extends Activity {
 		}
 
 		@Override
-		protected Boolean doInBackground(String... params) {
+		protected Boolean doInBackground(String... params) {				
 			fm.connectToCloud();
-			fm.createFolderCloud("DigiRecordBox");
-			return fm.download(params[0]);			
+			fm.createFolderCloud("DigiRecordBox");			
+			boolean succeded = fm.download(params[0], new SimpleProgressListener());
+			return succeded; 		
 		}
 		
 		@Override
@@ -379,6 +416,12 @@ public class RecordingListActivity extends Activity {
 			} else {
 				Toast.makeText(getApplicationContext(), R.string.message_download_fail, Toast.LENGTH_LONG).show();
 			}
+		}
+		
+		@Override
+		protected void onCancelled() {
+			Toast.makeText(getApplicationContext(), "Download Canceled", Toast.LENGTH_LONG).show();
+			super.onCancelled();
 		}
 		
 	}

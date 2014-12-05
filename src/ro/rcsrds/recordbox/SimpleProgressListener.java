@@ -1,11 +1,10 @@
 package ro.rcsrds.recordbox;
 
-import android.util.Log;
 import net.koofr.api.v2.transfer.ProgressListener;
 
 
 class SimpleProgressListener implements ProgressListener  {
-    //private long total = 0;
+    private long total = 0;
     private boolean canceled = false;
 
     public void transferred(long bytes) {
@@ -14,8 +13,8 @@ class SimpleProgressListener implements ProgressListener  {
     }
 
     public void setTotal(long bytes) {
-        //this.total = bytes;
-    	Log.d("Progress","Progress: " + ((double)bytes)/(1000*1000) + " bytes\r");
+        this.total = bytes;
+    	//Log.d("Progress","Progress: " + ((double)bytes)/(1000*1000) + " bytes\r");
     }
 
     public boolean isCanceled() {
@@ -24,5 +23,9 @@ class SimpleProgressListener implements ProgressListener  {
     
     public void cancel() {
     	this.canceled = true;
+    }
+    
+    public long getTotal() {
+    	return total;
     }
 }

@@ -38,6 +38,7 @@ public class EditRecordingActivity extends Activity {
 	public static final String PREFS_NAME = "Authentication";
 	private Recording recording;
 	private FileManager fm;
+	private DatabaseHelper db;
 	private ProgressDialog dlgProgress;
 
 	@Override
@@ -52,14 +53,7 @@ public class EditRecordingActivity extends Activity {
 		btnSavePlay = (Button) findViewById(R.id.btn_save_play);
 		btnSavePlay.setOnClickListener(new ButtonOnClickListener());
 		
-		fm = new FileManager(this);
-		new Thread(new Runnable() {
-			 public void run() {		    	
-			    	if(isNetworkConnected()) {
-			    		fm.connectToCloud();
-			    	}
-		   }
-		}).start();		
+		fm = new FileManager(this);	
 		
 		if(getIntent().getExtras().getBoolean("new")) {
 			isNewRecording = true;
@@ -270,19 +264,11 @@ public class EditRecordingActivity extends Activity {
 		recording = null;
 	}
 	
-	private void uploadToCloud() {
-		
-		DatabaseHelper db = new DatabaseHelper(this);
-		Recording recording = db.getRecording(lastRecordingId);
-		
-		new UploadToCloudTask().execute(filename);
-		recording.setOnCloud(true);
-		db.updateRecording(recording);
-		recording = null;
-		
+	private void uploadToCloud() {		
+		new UploadToCloudTask().execute(filename);		
 	}
 	
-	private class UploadToCloudTask extends AsyncTask<String, Void, Void> {
+	private class UploadToCloudTask extends AsyncTask<String, Void, Boolean> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -293,14 +279,28 @@ public class EditRecordingActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
-			fm.upload(params[0]);
-			return null;
+		protected Boolean doInBackground(String... params) {
+			fm.connectToCloud();
+			fm.createFolderCloud("DigiRecordBox");
+			boolean succeded = fm.upload(params[0], new SimpleProgressListener());
+			return succeded; 
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Boolean succeded) {
 			dlgProgress.dismiss();
+			
+			if(succeded) {
+				Toast.makeText(getApplicationContext(), R.string.message_upload_success, Toast.LENGTH_LONG).show();
+
+				db = new DatabaseHelper(EditRecordingActivity.this);
+				Recording recording = db.getRecording(lastRecordingId);
+				recording.setOnCloud(true);
+				db.updateRecording(recording);
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.message_upload_fail, Toast.LENGTH_LONG).show();
+			}
+			
 			finish();
 			if(willBePlayed) {
 				launchMediaPlayer();

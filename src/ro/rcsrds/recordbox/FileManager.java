@@ -58,7 +58,7 @@ public class FileManager {
 		
 	}
 	
-	public boolean upload(String file){
+	public boolean upload(String file, SimpleProgressListener listener){
 
 		file = localFilePath + file;
 		file.replace("/", "\\");
@@ -71,7 +71,7 @@ public class FileManager {
 		
 		try {
 			UploadData data = new FileUploadData(file);  
-			api.filesUpload(mount.getId(), "/DigiRecordbox/", data, new SimpleProgressListener());
+			api.filesUpload(mount.getId(), "/DigiRecordbox/", data, listener);
 			return true;
 		} catch (StorageApiException e) {
 			Log.d("FileManager",e.getMessage());
@@ -80,9 +80,9 @@ public class FileManager {
 
 	}
 	
-	public boolean download(String file){
+	public boolean download(String file, SimpleProgressListener listener){
 		try {
-			api.filesDownload(mount.getId(), "/DigiRecordbox/"+file, localFilePath, new SimpleProgressListener());
+			api.filesDownload(mount.getId(), "/DigiRecordbox/"+file, localFilePath, listener);
 			return true;
 		} catch (StorageApiException e) {
 			Log.d("FileManager",e.getMessage());
