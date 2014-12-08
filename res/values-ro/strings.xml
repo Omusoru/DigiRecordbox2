@@ -75,18 +75,18 @@
     <!-- toasts -->
     <string name="message_authentication_failed">Autentificare eșuată</string>
     <string name="message_no_internet">Nu există conexiune la internet</string>    
-    <string name="message_not_uploaded">Nu s-a putut încărca pe cloud. Verificați conexiunea la internet</string>
-    <string name="message_cloud_not_renamed">Nu s-a putut redenumi fișierul de pe cloud. Verificați conexiunea la internet</string>
-    <string name="message_already_on_cloud">Fișierul există deja pe cloud</string>
-    <string name="message_already_on_local">Fișierul există deja pe memoria locală</string>
-    <string name="message_not_on_local">Fișierul nu există pe memoria locală</string>
-    <string name="message_not_on_cloud">Fișierul nu există pe cloud</string>
+    <string name="message_not_uploaded">Nu s-a putut urca în cloud. Verificați conexiunea la internet</string>
+    <string name="message_cloud_not_renamed">Nu s-a putut redenumi fișierul din cloud. Verificați conexiunea la internet</string>
+    <string name="message_already_on_cloud">Fișierul există deja în cloud</string>
+    <string name="message_already_on_local">Fișierul există deja în memoria locală</string>
+    <string name="message_not_on_local">Fișierul nu există în memoria locală</string>
+    <string name="message_not_on_cloud">Fișierul nu există în cloud</string>
     <string name="message_name_validation1">Caractere invalide în nume. Doar litere, cifre, spații și _ &#8211; permise </string>
     <string name="message_name_validation2">Numele introdus nu poate fi gol</string>
     <string name="message_recording_canceled">Înregistrarea a fost anulată</string>
-    <string name="message_no_internet_checking">Nu s-a putut verifica existența fișierelor pe cloud. Nu există conexiune la internet</string>
+    <string name="message_no_internet_checking">Nu s-a putut verifica existența fișierelor în cloud. Nu există conexiune la internet</string>
     <string name="message_no_space_avaible">Aplicația are nevoie de cel puțin 10MB de memorie liberi. Vă rugăm să eliberați memorie</string>
-    <string name="message_cloud_not_imported">Nu s-a putut importa de pe cloud. Verificați conexiunea la internet</string>
+    <string name="message_cloud_not_imported">Nu s-a putut importa din cloud. Verificați conexiunea la internet</string>
     <string name="message_audio_not_inserted">
    	    Fișierul audio nu a fost adăugat în lista de înregistrări. Îl puteți importa ulterior accesând opțiunea \'Importă fișiere audio\'
   	</string>
@@ -106,12 +106,12 @@
 	</string>
 	<string name="help_content1">
 	    \n\tDigi Recordbox permite înregistrarea notițelor audio ce sunt apoi urcate 
-	     și stocate pe serviciul de cloud storage Digi.\n\n
+	     și stocate în platforma de cloud Digi Storage.\n\n
 	    \tDupă urcarea primei înregistrări, un nou director numit \"Digi Recordbox\" 
 	     va fi creat în directorul rădăcină existent \"Digi Cloud\"
 	    asociat contului dumneavoastră de utilizator Digi Storage.\n\n
 		\tNotițele audio pot fi apoi redate, fie direct din memoria locală a dispozitivului, 
-		 fie prin streaming de pe cloud. \n\n
+		 fie prin streaming din cloud. \n\n
 	</string>
 	<string name="help_title2">
 	    Instrucțiuni
@@ -124,12 +124,12 @@
 		\tDupă introducerea numelui și a descrierii, poți ori doar să salvezi și să revii
 		 la ecranul principal, ori poți să salvezi și să redai imediat notița audio în 
 		 player-ul media.\n\n
-		\tPoți accesa lista de notițe audio salvate local sau/și pe cloud prin apăsarea butonului de 
+		\tPoți accesa lista de notițe audio salvate local sau/și în cloud prin apăsarea butonului de 
 		 meniu al dispozitivului (dacă dispozitivul nu dispune de un buton de meniu fizic, o iconiță
 		 de meniu va apărea în partea de dreapta sus a ecranului) și selectarea opțiunii \"Listă înregistrari\".\n\n
 		\tPe lângă numele, descrierea și durata înregistrării, de asemenea vei putea observa
 		 două mici cercuri. Primul va avea culoarea verde dacă fișierul există în memoria dispozitivului,
-		 iar al doilea va avea culoarea albastră dacă fișierul este stocat pe cloud. \n\n
+		 iar al doilea va avea culoarea albastră dacă fișierul este stocat în cloud. \n\n
 		\tDe aici poți apăsa pe o notiță ca să o deschizi în player-ul media. \n\n
 		\tEfectuarea unei apăsări lungi pe notița audio va deschide un meniu de context de unde
 		 poți accesa diferite acțiuni precum ștergerea și urcarea înregistrărilor. \n\n
