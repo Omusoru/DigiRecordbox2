@@ -23,13 +23,12 @@
     <string name="option_menu_import_files">Importă fișiere audio</string>
     <string name="option_menu_about">Despre</string>
     <string name="option_menu_help">Ajutor</string>
-    <string name="option_menu_check_files">Verifică starea fișierelor</string>
     <string name="option_menu_settings">Setări</string>
 
     <!-- login activity -->
     <string name="btn_login">OK</string>
     <string name="tv_email">Introduceți utilizator:</string>
-    <string name="tv_password">Introduceți parola:</string>
+    <string name="tv_password">Introduceți parolă:</string>
 
     <!-- edit recording activity -->
     <string name="tv_name">Nume:</string>
@@ -56,7 +55,7 @@
     <string name="pref_summary_device_name">Nume dispozitiv folosit în numele fișierului</string>
     
     <!-- dialogs -->
-    <string name="title_saving">Se salvează&#8230;</string> <!-- &#8230; = ... -->
+    <string name="title_saving">Se salvează&#8230;</string>
     <string name="title_uploading">Se încarcă&#8230;</string>
     <string name="title_downloading">Se descarcă&#8230;</string>
     <string name="title_recovering">Se restaurează&#8230;</string>
@@ -77,16 +76,16 @@
     <string name="message_authentication_failed">Autentificare eșuată</string>
     <string name="message_no_internet">Nu există conexiune la internet</string>    
     <string name="message_not_uploaded">Nu s-a putut încărca pe cloud. Verificați conexiunea la internet</string>
-    <string name="message_cloud_not_renamed">Nu s-a putut redenumi fișierul de pe cliud. Verificați conexiunea la internet</string>
+    <string name="message_cloud_not_renamed">Nu s-a putut redenumi fișierul de pe cloud. Verificați conexiunea la internet</string>
     <string name="message_already_on_cloud">Fișierul există deja pe cloud</string>
     <string name="message_already_on_local">Fișierul există deja pe memoria locală</string>
     <string name="message_not_on_local">Fișierul nu există pe memoria locală</string>
     <string name="message_not_on_cloud">Fișierul nu există pe cloud</string>
-    <string name="message_name_validation1">Caractere invalide în nume. Doar litere, numere, spații și _ &#8211; permise </string>
+    <string name="message_name_validation1">Caractere invalide în nume. Doar litere, cifre, spații și _ &#8211; permise </string>
     <string name="message_name_validation2">Numele introdus nu poate fi gol</string>
     <string name="message_recording_canceled">Înregistrarea a fost anulată</string>
     <string name="message_no_internet_checking">Nu s-a putut verifica existența fișierelor pe cloud. Nu există conexiune la internet</string>
-    <string name="message_no_space_avaible">Aplicația are nevoie de cel putin 10MB de memorie liberi. Vă rugam să eliberați memorie</string>
+    <string name="message_no_space_avaible">Aplicația are nevoie de cel puțin 10MB de memorie liberi. Vă rugăm să eliberați memorie</string>
     <string name="message_cloud_not_imported">Nu s-a putut importa de pe cloud. Verificați conexiunea la internet</string>
     <string name="message_audio_not_inserted">
    	    Fișierul audio nu a fost adăugat în lista de înregistrări. Îl puteți importa ulterior accesând opțiunea \'Importă fișiere audio\'
@@ -97,37 +96,43 @@
   	<string name="message_upload_fail">Urcarea a eșuat</string>
   	<string name="message_deletion_success">Ștergerea a avut succes</string>
   	<string name="message_deletion_fail">Ștergerea a eșuat</string>
+  	<string name="message_imported_all">Toate fișierele se află deja în baza de date</string>
+  	<string name="message_imported_one">A fost adăugat un fișier audio în baza de date</string>
+  	<string name="message_imported_x">Au fost adăugate %1$d fișiere audio în baza de date</string>
      
     <!-- help activity -->
     <string name="help_title1">
 		Ce este Digi Recordbox?
 	</string>
 	<string name="help_content1">
-	    Digi Recordbox permite înregistrarea notițelor audio ce sunt apoi urcate și stocate pe serviciul de cloud storage Digi.\n
-	    După urcarea primei înregistrări, un nou director numit "Digi Recordbox" va fi creat în directorul rădăcină existent "Digi cloud"
-	    asociat contului dumneavoastră de utilizator Digi Storage.\n
-		Notițele audio pot fi apoi redate, fie direct din memoria locală a dispozitivului, fie prin streaming de pe cloud. \n
+	    \n\tDigi Recordbox permite înregistrarea notițelor audio ce sunt apoi urcate 
+	     și stocate pe serviciul de cloud storage Digi.\n\n
+	    \tDupă urcarea primei înregistrări, un nou director numit \"Digi Recordbox\" 
+	     va fi creat în directorul rădăcină existent \"Digi Cloud\"
+	    asociat contului dumneavoastră de utilizator Digi Storage.\n\n
+		\tNotițele audio pot fi apoi redate, fie direct din memoria locală a dispozitivului, 
+		 fie prin streaming de pe cloud. \n\n
 	</string>
 	<string name="help_title2">
 	    Instrucțiuni
 	</string>
 	<string name="help_content2">
-	    - Începe să înregistrezi prin apăsarea butonului de înregistrare din ecranul principal. \n
-		- Poți pune pauză și reporni înregistrarea prin apăsarea aceluiași buton.\n
-		- Când ai terminat de înregistrat, apăsarea butonului de stop va deschide un nou ecran
-		 unde poți introduce un nume și o descriere pentru notița audio.\n
-		- După introducerea numelui și a descrierii, poți ori doar să salvezi și să revi
-		 la ecranul principal, ori poți salva și reda imediat notița audio în 
-		 player-ul media.\n
-		- Poți accesa lista de notițe audio salvate local sau/și pe cloud prin apăsarea butonului de 
-		 meniu al dispozitivului(dacă dispozitivul nu dispune de un buton de meniu fizic, o iconiță
-		 de meniu va apărea sus în bara de acțiuni) și selectarea opțiunii "Listă înregistrari".\n
-		 - Pe lângă numele, descrierea și durata înregistrării, de asemenea vei putea observa
+	    \n\tÎncepe să înregistrezi prin apăsarea butonului de înregistrare din ecranul principal. \n\n
+		\tPoți pune pauză și reporni înregistrarea prin apăsarea aceluiași buton.\n\n
+		\tCând ai terminat de înregistrat, apăsarea butonului de stop va deschide un nou ecran
+		 unde poți introduce un nume și o descriere pentru notița audio.\n\n
+		\tDupă introducerea numelui și a descrierii, poți ori doar să salvezi și să revii
+		 la ecranul principal, ori poți să salvezi și să redai imediat notița audio în 
+		 player-ul media.\n\n
+		\tPoți accesa lista de notițe audio salvate local sau/și pe cloud prin apăsarea butonului de 
+		 meniu al dispozitivului (dacă dispozitivul nu dispune de un buton de meniu fizic, o iconiță
+		 de meniu va apărea în partea de dreapta sus a ecranului) și selectarea opțiunii \"Listă înregistrari\".\n\n
+		\tPe lângă numele, descrierea și durata înregistrării, de asemenea vei putea observa
 		 două mici cercuri. Primul va avea culoarea verde dacă fișierul există în memoria dispozitivului,
-		 iar al doilea va avea culoarea albastră dacă fișierul este stocat pe cloud.
-		- De aici poți apăsa pe o notița și a o deschide în player-ul media. \n
-		- Efectuarea unei apăsări lungi pe notița audio va deschide un meniu de context de unde
-		poți accesa diferite acțiuni precum ștergerea și urcarea înregistrărilor. \n
+		 iar al doilea va avea culoarea albastră dacă fișierul este stocat pe cloud. \n\n
+		\tDe aici poți apăsa pe o notiță ca să o deschizi în player-ul media. \n\n
+		\tEfectuarea unei apăsări lungi pe notița audio va deschide un meniu de context de unde
+		 poți accesa diferite acțiuni precum ștergerea și urcarea înregistrărilor. \n\n
 	</string>
 	
 	<!-- about activity -->
@@ -137,8 +142,8 @@
 	</string>
 	<string name="about_content2">
 	    Proiect dezvoltat de:\n
-	    Răzvan Mandache\n
-	    Tiberiu Omușoru\n
+	    Razvan.Mandache@gmail.com\n
+	    Tiberiu.Omusoru@gmail.com\n
 	</string>
 	<string name="about_content3">
 	    Design APP: WEB_MKT

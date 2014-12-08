@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -110,9 +109,6 @@ public class RecordingListActivity extends Activity {
 				break;
 			case R.id.option_menu_import_files:
 				new ImportFilesTask().execute();
-				break;
-			case R.id.option_menu_check_files:
-				new CheckFilesTask().execute(this);
 				break;
 			case R.id.option_menu_settings:
 				Intent settings = new Intent(RecordingListActivity.this,SettingsActivity.class);
@@ -281,31 +277,6 @@ public class RecordingListActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	final Handler timerHandler = new Handler();
-	Runnable timerRunnable = new Runnable() {
-
-		@Override
-		public void run() {
-			/*
-			if(isNetworkConnected()) {
-				Log.d("CONN","Connection is alive");
-				timerHandler.postDelayed(this,100);
-			} else {					
-				Log.d("CONN","Connection is dead");
-				//downloadTask.cancel(true);
-				//if(!uploadListener.isCanceled()) {
-					//uploadListener.cancel();
-				//}
-				//uploadTask.cancel(true);
-				timerHandler.removeCallbacks(this);				
-			}*/
-			
-			
-			
-		}
-		
-	};
-	
 	private void uploadToCloud(final int position) {
 		if(!isNetworkConnected()) {
 			Toast.makeText(getApplicationContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
@@ -418,12 +389,6 @@ public class RecordingListActivity extends Activity {
 			}
 		}
 		
-		@Override
-		protected void onCancelled() {
-			Toast.makeText(getApplicationContext(), "Download Canceled", Toast.LENGTH_LONG).show();
-			super.onCancelled();
-		}
-		
 	}
 	
 	private void deleteFromLocal(final int position) {		
@@ -534,12 +499,12 @@ public class RecordingListActivity extends Activity {
 		protected void onPostExecute(Integer count) {
 			dlgProgress.dismiss();
 			if(count == 0) {
-				Toast.makeText(RecordingListActivity.this, "All audio files are already in the database", Toast.LENGTH_SHORT).show();
+				Toast.makeText(RecordingListActivity.this, R.string.message_imported_all, Toast.LENGTH_SHORT).show();
 			} else if (count == 1) {
-				Toast.makeText(RecordingListActivity.this, "Added one audio file to the database", Toast.LENGTH_SHORT).show();
+				Toast.makeText(RecordingListActivity.this, R.string.message_imported_one, Toast.LENGTH_SHORT).show();
 				adapter.notifyDataSetChanged();
 			} else if (count > 1) {
-				Toast.makeText(RecordingListActivity.this, "Added "+count+" audio files to the database", Toast.LENGTH_SHORT).show();
+				Toast.makeText(RecordingListActivity.this, getString(R.string.message_imported_x,count), Toast.LENGTH_SHORT).show();
 				adapter.notifyDataSetChanged();
 			}
 		}

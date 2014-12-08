@@ -23,7 +23,6 @@
     <string name="option_menu_import_files">Import audio files</string>
     <string name="option_menu_about">About</string>
     <string name="option_menu_help">Help</string>
-    <string name="option_menu_check_files">Check missing files</string>
     <string name="option_menu_settings">Settings</string>
 
     <!-- login activity -->
@@ -56,7 +55,7 @@
     <string name="pref_summary_device_name">Device name used in filename</string>
     
     <!-- dialogs -->
-    <string name="title_saving">Saving&#8230;</string> <!-- &#8230; = ... -->
+    <string name="title_saving">Saving&#8230;</string>
     <string name="title_uploading">Uploading&#8230;</string>
     <string name="title_downloading">Downloading&#8230;</string>
     <string name="title_recovering">Recovering&#8230;</string>
@@ -82,7 +81,7 @@
     <string name="message_already_on_local">The file already exists on the local storage</string>
     <string name="message_not_on_local">The file does not exist on the local storage</string>
     <string name="message_not_on_cloud">The file does not exist on the cloud</string>
-    <string name="message_name_validation1">Invalid characters in name field. Only letters, numbers, spaces and _ &#8211; allowed </string>
+    <string name="message_name_validation1">Invalid characters in name field. Only letters, digits, spaces and _ &#8211; allowed </string>
     <string name="message_name_validation2">Name cannot be empty</string>
     <string name="message_recording_canceled">Recording has been canceled</string>
     <string name="message_no_internet_checking">Cannot get status for online files. Unable to connect to the internet</string>
@@ -97,37 +96,43 @@
   	<string name="message_upload_fail">Upload has failed</string>
   	<string name="message_deletion_success">Deletion was successful</string>
   	<string name="message_deletion_fail">Download has failed</string>
+  	<string name="message_imported_all">All files are already in the database</string>
+  	<string name="message_imported_one">Added one audio file to the database</string>
+  	<string name="message_imported_x">Added %1$d audio files to the database</string>
     
     <!-- help activity -->
     <string name="help_title1">
 		What is Digi Recordbox?
 	</string>
 	<string name="help_content1">
-	    Digi Recordbox allows the recording of audio notes which are then uploaded and stored on the Digi Storage cloud service. \n
-	    After uploading the first recording, a new folder named "Digi Recordbox" will be created in the existing root folder "Digi cloud"
-	    associated with your Digi Storage account.\n
-		The audio notes can then be played back, either directly from the device\'s local storage, or by streaming them from the cloud. \n
+	    \n\tDigi Recordbox allows the recording of audio notes which are then uploaded 
+	    and stored on the Digi Storage cloud service. \n\n
+	    \tAfter uploading the first recording, a new folder named \"Digi Recordbox\" 
+	    will be created in the existing root folder \"Digi Cloud\"
+	    associated with your Digi Storage account.\n\n
+		\tThe audio notes can then be played back, either directly from the device\'s 
+		local storage, or by streaming them from the cloud. \n\n
 	</string>
 	<string name="help_title2">
 	    Instructions
 	</string>
 	<string name="help_content2">
-	    - Start recording by pressing the record button in the main screen.\n
-		- You can pause and resume recording by pressing the same button.\n
-		- When you are done recording, pressing the stop button will present you a new screen 
-		 where you can enter a name and a description for the audio note.\n
-		- After entering the name and the description, you can either just save and go back
-		 to the main screen, or save and them immediately open the audio note in the
-		 media player.\n
-		- You can access the list of audio notes saved locally and/or on the cloud by pressing the 
-		device\'s menu button (if the device doesn\'t have a physical menu button, a menu icon
-		will show up on the top action bar) and selecting "Recording list".\n
-		- Besides the name, description and duration of the recording, you\'ll also notice
+	    \n\tStart recording by pressing the record button in the main screen.\n\n
+		You can pause and resume recording by pressing the same button.\n\n
+		\tWhen you are done recording, pressing the stop button will present you a new screen 
+		 where you can enter a name and a description for the audio note.\n\n
+		\tAfter entering the name and the description, you can either just save and go back
+		 to the main screen, or save and then immediately open the audio note in the
+		 media player.\n\n
+		\tYou can access the list of audio notes saved locally and/or on the cloud by pressing the 
+		 device\'s menu button (if the device doesn\'t have a physical menu button, a menu icon
+		 will show up in the top right corner of the screen) and selecting \"Recording list\".\n\n
+		Besides the name, description and duration of the recording, you\'ll also notice
 		 two small circles. The first one will color green when the file is present on the local
-		 storage and the second one will color blue when the file is stored in the cloud.\n
-		- From here you can click on a note and open it in the media player. \n
-		- Long pressing on the audio note will open up a context menu from where you can perform
-		 different actions like deleting and uploading recordings.\n
+		 storage and the second one will color blue when the file is stored in the cloud.\n\n
+		\tFrom here you can click on a note and open it in the media player. \n\n
+		\tLong pressing on the audio note will open up a context menu from where you can perform
+		 different actions like deleting and uploading recordings.\n\n
 	</string>
 	
 	<!-- about activity -->
