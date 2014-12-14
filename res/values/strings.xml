@@ -95,7 +95,7 @@
   	<string name="message_upload_success">Upload was successful</string>
   	<string name="message_upload_fail">Upload has failed</string>
   	<string name="message_deletion_success">Deletion was successful</string>
-  	<string name="message_deletion_fail">Download has failed</string>
+  	<string name="message_deletion_fail">Deletion has failed</string>
   	<string name="message_imported_all">All files are already in the database</string>
   	<string name="message_imported_one">Added one audio file to the database</string>
   	<string name="message_imported_x">Added %1$d audio files to the database</string>

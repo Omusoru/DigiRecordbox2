@@ -249,6 +249,7 @@ public class EditRecordingActivity extends Activity {
 			if(isNetworkConnected()) {
 				new Thread(new Runnable() {
 				    public void run() {
+				    	fm.connectToCloud();
 				    	fm.renameCloud(oldCloudFilename, newFilenameForCloud);
 				   }
 				}).start();				

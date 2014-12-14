@@ -301,7 +301,7 @@ public class RecordingListActivity extends Activity {
 		}	
 	}
 	
-	private class UploadToCloudTask extends AsyncTask<String, Boolean, Boolean> {
+	private class UploadToCloudTask extends AsyncTask<String, Void, Boolean> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -401,7 +401,7 @@ public class RecordingListActivity extends Activity {
 		}
 	}
 	
-	private class DeleteFromLocalTask extends AsyncTask<String, Boolean, Boolean> {
+	private class DeleteFromLocalTask extends AsyncTask<String, Void, Boolean> {
 		
 		@Override
 		protected void onPreExecute() {
@@ -439,12 +439,12 @@ public class RecordingListActivity extends Activity {
     		} else {
     			// delete cloud file
     			currentRecordingPos = position;
-    			new DeleteFromCloudTask().execute(recordingList.get(position).getLocalFilename());
+    			new DeleteFromCloudTask().execute(recordingList.get(position).getCloudFilename());
     		}
     	}
 	}
 	
-	private class DeleteFromCloudTask extends AsyncTask<String, Boolean, Boolean> {
+	private class DeleteFromCloudTask extends AsyncTask<String, Void, Boolean> {
 		
 		@Override
 		protected void onPreExecute() {

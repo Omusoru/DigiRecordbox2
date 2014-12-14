@@ -51,7 +51,6 @@ public class FileManager {
 		}
 		try {
 			mount = api.getMounts().get(0);
-			api.getMounts().get(0).toString();
 		} catch (StorageApiException e) {
 			Log.d("FileManager",e.getMessage());
 		}
@@ -101,16 +100,6 @@ public class FileManager {
 	}
 	
 	public ArrayList<String> getFileListCloud(){
-		/*try {
-			Log.d("FileManager","Ajunge aici");
-			api.createFolder(mount.getId(), "/", "DigiRecordbox");
-			Log.d("FileManager","Ajunge aici");
-			//ArrayList<String> files = null;
-			//return files;
-		} catch (StorageApiException e) {
-			// TODO Auto-generated catch block
-			Log.d("FileManager",e.getMessage());			
-		}//*/
 		try {			
 			List<File> localFilesFile = api.listFiles(mount.getId(), "/DigiRecordbox/");
 			ArrayList<String> files = new ArrayList<String>();
@@ -139,10 +128,13 @@ public class FileManager {
 	public boolean deleteLocal(String file){
 		java.io.File localFile = new java.io.File(localFilePath+file);
 		if(localFile.exists()){
-			localFile.delete();
-			return true;
+			if(localFile.delete())
+				return true;
+			else 
+				return false;
 		}
-		else return false;
+		else 
+			return false;
 	}
 	
 	public String getFileLink(String file){		
